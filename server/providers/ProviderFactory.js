@@ -44,10 +44,72 @@ class ProviderFactory {
         return new AwsDeploymentProvider(accountConfig);
       case 'gcp':
         return new GcpDeploymentProvider(accountConfig);
+      case 'k8s':
+      case 'kubernetes':
+        return {
+          deploy: (appSpec, opts) => require('../services/k8sService').deployWorkload(appSpec, opts),
+          getCapabilityMatrix: () => ProviderFactory.getCapabilityMatrix('kubernetes')
+        };
       default:
         throw new Error(`Unsupported deployment target provider: ${providerName}`);
     }
   }
+
+  /**
+   * Return capability matrix metadata for a given provider
+   */
+  static getCapabilityMatrix(providerName) {
+    const p = (providerName || '').toLowerCase();
+    try {
+      if (['aws', 'azure', 'gcp'].includes(p)) {
+        const instance = ProviderFactory.getDeploymentProvider(p, {});
+        if (typeof instance.getCapabilityMatrix === 'function') {
+          return instance.getCapabilityMatrix();
+        }
+      }
+    } catch (_) {}
+
+    if (p === 'k8s' || p === 'kubernetes') {
+      return {
+        provider: 'kubernetes',
+        capabilities: {
+          compute: true,
+          deployment: true,
+          monitoring: true,
+          kubernetes: true,
+          serverless: false,
+          iac: true,
+          autoScaling: true
+        }
+      };
+    }
+
+    return {
+      provider: providerName,
+      capabilities: {
+        compute: false,
+        deployment: false,
+        monitoring: false,
+        kubernetes: false,
+        serverless: false,
+        iac: false,
+        autoScaling: false
+      }
+    };
+  }
+
+  /**
+   * Return aggregate capability matrices for all supported providers
+   */
+  static getAllCapabilityMatrices() {
+    return {
+      aws: ProviderFactory.getCapabilityMatrix('aws'),
+      azure: ProviderFactory.getCapabilityMatrix('azure'),
+      gcp: ProviderFactory.getCapabilityMatrix('gcp'),
+      kubernetes: ProviderFactory.getCapabilityMatrix('kubernetes')
+    };
+  }
 }
 
 module.exports = ProviderFactory;
+

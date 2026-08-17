@@ -1,0 +1,42 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-08-17T14-15-01-504Z-d321801a",
+    "runType": "chaos",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-08-17T14:15:01.504Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-1786976101225-278",
+    "tenantId": "demo-org-001",
+    "targetResource": "test-resource-nt5",
+    "experimentType": "CPU_STRESS",
+    "status": "Completed",
+    "rtoSeconds": 0.279,
+    "rpoSeconds": 0,
+    "realPerturbation": false,
+    "simulationMethod": "simulated CPU stress via computation loop",
+    "fidelityLevel": "low — in-process computation burn only",
+    "durationMs": 279,
+    "startedAt": "2026-08-17T14:15:01.225Z",
+    "completedAt": "2026-08-17T14:15:01.504Z",
+    "details": {
+      "experiment": "CPU_STRESS",
+      "method": "simulated CPU stress via computation loop",
+      "fidelity": "low — in-process computation burn only",
+      "realExecution": false,
+      "parameters": {
+        "targetResource": "test-resource-nt5",
+        "stressLevel": "100%",
+        "durationSec": 5
+      },
+      "measurements": {
+        "inProcessBurnMs": 200,
+        "operationsCompleted": 3414442,
+        "note": "See docs/o4-fault-simulation-method.md for fidelity analysis."
+      }
+    }
+  }
+}

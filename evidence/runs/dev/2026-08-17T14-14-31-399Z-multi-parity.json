@@ -1,0 +1,226 @@
+{
+  "_evidenceMeta": {
+    "runId": "parity-2026-08-17T14-14-31-399Z-8e83e038",
+    "runType": "parity",
+    "partition": "dev",
+    "provider": null,
+    "generatedBy": "server/services/comparisonEngine.js",
+    "generatedAt": "2026-08-17T14:14:31.399Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "minRuns": 3,
+    "tolerancePercent": 10,
+    "runsUsed": 2,
+    "meetsMinRuns": false,
+    "parityScorePercent": 50,
+    "stdDev": 50,
+    "batches": [
+      {
+        "applicationId": "app-ecommerce-api",
+        "providers": [
+          "aws",
+          "azure",
+          "gcp"
+        ],
+        "providerCount": 3,
+        "signalResults": [
+          {
+            "signal": "cpu",
+            "providerValues": [
+              {
+                "cloud": "aws",
+                "value": 28.2
+              },
+              {
+                "cloud": "azure",
+                "value": 43.400000000000006
+              },
+              {
+                "cloud": "gcp",
+                "value": 21.8
+              }
+            ],
+            "mean": 31.133,
+            "maxDeviationPercent": 39.4,
+            "withinTolerance": false
+          },
+          {
+            "signal": "memory",
+            "providerValues": [
+              {
+                "cloud": "aws",
+                "value": 540
+              },
+              {
+                "cloud": "azure",
+                "value": 302.6666666666667
+              },
+              {
+                "cloud": "gcp",
+                "value": 490
+              }
+            ],
+            "mean": 444.222,
+            "maxDeviationPercent": 31.87,
+            "withinTolerance": false
+          },
+          {
+            "signal": "latency",
+            "providerValues": [
+              {
+                "cloud": "aws",
+                "value": 18.5
+              },
+              {
+                "cloud": "azure",
+                "value": 39.835
+              },
+              {
+                "cloud": "gcp",
+                "value": 12.8
+              }
+            ],
+            "mean": 23.712,
+            "maxDeviationPercent": 68,
+            "withinTolerance": false
+          },
+          {
+            "signal": "storage",
+            "providerValues": [
+              {
+                "cloud": "aws",
+                "value": 145
+              },
+              {
+                "cloud": "azure",
+                "value": 132.56333333333333
+              },
+              {
+                "cloud": "gcp",
+                "value": 145
+              }
+            ],
+            "mean": 140.854,
+            "maxDeviationPercent": 5.89,
+            "withinTolerance": true
+          },
+          {
+            "signal": "startup",
+            "providerValues": [
+              {
+                "cloud": "aws",
+                "value": 3.1
+              },
+              {
+                "cloud": "azure",
+                "value": 2.3433333333333333
+              },
+              {
+                "cloud": "gcp",
+                "value": 2.1
+              }
+            ],
+            "mean": 2.514,
+            "maxDeviationPercent": 23.29,
+            "withinTolerance": false
+          }
+        ],
+        "equivalent": false
+      },
+      {
+        "applicationId": "app-inventory-service",
+        "providers": [
+          "azure",
+          "gcp"
+        ],
+        "providerCount": 2,
+        "signalResults": [
+          {
+            "signal": "cpu",
+            "providerValues": [
+              {
+                "cloud": "azure",
+                "value": 24.5
+              },
+              {
+                "cloud": "gcp",
+                "value": 21.8
+              }
+            ],
+            "mean": 23.15,
+            "maxDeviationPercent": 5.83,
+            "withinTolerance": true
+          },
+          {
+            "signal": "memory",
+            "providerValues": [
+              {
+                "cloud": "azure",
+                "value": 512
+              },
+              {
+                "cloud": "gcp",
+                "value": 490
+              }
+            ],
+            "mean": 501,
+            "maxDeviationPercent": 2.2,
+            "withinTolerance": true
+          },
+          {
+            "signal": "latency",
+            "providerValues": [
+              {
+                "cloud": "azure",
+                "value": 14.2
+              },
+              {
+                "cloud": "gcp",
+                "value": 12.8
+              }
+            ],
+            "mean": 13.5,
+            "maxDeviationPercent": 5.19,
+            "withinTolerance": true
+          },
+          {
+            "signal": "storage",
+            "providerValues": [
+              {
+                "cloud": "azure",
+                "value": 145
+              },
+              {
+                "cloud": "gcp",
+                "value": 145
+              }
+            ],
+            "mean": 145,
+            "maxDeviationPercent": 0,
+            "withinTolerance": true
+          },
+          {
+            "signal": "startup",
+            "providerValues": [
+              {
+                "cloud": "azure",
+                "value": 2.4
+              },
+              {
+                "cloud": "gcp",
+                "value": 2.1
+              }
+            ],
+            "mean": 2.25,
+            "maxDeviationPercent": 6.67,
+            "withinTolerance": true
+          }
+        ],
+        "equivalent": true
+      }
+    ],
+    "timestamp": "2026-08-17T14:14:31.399Z"
+  }
+}

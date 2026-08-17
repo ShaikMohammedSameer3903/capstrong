@@ -537,6 +537,20 @@ class AwsDeploymentProvider extends IDeploymentProvider {
       return [{ timestamp: new Date().toISOString(), level: 'WARN', step: 'CLOUDWATCH', message: `CloudWatch query notice: ${err.message}` }];
     }
   }
+  getCapabilityMatrix() {
+    return {
+      provider: 'AWS',
+      capabilities: {
+        compute: true,
+        deployment: true,
+        monitoring: true,
+        kubernetes: true, // EKS
+        serverless: true, // Lambda
+        iac: true, // CloudFormation
+        autoScaling: true // AutoScaling
+      }
+    };
+  }
 }
 
 module.exports = AwsDeploymentProvider;

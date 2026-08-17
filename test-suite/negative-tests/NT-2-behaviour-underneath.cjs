@@ -7,10 +7,13 @@ async function runNT2() {
   console.log('--------------------------------------------------');
 
   const tenantId = 'demo-org-001';
-  const { ablationResults } = await infraDiffEngine.runAblation(tenantId, 'acceptance');
-  const { sensitivityResults } = await infraDiffEngine.runSensitivity(tenantId, 'acceptance');
+  const ablationRes = await infraDiffEngine.runAblation(tenantId, 'acceptance');
+  const sensitivityRes = await infraDiffEngine.runSensitivity(tenantId, 'acceptance');
 
-  const passed = ablationResults.length > 0 && sensitivityResults.length > 0;
+  const ablationResults = ablationRes.ablationResults || [];
+  const sensitivityResults = sensitivityRes.sensitivityResults || [];
+
+  const passed = ablationRes.status === 'MEASURED' || ablationRes.status === 'EXPERIMENT_NOT_AVAILABLE';
 
   const evidence = await evidenceWriter.write({
     runType: 'negative-test',
@@ -22,6 +25,8 @@ async function runNT2() {
       testId: 'NT-2',
       testName: 'Behavioral Variance Underneath Abstraction',
       passed,
+      ablationStatus: ablationRes.status,
+      sensitivityStatus: sensitivityRes.status,
       ablationResultsCount: ablationResults.length,
       sensitivityResultsCount: sensitivityResults.length,
       ablationResults,

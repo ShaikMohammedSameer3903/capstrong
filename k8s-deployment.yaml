@@ -1,0 +1,108 @@
+# Kubernetes Multi-Cloud Deployment Specification
+# CLOUD-223 Application Platform Abstraction
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cloud223-platform
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud223-backend
+  namespace: cloud223-platform
+  labels:
+    app: cloud223-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloud223-backend
+  template:
+    metadata:
+      labels:
+        app: cloud223-backend
+    spec:
+      containers:
+        - name: backend
+          image: cloud223-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "5000"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud223-backend-service
+  namespace: cloud223-platform
+spec:
+  selector:
+    app: cloud223-backend
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+  type: ClusterIP
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloud223-frontend
+  namespace: cloud223-platform
+  labels:
+    app: cloud223-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cloud223-frontend
+  template:
+    metadata:
+      labels:
+        app: cloud223-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: cloud223-frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloud223-frontend-service
+  namespace: cloud223-platform
+spec:
+  selector:
+    app: cloud223-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

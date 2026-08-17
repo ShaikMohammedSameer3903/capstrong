@@ -268,6 +268,128 @@ class PortabilityEngine {
 
     return rows;
   }
+
+  /**
+   * Translate a universal application spec into target cloud primitive definitions
+   * @param {Object} appSpec Universal Application Spec
+   * @param {string} targetProvider 'aws', 'azure', 'gcp', or 'kubernetes'
+   */
+  translateAppSpec(appSpec, targetProvider) {
+    const name = (appSpec.name || 'unnamed-app').toLowerCase().replace(/[^a-z0-9-]/g, '-');
+    const image = appSpec.image || 'nginx:latest';
+    const port = Number(appSpec.port) || 80;
+    const replicas = Number(appSpec.replicas) || 1;
+    const env = appSpec.env || {};
+    const cpu = appSpec.resources?.cpu || '250m';
+    const memory = appSpec.resources?.memory || '512Mi';
+
+    const provider = (targetProvider || 'kubernetes').toLowerCase();
+
+    switch (provider) {
+      case 'aws':
+        return {
+          provider: 'aws',
+          targetPrimitive: 'AWS ECS TaskDefinition & Service',
+          specification: {
+            family: name,
+            containerDefinitions: [
+              {
+                name,
+                image,
+                portMappings: [{ containerPort: port, hostPort: port }],
+                environment: Object.entries(env).map(([k, v]) => ({ name: k, value: String(v) })),
+                essential: true
+              }
+            ],
+            cpu: '256',
+            memory: '512'
+          }
+        };
+
+      case 'azure':
+        return {
+          provider: 'azure',
+          targetPrimitive: 'Azure Container App',
+          specification: {
+            name,
+            properties: {
+              configuration: {
+                ingress: { external: true, targetPort: port }
+              },
+              template: {
+                containers: [{ name, image, env: Object.entries(env).map(([name, value]) => ({ name, value: String(value) })) }],
+                scale: { minReplicas: 1, maxReplicas: replicas }
+              }
+            }
+          }
+        };
+
+      case 'gcp':
+        return {
+          provider: 'gcp',
+          targetPrimitive: 'GCP Cloud Run Service',
+          specification: {
+            apiVersion: 'serving.knative.dev/v1',
+            kind: 'Service',
+            metadata: { name },
+            spec: {
+              template: {
+                spec: {
+                  containers: [
+                    {
+                      image,
+                      ports: [{ containerPort: port }],
+                      env: Object.entries(env).map(([name, value]) => ({ name, value: String(value) }))
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        };
+
+      case 'k8s':
+      case 'kubernetes':
+      default:
+        return {
+          provider: 'kubernetes',
+          targetPrimitive: 'Kubernetes Deployment & Service Manifest',
+          specification: {
+            deployment: {
+              apiVersion: 'apps/v1',
+              kind: 'Deployment',
+              metadata: { name, labels: { app: name } },
+              spec: {
+                replicas,
+                selector: { matchLabels: { app: name } },
+                template: {
+                  metadata: { labels: { app: name } },
+                  spec: {
+                    containers: [{
+                      name,
+                      image,
+                      ports: [{ containerPort: port }],
+                      env: Object.entries(env).map(([name, value]) => ({ name, value: String(value) })),
+                      resources: { limits: { cpu, memory } }
+                    }]
+                  }
+                }
+              }
+            },
+            service: {
+              apiVersion: 'v1',
+              kind: 'Service',
+              metadata: { name: `${name}-svc` },
+              spec: {
+                selector: { app: name },
+                ports: [{ port, targetPort: port }]
+              }
+            }
+          }
+        };
+    }
+  }
 }
 
 module.exports = new PortabilityEngine();
+

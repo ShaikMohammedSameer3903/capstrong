@@ -1,0 +1,123 @@
+{
+  "_evidenceMeta": {
+    "runId": "repeatability-workload-2026-08-17T14-13-28-527Z-1a2d49ab",
+    "runType": "repeatability-workload",
+    "partition": "dev",
+    "provider": null,
+    "generatedBy": "server/services/repeatabilityEngine.js",
+    "generatedAt": "2026-08-17T14:13:28.528Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "trialCount": 3,
+    "trials": [
+      {
+        "trialIndex": 1,
+        "trialId": "trial-run-1786976008503-1",
+        "executionTimeMs": 136,
+        "measuredLatencyMs": 36.62,
+        "measuredMemoryMb": 255,
+        "ablationSignalCount": 5,
+        "varianceCategoryCount": 5,
+        "parityScorePercent": 50
+      },
+      {
+        "trialIndex": 2,
+        "trialId": "trial-run-1786976008517-2",
+        "executionTimeMs": 163,
+        "measuredLatencyMs": 54.45,
+        "measuredMemoryMb": 263,
+        "ablationSignalCount": 5,
+        "varianceCategoryCount": 5,
+        "parityScorePercent": 50
+      },
+      {
+        "trialIndex": 3,
+        "trialId": "trial-run-1786976008522-3",
+        "executionTimeMs": 130,
+        "measuredLatencyMs": 50.86,
+        "measuredMemoryMb": 254,
+        "ablationSignalCount": 5,
+        "varianceCategoryCount": 5,
+        "parityScorePercent": 50
+      }
+    ],
+    "variability": {
+      "trialsUsed": 3,
+      "workloadDurationStatsMs": {
+        "count": 3,
+        "mean": 143,
+        "stdDev": 14.35,
+        "min": 130,
+        "max": 163,
+        "confidenceInterval95": {
+          "mean": 143,
+          "lower": 123.1082,
+          "upper": 162.8918
+        }
+      },
+      "latencyStatsMs": {
+        "count": 3,
+        "mean": 47.31,
+        "stdDev": 7.7,
+        "min": 36.62,
+        "max": 54.45,
+        "confidenceInterval95": {
+          "mean": 47.3122,
+          "lower": 36.6395,
+          "upper": 57.9848
+        }
+      },
+      "memoryStatsMb": {
+        "count": 3,
+        "mean": 257.33,
+        "stdDev": 4.03,
+        "min": 254,
+        "max": 263,
+        "confidenceInterval95": {
+          "mean": 257.3333,
+          "lower": 251.7513,
+          "upper": 262.9154
+        }
+      },
+      "ablationSignalCountStats": {
+        "count": 3,
+        "mean": 5,
+        "stdDev": 0,
+        "min": 5,
+        "max": 5,
+        "confidenceInterval95": {
+          "mean": 5,
+          "lower": 5,
+          "upper": 5
+        }
+      },
+      "varianceCategoryCountStats": {
+        "count": 3,
+        "mean": 5,
+        "stdDev": 0,
+        "min": 5,
+        "max": 5,
+        "confidenceInterval95": {
+          "mean": 5,
+          "lower": 5,
+          "upper": 5
+        }
+      },
+      "parityScoreStatsPercent": {
+        "count": 3,
+        "mean": 50,
+        "stdDev": 0,
+        "min": 50,
+        "max": 50,
+        "confidenceInterval95": {
+          "mean": 50,
+          "lower": 50,
+          "upper": 50
+        }
+      }
+    },
+    "timestamp": "2026-08-17T14:13:28.527Z"
+  }
+}

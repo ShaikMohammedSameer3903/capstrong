@@ -1,0 +1,73 @@
+{
+  "_evidenceMeta": {
+    "runId": "ablation-2026-08-17T14-06-26-540Z-8cf7535b",
+    "runType": "ablation",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/infraDiffEngine.js",
+    "generatedAt": "2026-08-17T14:06:26.540Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "baselineAvgSpreadPercent": 26.339999999999996,
+    "ablationResults": [
+      {
+        "ablatedSignal": "storage",
+        "category": "Storage IOPS & Throughput",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 26.34,
+        "ablatedAvgSpreadPercent": 32.92,
+        "deltaPercent": -6.59,
+        "interpretation": "Removing Storage IOPS & Throughput shifts average measured cross-provider spread by -6.59 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "network",
+        "category": "Network Policy & Latency",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 26.34,
+        "ablatedAvgSpreadPercent": 21.8,
+        "deltaPercent": 4.54,
+        "interpretation": "Removing Network Policy & Latency shifts average measured cross-provider spread by 4.54 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "startup",
+        "category": "Compute Startup / Cold-Start",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 26.34,
+        "ablatedAvgSpreadPercent": 21.02,
+        "deltaPercent": 5.31,
+        "interpretation": "Removing Compute Startup / Cold-Start shifts average measured cross-provider spread by 5.31 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "memory",
+        "category": "Memory Allocation Efficiency",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 26.34,
+        "ablatedAvgSpreadPercent": 30.38,
+        "deltaPercent": -4.04,
+        "interpretation": "Removing Memory Allocation Efficiency shifts average measured cross-provider spread by -4.04 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "cpu",
+        "category": "CPU Utilization / Throttling",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 26.34,
+        "ablatedAvgSpreadPercent": 25.57,
+        "deltaPercent": 0.76,
+        "interpretation": "Removing CPU Utilization / Throttling shifts average measured cross-provider spread by 0.76 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      }
+    ],
+    "timestamp": "2026-08-17T14:06:26.540Z"
+  }
+}

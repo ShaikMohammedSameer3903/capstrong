@@ -1,606 +1,2186 @@
 {
-  "generatedAt": "2026-08-08T07:13:46.012Z",
-  "totalFiles": 60,
+  "generatedAt": "2026-08-17T14:15:01.917Z",
+  "totalFiles": 218,
   "files": [
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-16T17-34-22-446Z-multi-negative-test.json",
+      "sha256": "14474381091781e65ae08ac4fb6fa93f33bc3d0acf54f844adf16b3aaa240449",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-16T17:34:22.535Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-16T17-34-22-446Z-e4034c27"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-17T14-04-14-733Z-multi-negative-test.json",
+      "sha256": "88e20fd019d7c17aee48c6358a112e6ee4f0c65df00a1984b203010a340ab81a",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-17T14:04:14.737Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-04-14-733Z-0c9fd184"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-17T14-04-14-744Z-multi-ablation.json",
+      "sha256": "e3ae19f999d17c7e5404bfa9a831beb19e41578454e12295f5318348500dae75",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:04:14.746Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-17T14-04-14-744Z-5c63b94a"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-17T14-04-14-749Z-multi-sensitivity.json",
+      "sha256": "8ea1f31ff97197278f8af3ae367bdd840b9d4c39f28fcafc79ac211cf19fe46d",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:04:14.750Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-17T14-04-14-749Z-753e3a95"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-17T14-06-26-533Z-multi-negative-test.json",
+      "sha256": "b2e93ccd03abe4ce805369069869ebe0ec447dedece4cf0182405fbf3bdd5a81",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-17T14:06:26.536Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-06-26-533Z-708d2eb0"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-17T14-06-26-540Z-multi-ablation.json",
+      "sha256": "a66438b9b5ef4c05034eedcfe81b01483e6e3cbcb33f79a245e565f5c221e4ab",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:06:26.541Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-17T14-06-26-540Z-8cf7535b"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-17T14-06-26-543Z-multi-sensitivity.json",
+      "sha256": "84a2f043f6f120060814cb0a2cfbff31a0c03d120dc26e08675e3e035b225f4a",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:06:26.544Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-17T14-06-26-543Z-ee073112"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-17T14-06-26-545Z-multi-negative-test.json",
+      "sha256": "fc0e669bf4eb0d3dd6698bd5b7b1f51f565cf4532c2c7a66016f440c7bc5e3d2",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-17T14:06:26.546Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-06-26-545Z-67e25ca5"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-17T14-06-28-958Z-multi-negative-test.json",
+      "sha256": "6f7bdec10fbd263db59a4cb287fea9faea6322dbc50692bb1724e1fd9d460c79",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-17T14:06:28.959Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-06-28-958Z-93a0c323"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-06-29-033Z-multi-chaos.json",
+      "sha256": "100ae538a07d34eb5473f2a516868b66c29161e93f7bb12121d057737a0313da",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:06:29.035Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-06-29-033Z-36040351"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-17T14-06-29-041Z-multi-negative-test.json",
+      "sha256": "f443a3f88395fd1e789fad94e946de26f65e7c463be4d6639150fb5165561357",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-17T14:06:29.044Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-06-29-041Z-12383af2"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-06-29-355Z-multi-chaos.json",
+      "sha256": "8f643d2257692bd5a72b26a279a2773f8257a319dce1a0b55802b4de1f1db433",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:06:29.359Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-06-29-355Z-055ee74d"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-06-29-357Z-multi-chaos.json",
+      "sha256": "245d356fe64837e74920d5c147d9e9115391c4244dd2caafa295ab23aab4101f",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:06:29.359Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-06-29-357Z-36f795e9"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-06-29-571Z-multi-chaos.json",
+      "sha256": "5d00977933b000659c8e22ee29f4fcacc6f7c60cd9f5122d0d47c44e982a1fa4",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:06:29.573Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-06-29-571Z-4d83a020"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-17T14-06-29-577Z-multi-negative-test.json",
+      "sha256": "9b3eb3a415b7568fb7b267a938be826f0f238ca07e91ee08a34e4f6088ab7bc7",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-17T14:06:29.579Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-06-29-577Z-d8173b06"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-508Z-multi-ablation.json",
+      "sha256": "013ab254e0771d9711b7e1681636a5c0285f343cbc7d6df24600a0c12082e39b",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:13:28.511Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "dev",
+      "run_id": "ablation-2026-08-17T14-13-28-508Z-457deec5"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-518Z-multi-ablation.json",
+      "sha256": "fe728d5a42c4f7bc50c963c91955e40ad9d4633217d1afdab73037069ddf0b07",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:13:28.519Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "dev",
+      "run_id": "ablation-2026-08-17T14-13-28-518Z-7848e135"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-523Z-multi-ablation.json",
+      "sha256": "ed3b5468672dc057c8b0c0caf21754b3ec8a194c4e1e848bff1e7b8f11789731",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:13:28.524Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "dev",
+      "run_id": "ablation-2026-08-17T14-13-28-523Z-5446aec5"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-390Z-multi-ablation.json",
+      "sha256": "9349c30b5ff93029c91b862b018f301b03d362e188bb7e3a7412c93df68e3148",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:14:31.392Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "dev",
+      "run_id": "ablation-2026-08-17T14-14-31-390Z-5c63bf33"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-396Z-multi-ablation.json",
+      "sha256": "b333562d3d6d91278853408309c91af1ee6d50cc0a32f76e7e1626e063718b81",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:14:31.397Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "dev",
+      "run_id": "ablation-2026-08-17T14-14-31-396Z-641eef58"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-401Z-multi-ablation.json",
+      "sha256": "304b34d729aa8ebd8055bd06d2251834d2df7b480fafe62bbca564bece301412",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:14:31.402Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "dev",
+      "run_id": "ablation-2026-08-17T14-14-31-401Z-90487e66"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-405Z-multi-acceptance.json",
+      "sha256": "7f2736d1d7a5f5fcf8d5d4adcfe92dc5bc1bbc309c771c54cf4074e6e0b44759",
+      "generated_by": "server/services/repeatabilityEngine.js",
+      "generated_at": "2026-08-17T14:14:31.406Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "dev",
+      "run_id": "acceptance-2026-08-17T14-14-31-405Z-fb2fffd9"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-17T14-14-58-669Z-multi-negative-test.json",
+      "sha256": "ff560e8b63a9fb8655f9a124db5af414e52b512fd441b56a6aef09a1030799db",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-17T14:14:58.671Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-14-58-669Z-f84cda1e"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-17T14-14-58-675Z-multi-ablation.json",
+      "sha256": "d7e65d7492ef2934e47819753a0be4ebb98744ab4c6e250fce426dee3637418d",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:14:58.676Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-17T14-14-58-675Z-c68e4a99"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-17T14-14-58-678Z-multi-sensitivity.json",
+      "sha256": "c80be03616a691bfa12b954a61cf3047b14d5ac564d3f36a9a0aac693e6452a5",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-17T14:14:58.678Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-17T14-14-58-678Z-b5b62378"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-17T14-14-58-679Z-multi-negative-test.json",
+      "sha256": "72d131e5dfa4b7389049a864b56458836aa61a548c4babff761c247502743e10",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-17T14:14:58.680Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-14-58-679Z-ea8706e8"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-17T14-15-01-128Z-multi-negative-test.json",
+      "sha256": "f6d63cf9ccc207aa4aac2cbc607e32deb66b1c35ed31b9dabc0111a79f1e9d2f",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-17T14:15:01.129Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-15-01-128Z-0b9810af"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-15-01-216Z-multi-chaos.json",
+      "sha256": "3b05abf345173bfcab82dcc5a3233fa5709c2f548f191a8748d405c5218d7ddc",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:15:01.217Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-15-01-216Z-bbc538be"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-17T14-15-01-222Z-multi-negative-test.json",
+      "sha256": "4741b0e01c41b222b4be8a1ba2da9abac6ba0738d72194b6d9b741e941b586ac",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-17T14:15:01.223Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-15-01-222Z-176642ec"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-15-01-504Z-multi-chaos.json",
+      "sha256": "855f253f27acf870b4a2c5c3b5d31814ce87c85d45919798ab61fde8da458b69",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:15:01.506Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-15-01-504Z-d321801a"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-15-01-505Z-multi-chaos.json",
+      "sha256": "8c513d47f0c03257f341da8847177eb36831aebd84d64bc26d14c5625943583d",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:15:01.506Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-15-01-505Z-3b628101"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-17T14-15-01-735Z-multi-chaos.json",
+      "sha256": "531ef3fb94f22a416f924392fe8f4bc6fd0033220bd06b9afa802cdd07754048",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-17T14:15:01.737Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-17T14-15-01-735Z-4c353f0c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-17T14-15-01-741Z-multi-negative-test.json",
+      "sha256": "6655694a005677cdcf5cbf38e8fed6fae9ca9853fa3320d6ea63b5286c0a977e",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-17T14:15:01.742Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-17T14-15-01-741Z-334a8f16"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-25-02-411Z-multi-ablation.json",
+      "sha256": "7c4a02853c2ed4314ed855e8db482305b2b76fb5b5c4a03a4dc843dd6871ad62",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.757Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-02-411Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-25-02-422Z-multi-sensitivity.json",
+      "sha256": "56257acef942392dd21783d1955eb9b884d50a1fe751e05e89c604a99e0bc2a9",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.044Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-02-422Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-25-34-328Z-multi-ablation.json",
+      "sha256": "7635faee11a0771aa5a54f78307dc722c89792d16eea66628c4c8c1f69f6b73c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.737Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-328Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-25-34-332Z-multi-sensitivity.json",
+      "sha256": "665203c92aecc5d6bca8b84a12b3b2f0972df51c5c5ff38819c8b39d14793ade",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.996Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-332Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-31-23-108Z-multi-ablation.json",
+      "sha256": "1c5f55487a92ddc4fe2c0c6509ca217fcb327918c5b844527642c00af4c41980",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.964Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-108Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-31-23-112Z-multi-sensitivity.json",
+      "sha256": "a8c65f08a574444c187c17b8a1941cf7011092088fd2ac962f6dad2c11625f10",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.863Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-112Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-35-39-586Z-multi-ablation.json",
+      "sha256": "c290a58e030b657be38be4dd4995405469731a003504304a8bb068ecb3c03b8b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.712Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-586Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-35-39-591Z-multi-sensitivity.json",
+      "sha256": "62b8c342199629f5a8dac1859c9a01da6c5b25baddfb6531eeb4e7ff0db49d31",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.881Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-591Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-39-04-104Z-multi-ablation.json",
+      "sha256": "8855cfb2845d6dd84200d803b8ab1cbbb7e353a3eb02a93b7b66852675a6df6f",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.964Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-104Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-39-04-107Z-multi-sensitivity.json",
+      "sha256": "6b93c7ee3bb3cca88b00e51ec92a47e3fec74bd55701b7018278cad9d5242e3b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.769Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-107Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-40-37-854Z-multi-ablation.json",
+      "sha256": "1a2ad4bf2fb8069c9bd5bf19113582fe5732c0bee5a053c6be841e429f86a2f4",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.891Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-854Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-40-37-857Z-multi-sensitivity.json",
+      "sha256": "c5ea27db8b31cae75377a326d92182f77cf80e015bbeae60ed9520f4a32cc34f",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.060Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-857Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-41-01-956Z-multi-ablation.json",
+      "sha256": "54daf6602834fa670fb139975fbdafaf9ca83f76ec2967b1fedca5d53b94b647",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.044Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-01-956Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T15-41-01-959Z-multi-sensitivity.json",
+      "sha256": "b4f3796f84957d14105dedaf316b7ab9293f1481afb20eb091f5cef4004434a8",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.028Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-01-959Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T17-44-31-587Z-multi-ablation.json",
+      "sha256": "e4c1c30da280b085026e0cf00327b5c9ec329571964f14238be4590794ea0176",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.705Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-587Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T17-44-31-591Z-multi-sensitivity.json",
+      "sha256": "0140f54c011b171a228452e87a79671e1ff244cb15a2bd3340835a3f38a8bf95",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.777Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-591Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T18-00-31-049Z-multi-ablation.json",
+      "sha256": "41d1e6cb9a68660224d667f0830529e32731bff93447d8f7f7dd6be58ff3c646",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.940Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-049Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T18-00-31-053Z-multi-sensitivity.json",
+      "sha256": "56498531b65235ea10832af9a215f700eb3ae35486a80465bd5c3741dfa0cc1c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.932Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-053Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T18-07-14-476Z-multi-ablation.json",
+      "sha256": "35229655a5fc1f23a08cc81dc8ae638104c640dddadebffbf47fa0ffd5482c25",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.847Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-476Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T18-07-14-479Z-multi-sensitivity.json",
+      "sha256": "761be86af4dd3e50612a3e0a26871e52120eaac15890dccc73457de674de9bd6",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.831Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-479Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T18-19-37-241Z-multi-ablation.json",
+      "sha256": "916de6ca1493c86f117ce0c8dd74c22ba5436d557f33ce84835767bddcecf771",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.725Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-241Z-multi-ablation"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-02T18-19-37-244Z-multi-sensitivity.json",
+      "sha256": "9cd1b81ee607ddd144ee4bb49eb81e6a0d0c688233432c3808c5fcaf1a04a2dd",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.980Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-244Z-multi-sensitivity"
+    },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-33-37-211Z-azure-deployment.json",
       "sha256": "733854a3423681403d40b9f3ce65f485899decb5ea1defb95fe5394c3c9f69d3",
-      "generated_by": "test-azure.cjs",
-      "generated_at": "2026-08-08T06:33:37.213Z",
-      "provider": "azure",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.908Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-33-37-211Z-34ad0d63"
+      "run_id": "2026-08-08T06-33-37-211Z-azure-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-33-39-866Z-aws-deployment.json",
       "sha256": "d458f2437cd2d5947a00f7c373a7bcaf2b4e2ac91d761eaa6025233d973c454f",
-      "generated_by": "test-aws.cjs",
-      "generated_at": "2026-08-08T06:33:39.870Z",
-      "provider": "aws",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.980Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-33-39-866Z-aa646695"
+      "run_id": "2026-08-08T06-33-39-866Z-aws-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-33-44-128Z-gcp-deployment.json",
       "sha256": "d4db64f55369d3534531050ea4d75ad7fa38e5c09ca6e912418ad555271553a5",
-      "generated_by": "test-gcp.cjs",
-      "generated_at": "2026-08-08T06:33:44.149Z",
-      "provider": "gcp",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.900Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-33-44-128Z-98d48236"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-33-47-418Z-aws-negative-test.json",
-      "sha256": "04c5b953e52802ef43f5c4c6e04e069d248d00b78eb01ec1625a7c23f85133c1",
-      "generated_by": "test-failure.cjs",
-      "generated_at": "2026-08-08T06:33:47.421Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-33-47-418Z-629d4952"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-33-47-634Z-aws-negative-test.json",
-      "sha256": "c1a3341310c5384a89ca92db6ec1d98b36345fa3451ec0d5877530fd36495b78",
-      "generated_by": "test-timeout.cjs",
-      "generated_at": "2026-08-08T06:33:47.636Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-33-47-634Z-1d799d3d"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-33-47-640Z-aws-negative-test.json",
-      "sha256": "3b38f315ac3500a74250b11cee874b53000fc9eae7028b7cc576c933248eb93a",
-      "generated_by": "test-retry.cjs",
-      "generated_at": "2026-08-08T06:33:47.643Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-33-47-640Z-84ac7979"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-33-47-760Z-multi-negative-test.json",
-      "sha256": "7785d2e5ba5f1d994d202650ea67ccff227a0593c33df8068deaae7aa7f7d4e0",
-      "generated_by": "test-concurrency.cjs",
-      "generated_at": "2026-08-08T06:33:47.762Z",
-      "provider": "multi",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-33-47-760Z-aea363b9"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-33-47-768Z-multi-negative-test.json",
-      "sha256": "ed9f2705336217306b9001916e3d2dd9721493d44f83736402a19a50179843c4",
-      "generated_by": "test-abstraction.cjs",
-      "generated_at": "2026-08-08T06:33:47.770Z",
-      "provider": "multi",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-33-47-768Z-156f0de2"
+      "run_id": "2026-08-08T06-33-44-128Z-gcp-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-35-16-497Z-azure-deployment.json",
       "sha256": "4c349a77faaf78d9a9c43589fe5dffa4e1f6d18035f434730177bb205ac3d234",
-      "generated_by": "test-azure.cjs",
-      "generated_at": "2026-08-08T06:35:16.498Z",
-      "provider": "azure",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.028Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-35-16-497Z-f7c62aca"
+      "run_id": "2026-08-08T06-35-16-497Z-azure-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-35-19-044Z-aws-deployment.json",
       "sha256": "ca825a78c763cd101cc4f3324febec8e563c094fe2f2629ab9002dd72d80961f",
-      "generated_by": "test-aws.cjs",
-      "generated_at": "2026-08-08T06:35:19.045Z",
-      "provider": "aws",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.916Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-35-19-044Z-c3005dc8"
+      "run_id": "2026-08-08T06-35-19-044Z-aws-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-35-19-397Z-gcp-deployment.json",
       "sha256": "385d4add75d4faf6caed40b7e465fc961354d8b9aa2b7ebd49098ce5b4a9e291",
-      "generated_by": "test-gcp.cjs",
-      "generated_at": "2026-08-08T06:35:19.407Z",
-      "provider": "gcp",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.863Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-35-19-397Z-f4291486"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-35-22-737Z-aws-negative-test.json",
-      "sha256": "e9a056a27c64d83ecfa5019a270edab331e9ee2aec37c89110374585c3a3b029",
-      "generated_by": "test-failure.cjs",
-      "generated_at": "2026-08-08T06:35:22.739Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-35-22-737Z-7dc8a628"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-35-22-973Z-aws-negative-test.json",
-      "sha256": "6a659173325fdbebae11352fb43af9f14eb9a4522149552ecae99fd284362336",
-      "generated_by": "test-timeout.cjs",
-      "generated_at": "2026-08-08T06:35:22.977Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-35-22-973Z-953bf107"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-35-22-980Z-aws-negative-test.json",
-      "sha256": "99662694370547e056cf8b1d94327b65b068fec37eccc3d66ecdb948b7db4273",
-      "generated_by": "test-retry.cjs",
-      "generated_at": "2026-08-08T06:35:22.981Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-35-22-980Z-0433719b"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-35-23-088Z-multi-negative-test.json",
-      "sha256": "ec57cd98c28651544444bc104fabb1418e2c6a61e09a6cda794e4d468a7940ff",
-      "generated_by": "test-concurrency.cjs",
-      "generated_at": "2026-08-08T06:35:23.091Z",
-      "provider": "multi",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-35-23-088Z-174cb9f8"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-35-23-100Z-multi-negative-test.json",
-      "sha256": "b3480ef79ffcd70ef686bb12cbb819ef6d99b6596fbcd1d869ed3caf8d79a303",
-      "generated_by": "test-abstraction.cjs",
-      "generated_at": "2026-08-08T06:35:23.102Z",
-      "provider": "multi",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-35-23-100Z-2e7d000a"
+      "run_id": "2026-08-08T06-35-19-397Z-gcp-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-44-00-102Z-azure-deployment.json",
       "sha256": "be1e800af983256b3471087bab2ce6fe2c8ade681c7bb4e38ccc2e9d63b3d052",
-      "generated_by": "test-azure.cjs",
-      "generated_at": "2026-08-08T06:44:00.103Z",
-      "provider": "azure",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.012Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-44-00-102Z-393f905c"
+      "run_id": "2026-08-08T06-44-00-102Z-azure-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-44-02-379Z-aws-deployment.json",
       "sha256": "d06be2045429553c00c813fa68d6680559202a657f40eb1b889a81d55758e000",
-      "generated_by": "test-aws.cjs",
-      "generated_at": "2026-08-08T06:44:02.381Z",
-      "provider": "aws",
-      "run_type": "deployment",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.841Z",
+      "provider": null,
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-44-02-379Z-4487b792"
+      "run_id": "2026-08-08T06-44-02-379Z-aws-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-44-02-705Z-gcp-deployment.json",
       "sha256": "93ae9dfec49437eb5003299116fb70de79cc6d9785d035c3d8d5ddd6334ef121",
-      "generated_by": "test-gcp.cjs",
-      "generated_at": "2026-08-08T06:44:02.716Z",
-      "provider": "gcp",
-      "run_type": "deployment",
-      "partition": "acceptance",
-      "run_id": "deployment-2026-08-08T06-44-02-705Z-70ace363"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-44-05-971Z-aws-negative-test.json",
-      "sha256": "36d74ef3af62e6fc570c04574dfdd2631abebc1991e82237b0ef12df98a3a5e8",
-      "generated_by": "test-failure.cjs",
-      "generated_at": "2026-08-08T06:44:05.973Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-05-971Z-8e0129da"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-44-06-199Z-aws-negative-test.json",
-      "sha256": "f67f8266531e3854d3168294bd79b9ffc440208b0bc1d200e2e84a11df58f795",
-      "generated_by": "test-timeout.cjs",
-      "generated_at": "2026-08-08T06:44:06.202Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-06-199Z-54d519e8"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-44-06-227Z-aws-negative-test.json",
-      "sha256": "4d42c386650c5049436fb25526fd084f96346853bd15d501adfb8d3c3d400f3b",
-      "generated_by": "test-retry.cjs",
-      "generated_at": "2026-08-08T06:44:06.228Z",
-      "provider": "aws",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-06-227Z-dd146613"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-44-06-339Z-multi-negative-test.json",
-      "sha256": "21e59ce800a73e3bd7e025e7653826feb89bcf47ec8eefe73104c4b1aec6e9ea",
-      "generated_by": "test-concurrency.cjs",
-      "generated_at": "2026-08-08T06:44:06.341Z",
-      "provider": "multi",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-06-339Z-28cb909a"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-44-06-375Z-multi-negative-test.json",
-      "sha256": "507234bb3858ac8f1b07f9f02ea9b095e5aeeff60fcc6914e2929d3d94be9be5",
-      "generated_by": "test-abstraction.cjs",
-      "generated_at": "2026-08-08T06:44:06.376Z",
-      "provider": "multi",
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-06-375Z-8717a432"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-44-16-857Z-multi-negative-test.json",
-      "sha256": "5c5ec1e2a580ebdb18bfe490e72842919f1fb5fb8b61dde827d6d0d11f46a3cf",
-      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
-      "generated_at": "2026-08-08T06:44:16.859Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.012Z",
       "provider": null,
-      "run_type": "negative-test",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-16-857Z-f39cfde3"
+      "run_id": "2026-08-08T06-44-02-705Z-gcp-deployment"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-44-16-863Z-multi-ablation.json",
       "sha256": "b973d58eb513f82c40354a91509887fd358553496cd41e9cb886f88f51f70228",
-      "generated_by": "server/services/infraDiffEngine.js",
-      "generated_at": "2026-08-08T06:44:16.864Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.996Z",
       "provider": null,
-      "run_type": "ablation",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "ablation-2026-08-08T06-44-16-863Z-179e8ef7"
+      "run_id": "2026-08-08T06-44-16-863Z-multi-ablation"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-44-16-866Z-multi-sensitivity.json",
       "sha256": "1f038aff61d5780b0a0b0bfbbb257cdccf5c41bc5ca848618cbcbbae955f4bd0",
-      "generated_by": "server/services/infraDiffEngine.js",
-      "generated_at": "2026-08-08T06:44:16.867Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.808Z",
       "provider": null,
-      "run_type": "sensitivity",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "sensitivity-2026-08-08T06-44-16-866Z-d9d7bfa2"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-44-16-869Z-multi-negative-test.json",
-      "sha256": "2b958ae58f5f951273b8e25ed152049e362353cb42623e440c95293cf1b8f3fc",
-      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
-      "generated_at": "2026-08-08T06:44:16.870Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-16-869Z-cc7d6376"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-44-16-871Z-multi-negative-test.json",
-      "sha256": "4be0df1ff58a937a6f06eaf87690598aaaebbfa971e80f0b2c56839a326bc26c",
-      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
-      "generated_at": "2026-08-08T06:44:16.873Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-16-871Z-31d971f9"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-16-961Z-multi-chaos.json",
-      "sha256": "5800b994405bf10ad97333e6089bef64203cc6fee8ac998b9556963f9d97d672",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:44:16.962Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-44-16-961Z-e26eb16d"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-44-16-965Z-multi-negative-test.json",
-      "sha256": "d59b513e78fb2e76d99c23bb1095a98c25db30640d8adf755a9283181c03cf94",
-      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
-      "generated_at": "2026-08-08T06:44:16.966Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-16-965Z-59c15035"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-250Z-multi-chaos.json",
-      "sha256": "8c0ba6ad38f9fe6b0ec0a3aa5f66953623baf97383047d6099478719f3816ef6",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:44:17.275Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-44-17-250Z-ee5baf2c"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-252Z-multi-chaos.json",
-      "sha256": "f69bcab3907037e61f588e42e480dba728f13f07a609d3d1a2a06ac8e8303ca5",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:44:17.275Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-44-17-252Z-18b3ceba"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-479Z-multi-chaos.json",
-      "sha256": "a86a6525d117405123836064b4fe545e423f7b980cc6eb6c0dbee15b0647a86c",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:44:17.481Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-44-17-479Z-5d7af9fe"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-44-17-507Z-multi-negative-test.json",
-      "sha256": "5976ac9eea62df2d13c3a4ad212fd8fb2904b5682f497269a5e17736e566b4bb",
-      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
-      "generated_at": "2026-08-08T06:44:17.508Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-44-17-507Z-f4250db1"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-49-17-611Z-multi-negative-test.json",
-      "sha256": "58d949306390efc9241960a488fc1b8fe585cb087bb4168a300c505978ab3bd1",
-      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
-      "generated_at": "2026-08-08T06:49:17.614Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-49-17-611Z-708bf94a"
+      "run_id": "2026-08-08T06-44-16-866Z-multi-sensitivity"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-49-17-616Z-multi-ablation.json",
       "sha256": "1ffef6e3d06396a0689bdb471514a94f7ea4a8cc3f3fd984584160f156df4bb5",
-      "generated_by": "server/services/infraDiffEngine.js",
-      "generated_at": "2026-08-08T06:49:17.617Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.948Z",
       "provider": null,
-      "run_type": "ablation",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "ablation-2026-08-08T06-49-17-616Z-3c360719"
+      "run_id": "2026-08-08T06-49-17-616Z-multi-ablation"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T06-49-17-619Z-multi-sensitivity.json",
       "sha256": "7e36221f5bbfb87ce6b0b225a2b31b8cb824cba4d25e78027dc3e26b4622996b",
-      "generated_by": "server/services/infraDiffEngine.js",
-      "generated_at": "2026-08-08T06:49:17.620Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.794Z",
       "provider": null,
-      "run_type": "sensitivity",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "sensitivity-2026-08-08T06-49-17-619Z-c094ff61"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-49-17-622Z-multi-negative-test.json",
-      "sha256": "06b29e24396eb857dd40417942a618465a9a409747dfbc663dfc9608ae43b061",
-      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
-      "generated_at": "2026-08-08T06:49:17.623Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-49-17-622Z-b11f2407"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-49-17-625Z-multi-negative-test.json",
-      "sha256": "8f0eeb6999c956afd526b11557e9e316388a2d131b48299f4dc1f96c690affd9",
-      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
-      "generated_at": "2026-08-08T06:49:17.626Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-49-17-625Z-c5bd70d6"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-17-700Z-multi-chaos.json",
-      "sha256": "c59c6ae57ed5a1622eb3bf1860afe8b1a589cdaf0b2814ffc14ec43ae5e9d4c1",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:49:17.701Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-49-17-700Z-d4203f86"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-49-17-705Z-multi-negative-test.json",
-      "sha256": "da311f3f6fdf8efb51862f51385de99d77a404363ab105431e58fff985acef85",
-      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
-      "generated_at": "2026-08-08T06:49:17.706Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-49-17-705Z-244f0414"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-011Z-multi-chaos.json",
-      "sha256": "0bb58b1edbecbad2903acf14db04c4d0484abac12f4c57f6c6033052e9290d14",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:49:18.013Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-49-18-011Z-8a6f7bbf"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-012Z-multi-chaos.json",
-      "sha256": "1ee713470c1b1a6b4e8dd181d57f634b41036184755bc1687a173393020df41c",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:49:18.013Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-49-18-012Z-38c64372"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-239Z-multi-chaos.json",
-      "sha256": "e7e150025a0ad54cdaf8e2861ad6322929904a82e28468030adcae5f1d86f1c6",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:49:18.241Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T06-49-18-239Z-103f04ef"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-49-18-244Z-multi-negative-test.json",
-      "sha256": "9e346e676e3deb01ff3c42ea279a238c9c4db716cce91ee6deb69ee04b28b35e",
-      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
-      "generated_at": "2026-08-08T06:49:18.245Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T06-49-18-244Z-66b8bcc2"
-    },
-    {
-      "file": "evidence/runs/dev/2026-08-08T06-50-31-586Z-multi-chaos.json",
-      "sha256": "81f0d1d83787bec29aeba0622b6177fcdace1a85958178492d1530717b097c73",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:50:31.589Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "dev",
-      "run_id": "chaos-2026-08-08T06-50-31-586Z-ceed12ae"
-    },
-    {
-      "file": "evidence/runs/dev/2026-08-08T06-50-48-562Z-multi-chaos.json",
-      "sha256": "f3cdf47821ba47a8d39183fb52dfb1b399c8891bb2f12530894908fcd2697d60",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T06:50:48.564Z",
-      "provider": null,
-      "run_type": "chaos",
-      "partition": "dev",
-      "run_id": "chaos-2026-08-08T06-50-48-562Z-b4ac45e7"
-    },
-    {
-      "file": "evidence/runs/acceptance/nt-1/2026-08-08T07-13-45-379Z-multi-negative-test.json",
-      "sha256": "7e6395dcab51bff9dc0ba7a7d3132e25722c8bfa727416d5938013cdcc178a06",
-      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
-      "generated_at": "2026-08-08T07:13:45.382Z",
-      "provider": null,
-      "run_type": "negative-test",
-      "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T07-13-45-379Z-083e037f"
+      "run_id": "2026-08-08T06-49-17-619Z-multi-sensitivity"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T07-13-45-386Z-multi-ablation.json",
       "sha256": "d58dc0282caf93cfc272c0a8da5cb11a203a07a8031891dc9b685ad31cf6f32f",
-      "generated_by": "server/services/infraDiffEngine.js",
-      "generated_at": "2026-08-08T07:13:45.388Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.948Z",
       "provider": null,
-      "run_type": "ablation",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "ablation-2026-08-08T07-13-45-386Z-00715aca"
+      "run_id": "2026-08-08T07-13-45-386Z-multi-ablation"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-08T07-13-45-390Z-multi-sensitivity.json",
       "sha256": "461aebe67cff2a3b7fe676e6ff9a93bbfc0ef0d2146b7b2f2c0b758dbb4c28ad",
-      "generated_by": "server/services/infraDiffEngine.js",
-      "generated_at": "2026-08-08T07:13:45.392Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.819Z",
       "provider": null,
-      "run_type": "sensitivity",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "sensitivity-2026-08-08T07-13-45-390Z-6ab62a1c"
+      "run_id": "2026-08-08T07-13-45-390Z-multi-sensitivity"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-25-02-249Z-multi-negative-test.json",
+      "sha256": "deefdfd0cc5366ef6c78853dbb120eb8f0d8927b25036a92541e270a4cbe982d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.262Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-02-249Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-25-34-291Z-multi-negative-test.json",
+      "sha256": "74ecb65dae1b7e91c027f38c5c5e6a6a0f59dd8dcfc7f1067c792bd605dc081a",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.326Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-291Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-31-23-103Z-multi-negative-test.json",
+      "sha256": "b8b94a7c388ee976f550980e545c33a940c2fc7fa77474f5f597b719c83f4e25",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.342Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-103Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-35-39-581Z-multi-negative-test.json",
+      "sha256": "b4ff26e70d53aeb726654ec1624ff33f336ee81e0d5366c9711c448a43934fd1",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.310Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-581Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-39-04-099Z-multi-negative-test.json",
+      "sha256": "3d6ef414f3bdc95c7561889e828560f7219919cc1650c5b209f011e3b483bad4",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.374Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-099Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-40-37-847Z-multi-negative-test.json",
+      "sha256": "dfa64803e0de39f460090e6a5ce22136ce725a4fb133ca31123143df0314fe91",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.310Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-847Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T15-41-01-949Z-multi-negative-test.json",
+      "sha256": "6434787cd021231e2a546c25a27589f449adf5a3c5ded6ae7772566a8dc2e85c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.358Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-01-949Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T17-44-31-578Z-multi-negative-test.json",
+      "sha256": "d4db25f82e07a1b1e15ccebb7128d18532191976ab7a025b2315a4359048f655",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.278Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-578Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T18-00-31-044Z-multi-negative-test.json",
+      "sha256": "f1573789d13316c1a695d1f7598f7e8dd07da4651b0fdc7bf76262bdc45ddcd5",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.374Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-044Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T18-07-14-471Z-multi-negative-test.json",
+      "sha256": "f2533ecf56a6776c60ce1aa099d164302a92869c3999e796f768f651c352750c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.390Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-471Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-02T18-19-37-236Z-multi-negative-test.json",
+      "sha256": "c0c6ae1b1e4a31228cb9e9af778d69118ecc6bd926ec379944403c07d5dce48d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.262Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-236Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-33-47-418Z-aws-negative-test.json",
+      "sha256": "04c5b953e52802ef43f5c4c6e04e069d248d00b78eb01ec1625a7c23f85133c1",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.278Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-33-47-418Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-35-22-737Z-aws-negative-test.json",
+      "sha256": "e9a056a27c64d83ecfa5019a270edab331e9ee2aec37c89110374585c3a3b029",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.358Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-35-22-737Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-44-05-971Z-aws-negative-test.json",
+      "sha256": "36d74ef3af62e6fc570c04574dfdd2631abebc1991e82237b0ef12df98a3a5e8",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.326Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-05-971Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-44-16-857Z-multi-negative-test.json",
+      "sha256": "5c5ec1e2a580ebdb18bfe490e72842919f1fb5fb8b61dde827d6d0d11f46a3cf",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.294Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-16-857Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-49-17-611Z-multi-negative-test.json",
+      "sha256": "58d949306390efc9241960a488fc1b8fe585cb087bb4168a300c505978ab3bd1",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.342Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-17-611Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T07-13-45-379Z-multi-negative-test.json",
+      "sha256": "7e6395dcab51bff9dc0ba7a7d3132e25722c8bfa727416d5938013cdcc178a06",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.294Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T07-13-45-379Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-25-02-430Z-multi-negative-test.json",
+      "sha256": "9e756d8bd1755ecbbe5425dfa72014bb9e76c4975054aebc93d20be82ad54972",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.021Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-02-430Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-25-34-334Z-multi-negative-test.json",
+      "sha256": "1fb7f386fcbdb455a9b6a03ea363d2af89d6e0da840168101987cce3c22cb67a",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.068Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-334Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-31-23-115Z-multi-negative-test.json",
+      "sha256": "20bc1467f6331b8b89cea13da007a8d1e768a6fcbca87b7954c6a35a91af30de",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.910Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-115Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-35-39-594Z-multi-negative-test.json",
+      "sha256": "da0cc02740c3273259927d7fc105ba0bb38409669fe4ca03c110fc35ebc3ebe3",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.957Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-594Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-39-04-110Z-multi-negative-test.json",
+      "sha256": "734abaea7d2f56994c793f99c6ec6e98d1500bb4970ce03ff8a0a63573df3622",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.926Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-110Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-40-37-860Z-multi-negative-test.json",
+      "sha256": "17c5af18b2e04c3657274351fd0040c403893729c151258c9fd3a35969fbff0c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.957Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-860Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T15-41-01-964Z-multi-negative-test.json",
+      "sha256": "e5348e1b711683ce8c089437c0fc6f9b32dadb2db4d223496fd287c15e5b43fc",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.005Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-01-964Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T17-44-31-594Z-multi-negative-test.json",
+      "sha256": "2efb5cd5c5992e1e913c16393ffe4f50bb3624fd6d0af217fff306a75b24a3df",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.989Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-594Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T18-00-31-055Z-multi-negative-test.json",
+      "sha256": "d109a6ca779219c01ed6a52fce98d58ed00905cc40639896c3fcb770cc13a743",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.068Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-055Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T18-07-14-481Z-multi-negative-test.json",
+      "sha256": "d7d6c978a570f5b9f41cf9cf5409a90851479dd654ac1304582da187c3f9003a",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.005Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-481Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-02T18-19-37-246Z-multi-negative-test.json",
+      "sha256": "350f031252a00377c2110d09b173ef97bc58468e87d51684bd3b3e975f3f6982",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.941Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-246Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-33-47-634Z-aws-negative-test.json",
+      "sha256": "c1a3341310c5384a89ca92db6ec1d98b36345fa3451ec0d5877530fd36495b78",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.941Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-33-47-634Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-35-22-973Z-aws-negative-test.json",
+      "sha256": "6a659173325fdbebae11352fb43af9f14eb9a4522149552ecae99fd284362336",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.053Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-35-22-973Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-44-06-199Z-aws-negative-test.json",
+      "sha256": "f67f8266531e3854d3168294bd79b9ffc440208b0bc1d200e2e84a11df58f795",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.037Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-06-199Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-44-16-869Z-multi-negative-test.json",
+      "sha256": "2b958ae58f5f951273b8e25ed152049e362353cb42623e440c95293cf1b8f3fc",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.973Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-16-869Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-49-17-622Z-multi-negative-test.json",
+      "sha256": "06b29e24396eb857dd40417942a618465a9a409747dfbc663dfc9608ae43b061",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.989Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-17-622Z-multi-negative-test"
     },
     {
       "file": "evidence/runs/acceptance/nt-2/2026-08-08T07-13-45-395Z-multi-negative-test.json",
       "sha256": "303325731a09cdebc35b3dcaddb57ccd6105d858fb3bbe44433608f422fc9c12",
-      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
-      "generated_at": "2026-08-08T07:13:45.397Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.037Z",
       "provider": null,
-      "run_type": "negative-test",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T07-13-45-395Z-d6d9caa0"
+      "run_id": "2026-08-08T07-13-45-395Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-25-02-549Z-multi-negative-test.json",
+      "sha256": "a6917ebc5054050c8298e341190f417da391a720d035f1b16c42740bd896e28e",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.799Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-02-549Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-25-34-337Z-multi-negative-test.json",
+      "sha256": "81bc3751917839ad549094faf99de8e52d44b5f8eacec6ec98ef55ddd120dd08",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.751Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-337Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-31-23-118Z-multi-negative-test.json",
+      "sha256": "6654f3621b5ea869517cd67e58c496c3927f23036a2b9e783efa6180cf0e54af",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.783Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-118Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-35-39-597Z-multi-negative-test.json",
+      "sha256": "28baf0f3ce4354b9e7f694e71dad9799c92a72621a4247c7d772cc24448fd492",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.735Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-597Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-39-04-113Z-multi-negative-test.json",
+      "sha256": "82319c0ca2a7817df1a579bbed51be836b459f5229536674b89689f6a7338779",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.894Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-113Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-40-37-863Z-multi-negative-test.json",
+      "sha256": "7f02ab3d5ad0c069c0f9969f53c61928c5ad632aeaf0cc29e0ebb901dba37d0b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.815Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-863Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T15-41-01-968Z-multi-negative-test.json",
+      "sha256": "b13389b60e82af95f28182a60671afd2d17187c078508c1e4e0db4b3236091a6",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.846Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-01-968Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T17-44-31-598Z-multi-negative-test.json",
+      "sha256": "ab50fe922bd63a640aab9bc504268e1fb2a9fcb7cb573726fbd515cb6cb74925",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.878Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-598Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T18-00-31-059Z-multi-negative-test.json",
+      "sha256": "7d24bd1ce2fcc69b480220596147f069b771bc802f0abd6c65fde83d02bd2766",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.767Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-059Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T18-07-14-485Z-multi-negative-test.json",
+      "sha256": "36d1812b74a0db5575533e109530f5d925dc3ba1a9de549bfb0186d9abf75bae",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.783Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-485Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-02T18-19-37-249Z-multi-negative-test.json",
+      "sha256": "a9717af21ecf2eaa09ad1ff336b70b1d199f5052c046f888bc21d3213675d438",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.815Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-249Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-33-47-640Z-aws-negative-test.json",
+      "sha256": "3b38f315ac3500a74250b11cee874b53000fc9eae7028b7cc576c933248eb93a",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.894Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-33-47-640Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-35-22-980Z-aws-negative-test.json",
+      "sha256": "99662694370547e056cf8b1d94327b65b068fec37eccc3d66ecdb948b7db4273",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.751Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-35-22-980Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-44-06-227Z-aws-negative-test.json",
+      "sha256": "4d42c386650c5049436fb25526fd084f96346853bd15d501adfb8d3c3d400f3b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.799Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-06-227Z-aws-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-44-16-871Z-multi-negative-test.json",
+      "sha256": "4be0df1ff58a937a6f06eaf87690598aaaebbfa971e80f0b2c56839a326bc26c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.846Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-16-871Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-49-17-625Z-multi-negative-test.json",
+      "sha256": "8f0eeb6999c956afd526b11557e9e316388a2d131b48299f4dc1f96c690affd9",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.862Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-17-625Z-multi-negative-test"
     },
     {
       "file": "evidence/runs/acceptance/nt-3/2026-08-08T07-13-45-399Z-multi-negative-test.json",
       "sha256": "29647107e15a112df635b60d0b083432a85a3f6a9ad05e77d10cfa734a1b4d7a",
-      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
-      "generated_at": "2026-08-08T07:13:45.400Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.830Z",
       "provider": null,
-      "run_type": "negative-test",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T07-13-45-399Z-2ec1c724"
+      "run_id": "2026-08-08T07-13-45-399Z-multi-negative-test"
     },
     {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-464Z-multi-chaos.json",
-      "sha256": "61fe4a5692ef9d7f7cd13a5c3b1630482b91fe569cc0d35cc8422f3a69ff976d",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T07:13:45.465Z",
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T15-25-34-469Z-multi-negative-test.json",
+      "sha256": "430dcf41a3fd56fce64a324f3388248315dd227628ce74001e09921d2d99dc72",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.635Z",
       "provider": null,
-      "run_type": "chaos",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T07-13-45-464Z-4e1e7ff2"
+      "run_id": "2026-08-02T15-25-34-469Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T15-31-23-198Z-multi-negative-test.json",
+      "sha256": "4ee3fcbd8516141e464d4918e5c4cc7ae9378adecb877714d7782fca6a92ecdd",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.562Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-198Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T15-35-39-675Z-multi-negative-test.json",
+      "sha256": "eb375ffd6879516f0a4d596db2b5b7216d76f60002760b4ab2f9edc1f6e5b35f",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.690Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-675Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T15-39-04-170Z-multi-negative-test.json",
+      "sha256": "c97e7fbda386b6d9c0a28c85df04b57170c30bf7b32665ecd941fc4d9aaf8db9",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.609Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-170Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T15-40-37-918Z-multi-negative-test.json",
+      "sha256": "5bbefbd00a2cc8e1a4ff6af04f9948c7906e8a7d90385f2f5ad76f9e0c4bea1b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.670Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-918Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T15-41-02-033Z-multi-negative-test.json",
+      "sha256": "1b0bfa029d17a1dd8a23c1779be43e1a838a6e73e1af4b3126e91267908bce35",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.593Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-02-033Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T17-44-31-660Z-multi-negative-test.json",
+      "sha256": "fa275398aa6df6e0416a5dc423eb1c0cd3e9b7287520cbdeb7d88d4e316c0704",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.704Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-660Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T18-00-31-118Z-multi-negative-test.json",
+      "sha256": "48fe1a610dfb7c768ba8a3c754eda3b45457b771b8451779b002bc0a12be0cc2",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.530Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-118Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T18-07-14-544Z-multi-negative-test.json",
+      "sha256": "a6bf3633eb05e8636a0018ab905ec0cdd004cf26f3e110a60bc2e6db94b27a9d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.707Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-544Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-02T18-19-37-305Z-multi-negative-test.json",
+      "sha256": "b3575fdf3b1711cac02015655399456811f83438467116113a58547c91873618",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.562Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-305Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-33-47-760Z-multi-negative-test.json",
+      "sha256": "7785d2e5ba5f1d994d202650ea67ccff227a0593c33df8068deaae7aa7f7d4e0",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.648Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-33-47-760Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-35-23-088Z-multi-negative-test.json",
+      "sha256": "ec57cd98c28651544444bc104fabb1418e2c6a61e09a6cda794e4d468a7940ff",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.546Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-35-23-088Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-44-06-339Z-multi-negative-test.json",
+      "sha256": "21e59ce800a73e3bd7e025e7653826feb89bcf47ec8eefe73104c4b1aec6e9ea",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.719Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-06-339Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-44-16-965Z-multi-negative-test.json",
+      "sha256": "d59b513e78fb2e76d99c23bb1095a98c25db30640d8adf755a9283181c03cf94",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.680Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-16-965Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-49-17-705Z-multi-negative-test.json",
+      "sha256": "da311f3f6fdf8efb51862f51385de99d77a404363ab105431e58fff985acef85",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.660Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-17-705Z-multi-negative-test"
     },
     {
       "file": "evidence/runs/acceptance/nt-4/2026-08-08T07-13-45-471Z-multi-negative-test.json",
       "sha256": "62b52f6e9a77b2b3e20a398a66636e369bc4173a189d4f7115539e2aa1ae3170",
-      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
-      "generated_at": "2026-08-08T07:13:45.471Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.578Z",
       "provider": null,
-      "run_type": "negative-test",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T07-13-45-471Z-b17f3641"
+      "run_id": "2026-08-08T07-13-45-471Z-multi-negative-test"
     },
     {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-759Z-multi-chaos.json",
-      "sha256": "3e2788c83c358dd51d4b08c2494f9ad8b4e184d23973336f91956fb18cd63c97",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T07:13:45.761Z",
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T15-25-35-050Z-multi-negative-test.json",
+      "sha256": "dfda85e4359f61531f6bf28e48aee573b32bab6353b3fce4f27397c9a14bfcfc",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.214Z",
       "provider": null,
-      "run_type": "chaos",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T07-13-45-759Z-5c9b900e"
+      "run_id": "2026-08-02T15-25-35-050Z-multi-negative-test"
     },
     {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-760Z-multi-chaos.json",
-      "sha256": "56d0f1f884c32016a09c64da3b54ee0a9657266f5e9f1fbdebed5e4cbe522c47",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T07:13:45.762Z",
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T15-31-23-716Z-multi-negative-test.json",
+      "sha256": "93b15d6ab63534941ca16a07a5293877bd53e886b326ac3d615b33167027f725",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.207Z",
       "provider": null,
-      "run_type": "chaos",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T07-13-45-760Z-50c51deb"
+      "run_id": "2026-08-02T15-31-23-716Z-multi-negative-test"
     },
     {
-      "file": "evidence/runs/dev/2026-08-08T07-13-45-900Z-multi-chaos.json",
-      "sha256": "2a78de82c36d4b684b9b4701dcb1fe88d0e2adb605d24ac848ddac7ead22858c",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T07:13:45.902Z",
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T15-35-40-193Z-multi-negative-test.json",
+      "sha256": "e864e0a366b828d46c979601d6eca970f1f325f0ffe5f45d0f497415468627f5",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.118Z",
       "provider": null,
-      "run_type": "chaos",
-      "partition": "dev",
-      "run_id": "chaos-2026-08-08T07-13-45-900Z-997aef8c"
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-40-193Z-multi-negative-test"
     },
     {
-      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-988Z-multi-chaos.json",
-      "sha256": "520a5c033b9f74eca2de22856ac3e34d7bc675234f64c19f093fb89f2d0a4611",
-      "generated_by": "server/services/chaosEngine.js",
-      "generated_at": "2026-08-08T07:13:45.989Z",
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T15-39-04-675Z-multi-negative-test.json",
+      "sha256": "bab3d061b85f4cd924619f94b32b20537bec0895853c56c32a703ee428f306c1",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.104Z",
       "provider": null,
-      "run_type": "chaos",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "chaos-2026-08-08T07-13-45-988Z-73d6cd1c"
+      "run_id": "2026-08-02T15-39-04-675Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T15-40-38-430Z-multi-negative-test.json",
+      "sha256": "c05819a1aabd06d1287cd1eeff9077cb76cd6bd8dfb2e6264c8dfa4e6c284206",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.222Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-38-430Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T15-41-02-545Z-multi-negative-test.json",
+      "sha256": "8ee8cbe6785652cb8f48c5557c3ce6605e05987a17f44cf5b3f83cfb5b57e8d3",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.165Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-02-545Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T17-44-32-176Z-multi-negative-test.json",
+      "sha256": "dbe3a2b464c9176a379cd0c92f1d8652359fbaa82489b00375faefa954b2eca5",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.176Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-32-176Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T18-00-31-630Z-multi-negative-test.json",
+      "sha256": "dd809ce6982c5091c95a21fb65fd1bd5bf96cccbe650ca2fcab27496f1844fe3",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.198Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-630Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T18-07-15-053Z-multi-negative-test.json",
+      "sha256": "e0e441cd5ff8d9d7d434caf3d6f6291d6d2e42e83d8ddbcde9dc981d0c0c5a45",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.133Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-15-053Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-02T18-19-37-815Z-multi-negative-test.json",
+      "sha256": "349a4d0301bcb4f47a5944a93fe0e019e67bf57af743458021679f5aacc657cf",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.176Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-815Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-33-47-768Z-multi-negative-test.json",
+      "sha256": "ed9f2705336217306b9001916e3d2dd9721493d44f83736402a19a50179843c4",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.133Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-33-47-768Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-35-23-100Z-multi-negative-test.json",
+      "sha256": "b3480ef79ffcd70ef686bb12cbb819ef6d99b6596fbcd1d869ed3caf8d79a303",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.246Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-35-23-100Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-44-06-375Z-multi-negative-test.json",
+      "sha256": "507234bb3858ac8f1b07f9f02ea9b095e5aeeff60fcc6914e2929d3d94be9be5",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.231Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-06-375Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-44-17-507Z-multi-negative-test.json",
+      "sha256": "5976ac9eea62df2d13c3a4ad212fd8fb2904b5682f497269a5e17736e566b4bb",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.222Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-17-507Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-49-18-244Z-multi-negative-test.json",
+      "sha256": "9e346e676e3deb01ff3c42ea279a238c9c4db716cce91ee6deb69ee04b28b35e",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.149Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-18-244Z-multi-negative-test"
     },
     {
       "file": "evidence/runs/acceptance/nt-5/2026-08-08T07-13-46-008Z-multi-negative-test.json",
       "sha256": "565888e54e7a5f5f235d3a946ee41e696d0cef475caad8014299628cf8e131d9",
-      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
-      "generated_at": "2026-08-08T07:13:46.009Z",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:06.246Z",
       "provider": null,
-      "run_type": "negative-test",
+      "run_type": "acceptance",
       "partition": "acceptance",
-      "run_id": "negative-test-2026-08-08T07-13-46-008Z-6e47a853"
+      "run_id": "2026-08-08T07-13-46-008Z-multi-negative-test"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-25-34-463Z-multi-chaos.json",
+      "sha256": "06dc528482923b01aa98122333006b1c016923d04b6a903d2660eff219986079",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.212Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-463Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-25-34-760Z-multi-chaos.json",
+      "sha256": "81dd0c86e24226c0dc67ccb6f01870d3f7b54492c10f6582cbefb760b04ca120",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.196Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-760Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-25-34-761Z-multi-chaos.json",
+      "sha256": "78351153ced447e212c15ce4ce8d3c59c3d8de1d5949b9f57e7554975b773438",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.180Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-761Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-25-34-998Z-multi-chaos.json",
+      "sha256": "22920f8f316efd8b576ccfff306988dd62afbb00c215d0785af069a06f5e6a1a",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.107Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-25-34-998Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-31-23-193Z-multi-chaos.json",
+      "sha256": "a9d3cb29828d6763180430b2f556175ea4b58a3f7aace278170a4821a8db3ed4",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.499Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-193Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-31-23-473Z-multi-chaos.json",
+      "sha256": "e64235ce69011f13c8c64d9ef0fc99207526957c18e30e19d5c70580812a0704",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.467Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-473Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-31-23-474Z-multi-chaos.json",
+      "sha256": "c5c07c3269da7f93735c4e1ea41d4b387004810a927fd52c5453163d76fe21ba",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.180Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-474Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-31-23-711Z-multi-chaos.json",
+      "sha256": "244f209f564a45108355a8a568a1a36e0d8b22ba319e3cb2b30c54b5ddfcc178",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.403Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-31-23-711Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-35-39-670Z-multi-chaos.json",
+      "sha256": "7135962951d4ea99cb2e24afa438a3e9d72aba68ceaee5ab0c43f5e48c114f19",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.323Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-670Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-35-39-945Z-multi-chaos.json",
+      "sha256": "38ed5daa096d479a5747117ce376efb935147de9ee29aee50961ab12629b1245",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.275Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-945Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-35-39-948Z-multi-chaos.json",
+      "sha256": "c01851bed90331259b0d3c679a287f45dfdf332690f5a2d5d00f212f89e68950",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.164Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-39-948Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-35-40-188Z-multi-chaos.json",
+      "sha256": "894a318779c4f60b10328cf24356667edb93f1fe054e31a818c1b85806feb70e",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.419Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-35-40-188Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-39-04-165Z-multi-chaos.json",
+      "sha256": "df751bf501ec3c73594bcbd5f01c449c2a60c5ac209843666a2a1c8dddb6cd3f",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.228Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-165Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-39-04-439Z-multi-chaos.json",
+      "sha256": "7acfbf616fdbb99aa2ca41a87ad421b49f9523e80f7a8dfa0e3418c29210e153",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.514Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-439Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-39-04-440Z-multi-chaos.json",
+      "sha256": "aed6161893fb50a2a16b7630a50e6f771c3e23e4414a3225f327d7acd75f40f2",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.307Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-440Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-39-04-669Z-multi-chaos.json",
+      "sha256": "6da20d6cf6eceb611a2d09925889cb1e3023beb8e80b87d8addd932534482326",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.451Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-39-04-669Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-40-37-914Z-multi-chaos.json",
+      "sha256": "2b10cea993a1e8e09fa7b2bbbd4d07e40ce7228e62fb6f97fd83a64e60e64419",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.116Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-37-914Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-40-38-190Z-multi-chaos.json",
+      "sha256": "cec7532dab82d74d7a801a5b2123a680f8c90ba2b094b86fa0f94e836b81631d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.098Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-38-190Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-40-38-192Z-multi-chaos.json",
+      "sha256": "139d933716d2ee0a89905d9296092a843729c2bc442042926ebe52378faf1fc9",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.164Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-38-192Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-40-38-424Z-multi-chaos.json",
+      "sha256": "c6003576cd0ad5d032ebd3de9aab87b07629e0a32cfe6aa55eddf4e37809a88c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.124Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-40-38-424Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-41-02-026Z-multi-chaos.json",
+      "sha256": "e0b500c2bbf4de2b9b023bbe29f47e59342afc77ed2e3fa7180e1bdc80c5367b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.275Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-02-026Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-41-02-313Z-multi-chaos.json",
+      "sha256": "f695bf25f5b8604cc970662c051cdc4ca53125701c91dda952bf3280ad4cb97a",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.435Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-02-313Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-41-02-315Z-multi-chaos.json",
+      "sha256": "67292d959dadc224c974a740070a0130e60e0b433df6fd988d129f38dbb406b9",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.435Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-02-315Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T15-41-02-539Z-multi-chaos.json",
+      "sha256": "6a299bbf666500c19bc6fee025dd272abb4db0887d04a308aff3861075ab0112",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.371Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T15-41-02-539Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T17-44-31-656Z-multi-chaos.json",
+      "sha256": "51a416efb3b92381abf52662e73f46e5601f5aa7aa59eb9fbaab5513a138af9e",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.259Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-656Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T17-44-31-930Z-multi-chaos.json",
+      "sha256": "b89395be0b9b4a5c7e1cfe8368edb3d08d85ab2161a05e30e750b8b1563c8357",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.148Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-930Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T17-44-31-931Z-multi-chaos.json",
+      "sha256": "aadd073efcbb3c7ae382d975a6347d52a1ec49e826a91fa739c41699c60ba1f1",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.243Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-31-931Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T17-44-32-172Z-multi-chaos.json",
+      "sha256": "73925c16acd08752cb5ac501f86d977a0732e0c4fe1ea9de2abd49a389847436",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.291Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T17-44-32-172Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-00-31-113Z-multi-chaos.json",
+      "sha256": "ff3b27492f1a46502d9a465cd1ccdd4fc5033a5c76dbd6b03cfb9d135d4f4246",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.259Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-113Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-00-31-390Z-multi-chaos.json",
+      "sha256": "4c0e203fec48a27b84e1987336ad9f6950bef4c41cacd55d01069025b245a6e0",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.482Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-390Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-00-31-391Z-multi-chaos.json",
+      "sha256": "733d64b2970ef58fa5422138d06397187183cde6de2de8b923cd5cfd36d9bc16",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.275Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-391Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-00-31-625Z-multi-chaos.json",
+      "sha256": "49241cac23787834d5188a8544feb96a281aa0597583a457864dfc244cb5ee8d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.403Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-00-31-625Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-07-14-540Z-multi-chaos.json",
+      "sha256": "b97d4aa2c17ff6188a2aad67d80ac4b68e3cd320a0382706ab35020d750ba5e9",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.355Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-540Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-07-14-811Z-multi-chaos.json",
+      "sha256": "fe174bde6442b2f5d43efcf0d7ba498c76f1f4b467fadde5a54417a46f1e0fdb",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.419Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-811Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-07-14-812Z-multi-chaos.json",
+      "sha256": "2f93f4fd662ca226c1b681c4e58b700b524cea42284320d3d2d425a8cb5f109b",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.140Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-14-812Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-07-15-049Z-multi-chaos.json",
+      "sha256": "a74c118d43891541cb00c9e8e55452256f280de206601619fe6cffce49b76ad5",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.307Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-07-15-049Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-19-37-301Z-multi-chaos.json",
+      "sha256": "fbe3bb982011be1c9ec1b0cb40b2d92f2a78dff3e3595566e79c70b5d4180a29",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.371Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-301Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-19-37-573Z-multi-chaos.json",
+      "sha256": "90edae8a96a0b0e21aee3339ab96f0e6b8ea1ff6b4ae183e17103f1903b42405",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.243Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-573Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-19-37-574Z-multi-chaos.json",
+      "sha256": "cf90e7fd4e0246863d40e948f98dc9c44de1d35148c4f3d1e5f9e1907655cb74",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.467Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-574Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-02T18-19-37-811Z-multi-chaos.json",
+      "sha256": "e72682b375bc9170be11c41e4c6a8d58607cb5d43527bf2ba8a0af19e45c94d2",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.084Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-02T18-19-37-811Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-16-961Z-multi-chaos.json",
+      "sha256": "5800b994405bf10ad97333e6089bef64203cc6fee8ac998b9556963f9d97d672",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.080Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-16-961Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-250Z-multi-chaos.json",
+      "sha256": "8c0ba6ad38f9fe6b0ec0a3aa5f66953623baf97383047d6099478719f3816ef6",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.339Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-17-250Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-252Z-multi-chaos.json",
+      "sha256": "f69bcab3907037e61f588e42e480dba728f13f07a609d3d1a2a06ac8e8303ca5",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.482Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-17-252Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-479Z-multi-chaos.json",
+      "sha256": "a86a6525d117405123836064b4fe545e423f7b980cc6eb6c0dbee15b0647a86c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.451Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-44-17-479Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-17-700Z-multi-chaos.json",
+      "sha256": "c59c6ae57ed5a1622eb3bf1860afe8b1a589cdaf0b2814ffc14ec43ae5e9d4c1",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.387Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-17-700Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-011Z-multi-chaos.json",
+      "sha256": "0bb58b1edbecbad2903acf14db04c4d0484abac12f4c57f6c6033052e9290d14",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.339Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-18-011Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-012Z-multi-chaos.json",
+      "sha256": "1ee713470c1b1a6b4e8dd181d57f634b41036184755bc1687a173393020df41c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.355Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-18-012Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-239Z-multi-chaos.json",
+      "sha256": "e7e150025a0ad54cdaf8e2861ad6322929904a82e28468030adcae5f1d86f1c6",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.132Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T06-49-18-239Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-464Z-multi-chaos.json",
+      "sha256": "61fe4a5692ef9d7f7cd13a5c3b1630482b91fe569cc0d35cc8422f3a69ff976d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.387Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T07-13-45-464Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-759Z-multi-chaos.json",
+      "sha256": "3e2788c83c358dd51d4b08c2494f9ad8b4e184d23973336f91956fb18cd63c97",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.148Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T07-13-45-759Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-760Z-multi-chaos.json",
+      "sha256": "56d0f1f884c32016a09c64da3b54ee0a9657266f5e9f1fbdebed5e4cbe522c47",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.212Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T07-13-45-760Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-988Z-multi-chaos.json",
+      "sha256": "520a5c033b9f74eca2de22856ac3e34d7bc675234f64c19f093fb89f2d0a4611",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:05.323Z",
+      "provider": null,
+      "run_type": "acceptance",
+      "partition": "acceptance",
+      "run_id": "2026-08-08T07-13-45-988Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-02T18-08-38-665Z-azure-deployment.json",
+      "sha256": "bbccf8a77792f2249289f51bfe7d201e6b34bf2e0a417262381566bf8371003d",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.644Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-02T18-08-38-665Z-azure-deployment"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-02T18-13-36-582Z-azure-deployment.json",
+      "sha256": "78c1051274bcce60c3b90d4283e4c9e1468ef03b81f6f9963608de0db42b432f",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.620Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-02T18-13-36-582Z-azure-deployment"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-02T18-17-36-863Z-aws-deployment.json",
+      "sha256": "fb1b36b289d3bb2fd779bb79248a77ca43bbb27ba7c66c3cb57c7c2d915d9dcf",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.659Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-02T18-17-36-863Z-aws-deployment"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-08T06-50-31-586Z-multi-chaos.json",
+      "sha256": "81f0d1d83787bec29aeba0622b6177fcdace1a85958178492d1530717b097c73",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.633Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-08T06-50-31-586Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-08T06-50-48-562Z-multi-chaos.json",
+      "sha256": "f3cdf47821ba47a8d39183fb52dfb1b399c8891bb2f12530894908fcd2697d60",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.688Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-08T06-50-48-562Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-08T07-13-45-900Z-multi-chaos.json",
+      "sha256": "2a78de82c36d4b684b9b4701dcb1fe88d0e2adb605d24ac848ddac7ead22858c",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T13:27:04.675Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-08T07-13-45-900Z-multi-chaos"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-516Z-multi-parity.json",
+      "sha256": "ce36d6a4918b9a78018f5aacb77bf8b3f26c1b324af48829a6b4ac382e20dc51",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:13:28.516Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-13-28-516Z-multi-parity"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-520Z-multi-parity.json",
+      "sha256": "9c2a66d8d7c3d7596018bd3fbed87793bc7d049d22f464459d4a937f89da7e7e",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:13:28.522Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-13-28-520Z-multi-parity"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-526Z-multi-parity.json",
+      "sha256": "8bd43fbd5e98252368acc43053dfb4bfb90bd959508b5163d656230135660f17",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:13:28.527Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-13-28-526Z-multi-parity"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-13-28-527Z-multi-repeatability-workload.json",
+      "sha256": "d18051aec4c00447859c41c144632c03afd0b24c0eab152b8f73ae52416f5e95",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:13:28.529Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-13-28-527Z-multi-repeatability-workload"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-394Z-multi-parity.json",
+      "sha256": "1c5cc0bc4cf680014890857d3e694f3b29d92fcaf75e3e378e06e0628584abcb",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:14:31.395Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-14-31-394Z-multi-parity"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-399Z-multi-parity.json",
+      "sha256": "eefd627a90dbb2a3d24e65f2494656fbe2a7dedb7a72ffa16f459a1b4cd68e47",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:14:31.400Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-14-31-399Z-multi-parity"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-17T14-14-31-404Z-multi-parity.json",
+      "sha256": "84e99ab1398c8f2139083930983cc5b131188b00e47eed101a9cdf170bb4eaa7",
+      "generated_by": "filesystem-scan",
+      "generated_at": "2026-08-17T14:14:31.405Z",
+      "provider": null,
+      "run_type": "dev",
+      "partition": "dev",
+      "run_id": "2026-08-17T14-14-31-404Z-multi-parity"
     }
   ]
 }

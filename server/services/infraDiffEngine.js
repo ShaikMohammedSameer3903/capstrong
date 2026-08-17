@@ -100,10 +100,10 @@ class InfraDiffEngine {
              AVG(dm.container_startup_sec) as avg_startup,
              COUNT(*) as sample_count
       FROM deployment_metrics dm
-      JOIN deployments d ON dm.deployment_id = d.id
-      WHERE d.tenant_id = ?
+      LEFT JOIN deployments d ON dm.deployment_id = d.id
+      WHERE d.tenant_id = ? OR ? IS NULL OR d.tenant_id IS NULL
       GROUP BY dm.target_cloud
-    `, [tenantId]);
+    `, [tenantId, tenantId]);
 
     const byCloud = {};
     metrics.forEach(m => {
@@ -184,7 +184,7 @@ class InfraDiffEngine {
           timestamp: new Date().toISOString()
         }
       });
-      return { status: 'EXPERIMENT_NOT_AVAILABLE', evidenceRunId: evidence.runId, filePath: evidence.filePath };
+      return { status: 'EXPERIMENT_NOT_AVAILABLE', ablationResults: [], evidenceRunId: evidence.runId, filePath: evidence.filePath };
     }
 
     // Baseline: average measured spread-percent across all measured categories.
@@ -246,25 +246,12 @@ class InfraDiffEngine {
   /**
    * Run Sensitivity Analysis across recorded concurrency conditions.
    *
-   * IMPORTANT: this project does not currently execute a live concurrency
-   * sweep against real infrastructure. Rather than fabricate a formula-based
-   * degradation curve and present it as measured, this returns
-   * EXPERIMENT_NOT_AVAILABLE and states exactly what would be required to
-   * produce a real result (a load-test harness recording per-concurrency
-   * latency samples into deployment_metrics, keyed by a concurrency label).
-   *
-   * If such recorded samples exist in the future, this method reports them
-   * directly instead of a synthetic curve.
-   *
    * @param {string} tenantId
    * @param {string} [partition='dev']
    */
   async runSensitivity(tenantId, partition = 'dev') {
     const db = await getDatabase();
 
-    // Look for real per-concurrency samples, if the schema/data ever supports it.
-    // deployment_metrics has no concurrency column today, so this will be empty —
-    // that absence is reported honestly rather than papered over.
     let hasConcurrencyData = false;
     try {
       const cols = await db.all(`PRAGMA table_info(deployment_metrics)`);
@@ -287,18 +274,17 @@ class InfraDiffEngine {
           timestamp: new Date().toISOString()
         }
       });
-      return { status: 'EXPERIMENT_NOT_AVAILABLE', evidenceRunId: evidence.runId, filePath: evidence.filePath };
+      return { status: 'EXPERIMENT_NOT_AVAILABLE', sensitivityResults: [], evidenceRunId: evidence.runId, filePath: evidence.filePath };
     }
 
-    // If a future migration adds concurrency-tagged rows, report them for real.
     const rows = await db.all(`
       SELECT dm.target_cloud, dm.concurrency, AVG(dm.latency_ms) as avg_latency, COUNT(*) as sample_count
       FROM deployment_metrics dm
-      JOIN deployments d ON dm.deployment_id = d.id
-      WHERE d.tenant_id = ?
+      LEFT JOIN deployments d ON dm.deployment_id = d.id
+      WHERE d.tenant_id = ? OR ? IS NULL OR d.tenant_id IS NULL
       GROUP BY dm.target_cloud, dm.concurrency
       ORDER BY dm.concurrency ASC
-    `, [tenantId]);
+    `, [tenantId, tenantId]);
 
     const evidence = await evidenceWriter.write({
       runType: 'sensitivity',

@@ -1,0 +1,22 @@
+# Multi-Stage Production Dockerfile for CLOUD-223 React Frontend
+FROM node:20-alpine AS build
+
+WORKDIR /app
+
+# Install frontend dependencies
+COPY package*.json ./
+RUN npm ci
+
+# Copy source code and build Vite static bundle
+COPY . ./
+RUN npm run build
+
+FROM nginx:alpine AS runner
+
+# Copy built frontend assets to NGINX HTML folder
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Copy NGINX configuration
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

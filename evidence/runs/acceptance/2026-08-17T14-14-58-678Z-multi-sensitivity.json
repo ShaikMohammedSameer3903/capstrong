@@ -1,0 +1,17 @@
+{
+  "_evidenceMeta": {
+    "runId": "sensitivity-2026-08-17T14-14-58-678Z-b5b62378",
+    "runType": "sensitivity",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/infraDiffEngine.js",
+    "generatedAt": "2026-08-17T14:14:58.678Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "status": "EXPERIMENT_NOT_AVAILABLE",
+    "reason": "No concurrency-sweep load-test data is recorded (deployment_metrics has no concurrency dimension). A real sensitivity result requires a load-test harness that records per-concurrency latency samples.",
+    "timestamp": "2026-08-17T14:14:58.678Z"
+  }
+}

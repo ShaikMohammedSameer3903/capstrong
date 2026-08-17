@@ -556,6 +556,20 @@ class AzureDeploymentProvider extends IDeploymentProvider {
       message: `[Azure ARM Engine] Started Azure Web App ${resourceId || deploymentId}.`
     };
   }
+  getCapabilityMatrix() {
+    return {
+      provider: 'Azure',
+      capabilities: {
+        compute: true,
+        deployment: true,
+        monitoring: true,
+        kubernetes: true, // AKS
+        serverless: true, // Azure Functions
+        iac: true, // ARM/Bicep
+        autoScaling: true
+      }
+    };
+  }
 }
 
 module.exports = AzureDeploymentProvider;

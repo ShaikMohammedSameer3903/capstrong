@@ -1,7 +1,7 @@
 {
-  "name": "azure-healthcare-server",
+  "name": "cloud223-platform-abstraction-server",
   "version": "1.0.0",
-  "description": "Live Azure Integration Backend Service for Healthcare Operations Dashboard",
+  "description": "CLOUD-223 Application Platform Abstraction & Multi-Cloud Engine Backend",
   "main": "index.js",
   "engines": {
     "node": "20.x",
@@ -12,6 +12,7 @@
     "install-prebuilt": "npm install --build-from-source=false"
   },
   "dependencies": {
+    "@kubernetes/client-node": "^0.21.0",
     "@aws-sdk/client-api-gateway": "^3.1071.0",
     "@aws-sdk/client-auto-scaling": "^3.1071.0",
     "@aws-sdk/client-backup": "^3.1068.0",

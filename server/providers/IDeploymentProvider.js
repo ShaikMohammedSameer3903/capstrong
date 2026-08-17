@@ -131,6 +131,24 @@ class IDeploymentProvider {
   }
 
   /**
+   * Return capability matrix metadata for this cloud provider
+   */
+  getCapabilityMatrix() {
+    return {
+      provider: 'unknown',
+      capabilities: {
+        compute: false,
+        deployment: false,
+        monitoring: false,
+        kubernetes: false,
+        serverless: false,
+        iac: false,
+        autoScaling: false
+      }
+    };
+  }
+
+  /**
    * Normalize provider-specific deployment status into standardized CLOUD-223 contract status
    */
   normalizeStatus(rawStatus) {

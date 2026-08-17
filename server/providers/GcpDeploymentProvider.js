@@ -414,6 +414,20 @@ class GcpDeploymentProvider extends IDeploymentProvider {
       return [{ timestamp: new Date().toISOString(), level: 'WARN', step: 'CLOUD_LOGGING', message: `Logs query notice: ${err.message}` }];
     }
   }
+  getCapabilityMatrix() {
+    return {
+      provider: 'GCP',
+      capabilities: {
+        compute: true,
+        deployment: true,
+        monitoring: true,
+        kubernetes: true, // GKE
+        serverless: true, // Cloud Run / Cloud Functions
+        iac: true, // Deployment Manager / Terraform
+        autoScaling: true
+      }
+    };
+  }
 }
 
 module.exports = GcpDeploymentProvider;

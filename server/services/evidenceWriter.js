@@ -153,7 +153,7 @@ class EvidenceWriter {
     const db = await getDatabase();
     const rows = await db.all('SELECT * FROM evidence_runs ORDER BY generated_at ASC');
 
-    const files = rows.map(r => ({
+    let files = rows.map(r => ({
       file: r.file_path,
       sha256: r.sha256,
       generated_by: r.generated_by,
@@ -163,6 +163,47 @@ class EvidenceWriter {
       partition: r.partition,
       run_id: r.run_id
     }));
+
+    // Fallback/Supplement: Scan evidence/runs directory recursively
+    const scanDir = (dir) => {
+      let results = [];
+      if (!fs.existsSync(dir)) return results;
+      const list = fs.readdirSync(dir);
+      list.forEach(file => {
+        const filePath = path.join(dir, file);
+        const stat = fs.statSync(filePath);
+        if (stat && stat.isDirectory()) {
+          results = results.concat(scanDir(filePath));
+        } else if (file.endsWith('.json')) {
+          results.push(filePath);
+        }
+      });
+      return results;
+    };
+
+    const diskFiles = scanDir(EVIDENCE_ROOT);
+    const existingRelPaths = new Set(files.map(f => f.file));
+
+    for (const absPath of diskFiles) {
+      const relPath = path.relative(path.resolve(__dirname, '..', '..'), absPath).replace(/\\/g, '/');
+      if (!existingRelPaths.has(relPath)) {
+        try {
+          const content = fs.readFileSync(absPath, 'utf-8');
+          const sha256 = crypto.createHash('sha256').update(content).digest('hex');
+          const stat = fs.statSync(absPath);
+          files.push({
+            file: relPath,
+            sha256,
+            generated_by: 'filesystem-scan',
+            generated_at: stat.mtime.toISOString(),
+            provider: null,
+            run_type: relPath.includes('acceptance') ? 'acceptance' : 'dev',
+            partition: relPath.includes('acceptance') ? 'acceptance' : 'dev',
+            run_id: path.basename(absPath, '.json')
+          });
+        } catch (_) {}
+      }
+    }
 
     const manifest = {
       generatedAt: new Date().toISOString(),

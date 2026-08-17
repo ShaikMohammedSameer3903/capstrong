@@ -1,0 +1,59 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-17T14-15-01-128Z-0b9810af",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "test-suite/negative-tests/NT-3-false-success.cjs",
+    "generatedAt": "2026-08-17T14:15:01.128Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "NT-3",
+    "testName": "False-Positive Deployment Success Prevention",
+    "passed": true,
+    "results": {
+      "testA_invalidProvider": {
+        "description": "Requesting an unsupported provider must throw, never return a usable success-reporting provider.",
+        "passed": true,
+        "threw": true,
+        "message": "Unsupported deployment target provider: invalid-cloud-provider"
+      },
+      "testB_sandboxLabeled": {
+        "description": "A deployment executed without real cloud credentials must be labeled executionMode=SANDBOX / isSandbox=true, and must never claim executionMode=REAL.",
+        "passed": true,
+        "contractFieldsPresent": true,
+        "observedExecutionMode": "SANDBOX",
+        "observedIsSandbox": true,
+        "observedSuccess": true,
+        "observedStatus": "SIMULATED"
+      },
+      "testC_malformedSpec": {
+        "description": "A malformed app spec (missing required fields) must fail safely, never fabricate success=true.",
+        "passed": true,
+        "threw": true,
+        "fabricatedSuccess": false
+      },
+      "testD_credentialedRealFailure": {
+        "description": "A deployment with credentials present whose real API call fails must be reported as executionMode=REAL, success=false, status=FAILED — never SANDBOX, never a fabricated resource.",
+        "passed": true,
+        "correctlyReportsRealFailure": true,
+        "noFabricatedResource": true,
+        "noFalseSandboxClassification": true,
+        "observedExecutionMode": "REAL",
+        "observedIsSandbox": false,
+        "observedSuccess": false,
+        "observedStatus": "FAILED",
+        "observedResourceId": null
+      },
+      "testE_credentialedRealSuccess": {
+        "description": "A deployment with credentials present whose real API call succeeds must be reported as executionMode=REAL, success=true, status=SUCCEEDED.",
+        "passed": true,
+        "observedExecutionMode": "REAL",
+        "observedIsSandbox": false,
+        "observedSuccess": true,
+        "observedStatus": "SUCCEEDED"
+      }
+    }
+  }
+}
