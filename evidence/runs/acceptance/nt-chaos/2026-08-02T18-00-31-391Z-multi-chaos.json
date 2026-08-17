@@ -1,0 +1,41 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-08-02T18-00-31-391Z-daeb6e24",
+    "runType": "chaos",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-08-02T18:00:31.391Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-1785693631367-856",
+    "tenantId": "demo-org-001",
+    "targetResource": "test-resource-nt5",
+    "experimentType": "STORAGE_DISCONNECT",
+    "status": "Completed",
+    "rtoSeconds": 0.024,
+    "rpoSeconds": 0,
+    "realPerturbation": false,
+    "simulationMethod": "simulated storage disconnect via I/O error injection",
+    "fidelityLevel": "low — no container volume accessible",
+    "durationMs": 24,
+    "startedAt": "2026-08-02T18:00:31.367Z",
+    "completedAt": "2026-08-02T18:00:31.391Z",
+    "details": {
+      "experiment": "STORAGE_DISCONNECT",
+      "method": "simulated storage disconnect via I/O error injection",
+      "fidelity": "low — no container volume accessible",
+      "realExecution": false,
+      "parameters": {
+        "targetResource": "test-resource-nt5",
+        "action": "volume-unmount"
+      },
+      "measurements": {
+        "storageDisconnected": false,
+        "simulatedDisconnectMs": 30,
+        "note": "See docs/o4-fault-simulation-method.md for fidelity analysis."
+      }
+    }
+  }
+}

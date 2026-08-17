@@ -1,0 +1,18 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-02T15-41-01-968Z-07d05934",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "test-suite/negative-tests/NT-3-false-success.cjs",
+    "generatedAt": "2026-08-02T15:41:01.968Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "NT-3",
+    "testName": "False-Positive Deployment Success Prevention",
+    "passed": true,
+    "caughtError": true,
+    "errorMessage": "Unsupported deployment target provider: invalid-cloud-provider"
+  }
+}

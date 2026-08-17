@@ -1,0 +1,1447 @@
+﻿[
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/App.css",
+        "lines":  184,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/App.tsx",
+        "lines":  524,
+        "dependencies":  "react-router-dom, ./providers/AuthProvider, ./store/appStore, ./store/operationStore, ./store/cloudStore, socket.io-client, ./services/api, ./components/layout/Sidebar, ./components/layout/Header, ./components/layout/ActivityPanel, ./context/ProviderContext, react, ./components/common/ProtectedRoute, ./pages/Login, ./config/environment, @azure/msal-react, ./components/layout/AnimatedPage, framer-motion, ./components/ErrorBoundary"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/auth-redirect.ts",
+        "lines":  60,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/index.css",
+        "lines":  2377,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/main.tsx",
+        "lines":  43,
+        "dependencies":  "react, react-dom/client, react-router-dom, @azure/msal-react, ./providers/AuthProvider, ./providers/ThemeProvider, ./App.tsx, ./providers/GoogleAuthProvider, ./config/msalInstance, ./telemetry, ./index.css"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/telemetry.ts",
+        "lines":  41,
+        "dependencies":  "@opentelemetry/sdk-trace-web, @opentelemetry/auto-instrumentations-web, @opentelemetry/context-zone, @opentelemetry/exporter-trace-otlp-http, @opentelemetry/sdk-trace-base, @opentelemetry/instrumentation"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/assets/hero.png",
+        "lines":  98,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/assets/react.svg",
+        "lines":  1,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/assets/vite.svg",
+        "lines":  1,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/ErrorBoundary.tsx",
+        "lines":  90,
+        "dependencies":  "react, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/cloud/CloudOnboarding.tsx",
+        "lines":  277,
+        "dependencies":  "react, lucide-react, @azure/msal-react, ../../services/api, ../../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/AnimatedCounter.tsx",
+        "lines":  54,
+        "dependencies":  "react, framer-motion"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/EmptyState.tsx",
+        "lines":  139,
+        "dependencies":  "lucide-react, ../../store/appStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/ErrorResolution.tsx",
+        "lines":  117,
+        "dependencies":  "lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/LiveBadge.tsx",
+        "lines":  82,
+        "dependencies":  "react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/LoginButton.tsx",
+        "lines":  209,
+        "dependencies":  "react, ../../providers/AuthProvider, @azure/msal-react, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/OnboardingWizard.tsx",
+        "lines":  685,
+        "dependencies":  "react, lucide-react, ../../store/appStore, @azure/msal-react, @azure/msal-browser, ../../providers/AuthProvider, ../../services/api, ../../config/msalConfig"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/common/ProtectedRoute.tsx",
+        "lines":  203,
+        "dependencies":  "react, react-router-dom, ../../providers/AuthProvider, ../../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/layout/ActivityPanel.tsx",
+        "lines":  342,
+        "dependencies":  "react, ../../store/operationStore, ../../store/appStore, ../../store/cloudStore, lucide-react, ../../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/layout/AnimatedPage.tsx",
+        "lines":  29,
+        "dependencies":  "react, framer-motion"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/layout/Header.tsx",
+        "lines":  269,
+        "dependencies":  "react-router-dom, lucide-react, ../../providers/ThemeProvider, ../../store/cloudStore, ../../store/appStore, react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/layout/HealthWidget.tsx",
+        "lines":  222,
+        "dependencies":  "react, lucide-react, ../../config/environment"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/layout/Sidebar.tsx",
+        "lines":  310,
+        "dependencies":  "react, react-router-dom, lucide-react, ../../providers/AuthProvider, ../../store/appStore, ../../store/cloudStore, ./HealthWidget"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/AttackTrendChart.tsx",
+        "lines":  56,
+        "dependencies":  "react, recharts, ../../types/security"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/IncidentTable.tsx",
+        "lines":  107,
+        "dependencies":  "react, ../../types/security, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/LiveAlerts.tsx",
+        "lines":  47,
+        "dependencies":  "react, ../../types/security, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/SeverityChart.tsx",
+        "lines":  56,
+        "dependencies":  "react, recharts, ../../types/security"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/ThreatHeatMap.tsx",
+        "lines":  71,
+        "dependencies":  "react, ../../types/security"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/ThreatSummary.tsx",
+        "lines":  67,
+        "dependencies":  "react, lucide-react, ../../types/security"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/Timeline.tsx",
+        "lines":  62,
+        "dependencies":  "react, ../../types/security, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/security/TopAttackTypes.tsx",
+        "lines":  43,
+        "dependencies":  "react, recharts, ../../types/security"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/topology/AwsTopology.tsx",
+        "lines":  151,
+        "dependencies":  "react, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/components/topology/AzureTopology.tsx",
+        "lines":  155,
+        "dependencies":  "react, lucide-react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/config/authConfig.ts",
+        "lines":  15,
+        "dependencies":  "./msalConfig"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/config/environment.ts",
+        "lines":  13,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/config/msalConfig.ts",
+        "lines":  99,
+        "dependencies":  "@azure/msal-browser"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/config/msalInstance.ts",
+        "lines":  35,
+        "dependencies":  "@azure/msal-browser, ./msalConfig"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/context/ProviderContext.tsx",
+        "lines":  72,
+        "dependencies":  "react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/data/liveAzureResources.json",
+        "lines":  99,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/data/readinessData.ts",
+        "lines":  333,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/hooks/useAutoRefresh.ts",
+        "lines":  39,
+        "dependencies":  "react, ../store/appStore, ./useAzureData"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/hooks/useAzureData.ts",
+        "lines":  148,
+        "dependencies":  "react, ../store/appStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/hooks/useSecurityEvents.ts",
+        "lines":  68,
+        "dependencies":  "react, ../types/security, ../services/securityApi"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/hooks/useSyncStatus.ts",
+        "lines":  92,
+        "dependencies":  "react, ../providers/AuthProvider, socket.io-client, ../config/environment"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Actions.tsx",
+        "lines":  852,
+        "dependencies":  "react, lucide-react, ../store/appStore, ../providers/AuthProvider, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/AdminDashboard.tsx",
+        "lines":  696,
+        "dependencies":  "react, lucide-react, ../services/api, ../config/environment"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/AiAssistant.tsx",
+        "lines":  255,
+        "dependencies":  "react, lucide-react, ../store/appStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/AwsDashboard.tsx",
+        "lines":  522,
+        "dependencies":  "react, lucide-react, recharts, react-router-dom, ../store/appStore, ../store/cloudStore, ../services/api, ../components/common/LiveBadge, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/AzureDashboard.tsx",
+        "lines":  350,
+        "dependencies":  "react, lucide-react, recharts, react-router-dom, ../store/appStore, ../store/cloudStore, ../services/api, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/BackupDashboard.tsx",
+        "lines":  406,
+        "dependencies":  "react, lucide-react, recharts, ../store/appStore, ../store/cloudStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/CloudAccountManagement.tsx",
+        "lines":  1134,
+        "dependencies":  "react, lucide-react, ../services/api, ../store/cloudStore, @azure/msal-react, ../store/appStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/CommandCenter.tsx",
+        "lines":  467,
+        "dependencies":  "react, ../store/appStore, ../store/operationStore, lucide-react, ../services/api, ../providers/AuthProvider"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/CostDashboard.tsx",
+        "lines":  303,
+        "dependencies":  "react, lucide-react, recharts, ../store/appStore, ../store/cloudStore, ../services/api, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Dashboard.tsx",
+        "lines":  848,
+        "dependencies":  "react, lucide-react, recharts, react-router-dom, ../store/appStore, ../store/cloudStore, ../services/api, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/DashboardHome.tsx",
+        "lines":  341,
+        "dependencies":  "react, react-router-dom, lucide-react, ../services/api, ../store/cloudStore, ../providers/AuthProvider, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/DemoTour.tsx",
+        "lines":  441,
+        "dependencies":  "react, ../store/appStore, lucide-react, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Discovery.tsx",
+        "lines":  391,
+        "dependencies":  "react, react-router-dom, lucide-react, ../store/cloudStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/ExecutiveDashboard.tsx",
+        "lines":  752,
+        "dependencies":  "react, lucide-react, recharts, ../store/cloudStore, ../services/api, ../services/cloudAccounts, ../components/common/AnimatedCounter, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/GcpDashboard.tsx",
+        "lines":  227,
+        "dependencies":  "react, lucide-react, recharts, react-router-dom, ../store/appStore, ../store/cloudStore, ../services/api, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/GovernanceDashboard.tsx",
+        "lines":  318,
+        "dependencies":  "react, lucide-react, recharts, ../store/appStore, ../store/cloudStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Incidents.tsx",
+        "lines":  249,
+        "dependencies":  "react, lucide-react, ../store/appStore, ../providers/AuthProvider, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Login.tsx",
+        "lines":  906,
+        "dependencies":  "react, react-router-dom, @azure/msal-react, ../providers/AuthProvider, lucide-react, ../config/environment, ../components/common/LoginButton"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/MultiCloudDashboard.tsx",
+        "lines":  251,
+        "dependencies":  "react, lucide-react, recharts, ../store/cloudStore, ../store/appStore, ../services/api, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Reports.tsx",
+        "lines":  337,
+        "dependencies":  "react, lucide-react, ../services/api, ../store/appStore, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/RiskManagement.tsx",
+        "lines":  291,
+        "dependencies":  "react, lucide-react, ../store/appStore, ../store/cloudStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/SecuritySOC.tsx",
+        "lines":  88,
+        "dependencies":  "react, lucide-react, ../hooks/useSecurityEvents, ../components/security/ThreatSummary, ../components/security/IncidentTable, ../components/security/SeverityChart, ../components/security/Timeline, ../components/security/LiveAlerts, ../components/security/ThreatHeatMap, ../components/security/ProviderDistribution, ../components/security/AttackTrendChart, ../components/security/TopAttackTypes"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Settings.tsx",
+        "lines":  849,
+        "dependencies":  "react, lucide-react, ../store/appStore, ../providers/AuthProvider, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/Showcase.tsx",
+        "lines":  195,
+        "dependencies":  "react, lucide-react, recharts, ../services/api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/SOCDashboard.tsx",
+        "lines":  298,
+        "dependencies":  "react, lucide-react, recharts, ../store/appStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/ThreatHuntingDashboard.tsx",
+        "lines":  219,
+        "dependencies":  "react, lucide-react, ../store/cloudStore, ../store/appStore, ../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/UnifiedBackupDashboard.tsx",
+        "lines":  157,
+        "dependencies":  "react, lucide-react, recharts, ../services/api, ../store/cloudStore, ../store/appStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/UnifiedCostDashboard.tsx",
+        "lines":  152,
+        "dependencies":  "react, lucide-react, recharts, ../services/api, ../store/cloudStore, ../store/appStore, ../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/UnifiedGovernanceDashboard.tsx",
+        "lines":  129,
+        "dependencies":  "react, lucide-react, recharts, ../services/api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/UnifiedSOCDashboard.tsx",
+        "lines":  210,
+        "dependencies":  "react, lucide-react, recharts, ../services/api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/WelcomeOnboarding.tsx",
+        "lines":  309,
+        "dependencies":  "react, react-router-dom, lucide-react, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsAiAssistant.tsx",
+        "lines":  5,
+        "dependencies":  "../AiAssistant"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsBackup.tsx",
+        "lines":  133,
+        "dependencies":  "react, lucide-react, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsCost.tsx",
+        "lines":  215,
+        "dependencies":  "react, lucide-react, recharts, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsGovernance.tsx",
+        "lines":  185,
+        "dependencies":  "react, lucide-react, recharts, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsMonitoring.tsx",
+        "lines":  233,
+        "dependencies":  "react, lucide-react, recharts, ../../store/appStore, ../../context/ProviderContext, ../../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsReports.tsx",
+        "lines":  176,
+        "dependencies":  "react, lucide-react, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsResources.tsx",
+        "lines":  160,
+        "dependencies":  "react, lucide-react, ../../store/appStore, ../../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/aws/AwsSecurity.tsx",
+        "lines":  143,
+        "dependencies":  "react, lucide-react, ../../store/appStore, ../../context/ProviderContext, ../../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureAiAssistant.tsx",
+        "lines":  5,
+        "dependencies":  "../AiAssistant"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureBackup.tsx",
+        "lines":  4,
+        "dependencies":  "../BackupDashboard"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureCost.tsx",
+        "lines":  5,
+        "dependencies":  "../CostDashboard"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureGovernance.tsx",
+        "lines":  4,
+        "dependencies":  "../GovernanceDashboard"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureMonitoring.tsx",
+        "lines":  276,
+        "dependencies":  "react, lucide-react, recharts, ../../store/appStore, ../../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureReports.tsx",
+        "lines":  4,
+        "dependencies":  "../Reports"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureResources.tsx",
+        "lines":  327,
+        "dependencies":  "react, lucide-react, ../../store/appStore, ../../services/api, ../../providers/AuthProvider"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/azure/AzureSecurity.tsx",
+        "lines":  329,
+        "dependencies":  "react, lucide-react, ../../store/appStore, ../../services/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/gcp/GcpCost.tsx",
+        "lines":  86,
+        "dependencies":  "react, lucide-react, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/gcp/GcpMonitoring.tsx",
+        "lines":  113,
+        "dependencies":  "react, lucide-react, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/gcp/GcpResources.tsx",
+        "lines":  131,
+        "dependencies":  "react, lucide-react, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/gcp/GcpSecurity.tsx",
+        "lines":  114,
+        "dependencies":  "react, lucide-react, ../../store/cloudStore, ../../services/api, ../../components/common/LiveBadge, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/AiOptimizationCenter.tsx",
+        "lines":  752,
+        "dependencies":  "react, lucide-react, recharts, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/BenchmarkEngine.tsx",
+        "lines":  292,
+        "dependencies":  "react, lucide-react, recharts, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/ComplianceCenter.tsx",
+        "lines":  446,
+        "dependencies":  "react, lucide-react, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/FinOpsDashboard.tsx",
+        "lines":  392,
+        "dependencies":  "react, lucide-react, recharts, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/MigrationCenter.tsx",
+        "lines":  368,
+        "dependencies":  "react, lucide-react, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/PredictiveAnalytics.tsx",
+        "lines":  469,
+        "dependencies":  "react, lucide-react, recharts, ../../services/api, ../../store/cloudStore, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/QuickSightAnalytics.tsx",
+        "lines":  724,
+        "dependencies":  "react, lucide-react, recharts, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/ResearchDashboard.tsx",
+        "lines":  583,
+        "dependencies":  "react, lucide-react, recharts, ../../services/api, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/pages/multicloud/WorkloadSimulator.tsx",
+        "lines":  906,
+        "dependencies":  "react, lucide-react, recharts, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/providers/AuthProvider.tsx",
+        "lines":  602,
+        "dependencies":  "react, @azure/msal-react, @azure/msal-browser, ../config/msalConfig, ../types, ../services/api, ./GoogleAuthProvider, ../config/environment, ../store/appStore, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/providers/GoogleAuthProvider.tsx",
+        "lines":  100,
+        "dependencies":  "react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/providers/ThemeProvider.tsx",
+        "lines":  61,
+        "dependencies":  "react"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/api.ts",
+        "lines":  147,
+        "dependencies":  "../config/environment"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/cloudAccounts.ts",
+        "lines":  19,
+        "dependencies":  "./api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/complianceService.ts",
+        "lines":  10,
+        "dependencies":  "./api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/costService.ts",
+        "lines":  10,
+        "dependencies":  "./api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/executiveService.ts",
+        "lines":  10,
+        "dependencies":  "./api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/securityApi.ts",
+        "lines":  29,
+        "dependencies":  "./api, ../types/security"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/services/securityService.ts",
+        "lines":  10,
+        "dependencies":  "./api, ../store/cloudStore"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/store/appStore.ts",
+        "lines":  393,
+        "dependencies":  "zustand, zustand/middleware, ../types"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/store/cloudStore.ts",
+        "lines":  272,
+        "dependencies":  "zustand, zustand/middleware"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/store/operationStore.ts",
+        "lines":  51,
+        "dependencies":  "zustand"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/types/index.ts",
+        "lines":  421,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/types/security.ts",
+        "lines":  36,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/src/utils/formatters.ts",
+        "lines":  39,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/.node-version",
+        "lines":  1,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/.npmrc",
+        "lines":  1,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/approve-users.js",
+        "lines":  5,
+        "dependencies":  "./db/database.js"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/check_logs.js",
+        "lines":  7,
+        "dependencies":  "sqlite3"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/database.sqlite",
+        "lines":  0,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/generate-certs.js",
+        "lines":  14,
+        "dependencies":  "selfsigned, fs, path"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/index.js",
+        "lines":  767,
+        "dependencies":  "./telemetry, ./services/bootstrapService, ./services/secretsManager, express, cors, https, fs, path, helmet, express-rate-limit, jsonwebtoken, jwks-rsa, applicationinsights, ./db/database, ./middleware/tenantContext, ./middleware/adminOnly, compression, ./middleware/requestTracker, ./middleware/validateJwt, ./middleware/subscriptionAccess, ./routes/auth, ./routes/search, ./routes/subscriptions, ./routes/resources, ./routes/monitoring, ./routes/actions, ./routes/incidents, ./routes/notifications, ./routes/audit, ./routes/onboarding, ./routes/billing, ./routes/cloudAccounts, ./routes/approvals, ./routes/security, ./routes/sync, ./routes/optimization, ./routes/performance, ./routes/predictive, ./routes/sagemaker, ./routes/migration, ./routes/finops, ./routes/compliance, ./services/awsSecurityService, ./routes/admin, ./routes/ai, ./routes/reports, ./routes/sentinel, ./routes/governance, ./services/defenderService, ./services/monitoringService, ./middleware/errorClassifier, ./services/startupValidator, ./db/migrations/v12_schema, ./services/reportingService, ./services/jobQueue, ./websockets/gateway, http"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/package.json",
+        "lines":  114,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/real-azure-test-results.json",
+        "lines":  24,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/telemetry.js",
+        "lines":  82,
+        "dependencies":  "@opentelemetry/sdk-node, @opentelemetry/auto-instrumentations-node, @opentelemetry/exporter-prometheus, @opentelemetry/exporter-trace-otlp-http, @azure/monitor-opentelemetry-exporter, @opentelemetry/api"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/test_api.cjs",
+        "lines":  39,
+        "dependencies":  "jsonwebtoken, http"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/test_azure.js",
+        "lines":  34,
+        "dependencies":  "@azure/identity, @azure/arm-resources, dotenv"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/verify_azure.cjs",
+        "lines":  49,
+        "dependencies":  "dotenv, @azure/identity, @azure/arm-resources"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/web.config",
+        "lines":  49,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/controllers/securityController.js",
+        "lines":  56,
+        "dependencies":  "../services/awsSecurityService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/db/database.js",
+        "lines":  547,
+        "dependencies":  "path, fs, sqlite3, sqlite, pg, bcryptjs"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/db/database.sqlite",
+        "lines":  0,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/db/pg_schema.sql",
+        "lines":  426,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/db/schema.sql",
+        "lines":  466,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/db/migrations/v12_schema.js",
+        "lines":  201,
+        "dependencies":  "../database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/adminOnly.js",
+        "lines":  34,
+        "dependencies":  "../services/auditLogger"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/errorClassifier.js",
+        "lines":  384,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/rbac.js",
+        "lines":  123,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/requestTracker.js",
+        "lines":  68,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/subscriptionAccess.js",
+        "lines":  115,
+        "dependencies":  "node-fetch, ../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/subscriptionSecurity.js",
+        "lines":  116,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/tenantContext.js",
+        "lines":  90,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/middleware/validateJwt.js",
+        "lines":  172,
+        "dependencies":  "jsonwebtoken, jwks-rsa, ../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/GcpProvider.js",
+        "lines":  595,
+        "dependencies":  "@google-cloud/compute, @google-cloud/storage, @google-cloud/security-center, @google-cloud/billing, ../services/secretsManager, googleapis, @google-cloud/run, @google-cloud/functions, @google-cloud/container, @google-cloud/logging, @google-cloud/monitoring"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/ProviderFactory.js",
+        "lines":  24,
+        "dependencies":  "./azure/AzureProvider, ./aws/AwsProvider, ./GcpProvider"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/aws/AwsCostService.js",
+        "lines":  269,
+        "dependencies":  "./AwsCredentialManager, @aws-sdk/client-cost-explorer, ../../middleware/errorClassifier, @aws-sdk/client-budgets, @aws-sdk/client-sts"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/aws/AwsCredentialManager.js",
+        "lines":  171,
+        "dependencies":  "@aws-sdk/client-sts, @aws-sdk/client-ec2, ../../services/secretsManager"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/aws/AwsProvider.js",
+        "lines":  1052,
+        "dependencies":  "../common/CloudProvider, ./AwsCredentialManager, @aws-sdk/client-ec2, @aws-sdk/client-ecs, @aws-sdk/client-eks, @aws-sdk/client-lambda, @aws-sdk/client-rds, @aws-sdk/client-dynamodb, @aws-sdk/client-s3, @aws-sdk/client-cloudwatch, @aws-sdk/client-cost-explorer, @aws-sdk/client-securityhub, @aws-sdk/client-guardduty, @aws-sdk/client-backup, @aws-sdk/client-cloudtrail, @aws-sdk/client-iam, @aws-sdk/client-route-53, @aws-sdk/client-elastic-load-balancing-v2, @aws-sdk/client-auto-scaling, @aws-sdk/client-elasticache, @aws-sdk/client-redshift, @aws-sdk/client-efs, @aws-sdk/client-secrets-manager, @aws-sdk/client-wafv2, @aws-sdk/client-cloudwatch-logs, @aws-sdk/client-health, @aws-sdk/client-service-quotas"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/aws/AwsProvider.js.bak",
+        "lines":  659,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/azure/AzureProvider.js",
+        "lines":  45,
+        "dependencies":  "../common/CloudProvider"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/providers/common/CloudProvider.js",
+        "lines":  38,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/actions.js",
+        "lines":  323,
+        "dependencies":  "express, ../db/database, ../middleware/rbac, ../services/actionService, ../services/discoveryEngine, ../middleware/subscriptionSecurity, ../services/drService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/admin.js",
+        "lines":  113,
+        "dependencies":  "express, ../db/database, ../services/auditLogger, ../middleware/validateJwt, ../middleware/adminOnly"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/ai.js",
+        "lines":  27,
+        "dependencies":  "express, ../services/aiService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/approvals.js",
+        "lines":  96,
+        "dependencies":  "express, ../db/database, ../middleware/rbac"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/audit.js",
+        "lines":  51,
+        "dependencies":  "express, ../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/auth.js",
+        "lines":  1187,
+        "dependencies":  "express, jsonwebtoken, bcryptjs, ../db/database, ../services/auditLogger, ../middleware/validateJwt, ../middleware/adminOnly, jwks-rsa, ../services/discoveryEngine, axios, ../services/secretsManager, @aws-sdk/client-sts, @aws-sdk/client-sso-oidc, @aws-sdk/client-sso"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/billing.js",
+        "lines":  48,
+        "dependencies":  "express, ../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/cloudAccounts.js",
+        "lines":  798,
+        "dependencies":  "express, ../db/database, ../providers/ProviderFactory, ../providers/aws/AwsCredentialManager, ../services/secretsManager, ../services/jobQueue, ../middleware/errorClassifier, ../services/auditLogger, @azure/identity, @google-cloud/storage, ../services/azureCredentialManager, ../services/discoveryEngine"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/compliance.js",
+        "lines":  43,
+        "dependencies":  "express, ../services/complianceService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/finops.js",
+        "lines":  76,
+        "dependencies":  "express, ../services/finopsService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/governance.js",
+        "lines":  218,
+        "dependencies":  "express, ../db/database, ../services/azureCredentialManager, ../middleware/errorClassifier, ../middleware/subscriptionSecurity, ../providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/incidents.js",
+        "lines":  52,
+        "dependencies":  "express, ../middleware/rbac, ../services/incidentService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/migration.js",
+        "lines":  36,
+        "dependencies":  "express, ../services/migrationService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/monitoring.js",
+        "lines":  1430,
+        "dependencies":  "express, ../db/database, ../services/monitoringService, ../services/defenderService, ../services/advisorService, ../services/healthService, ../services/riskEngine, ../services/cloudHealthService, ../services/cacheService, ../providers/ProviderFactory, ../middleware/subscriptionSecurity, @aws-sdk/client-cloudwatch, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/notifications.js",
+        "lines":  47,
+        "dependencies":  "express, ../services/notificationService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/onboarding.js",
+        "lines":  84,
+        "dependencies":  "express, ../db/database, ../providers/ProviderFactory, ../middleware/errorClassifier, ../middleware/adminOnly"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/optimization.js",
+        "lines":  75,
+        "dependencies":  "express, ../services/optimizationService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/performance.js",
+        "lines":  43,
+        "dependencies":  "express, ../services/performanceEngine, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/predictive.js",
+        "lines":  56,
+        "dependencies":  "express, ../services/predictiveService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/reports.js",
+        "lines":  173,
+        "dependencies":  "express, ../db/database, ../services/monitoringService, ../middleware/subscriptionSecurity, ../services/reportingService, ../middleware/errorClassifier, ../providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/resources.js",
+        "lines":  211,
+        "dependencies":  "express, ../db/database, ../services/discoveryEngine, ../services/auditLogger, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/sagemaker.js",
+        "lines":  86,
+        "dependencies":  "express, ../services/sagemakerService, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/search.js",
+        "lines":  69,
+        "dependencies":  "express, ../db/database, ../middleware/subscriptionSecurity, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/security.js",
+        "lines":  15,
+        "dependencies":  "express, ../controllers/securityController"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/sentinel.js",
+        "lines":  244,
+        "dependencies":  "express, ../db/database, ../services/azureCredentialManager, axios, ../middleware/errorClassifier, ../middleware/subscriptionSecurity, ../services/discoveryEngine, ../services/operationService, ../services/actionService, ../services/notificationService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/subscriptions.js",
+        "lines":  316,
+        "dependencies":  "express, ../db/database, ../middleware/rbac, ../services/discoveryEngine, ../services/jobQueue, ../services/azureCredentialManager, ../middleware/errorClassifier, ../middleware/subscriptionSecurity"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/routes/sync.js",
+        "lines":  75,
+        "dependencies":  "express, ../services/syncStatusService, ../services/discoveryEngine, ../middleware/errorClassifier"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/check_db.js",
+        "lines":  9,
+        "dependencies":  "path, sqlite3"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/database.sqlite",
+        "lines":  0,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/generateVerificationReport.js",
+        "lines":  60,
+        "dependencies":  "../db/database, fs, path"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/patch_discovery.js",
+        "lines":  24,
+        "dependencies":  "fs"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/patch_discovery_api.js",
+        "lines":  4,
+        "dependencies":  "fs"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/patch_frontend.js",
+        "lines":  31,
+        "dependencies":  "fs"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/patch_monitoring.js",
+        "lines":  133,
+        "dependencies":  "fs, ../providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/rewrite_aws.js",
+        "lines":  134,
+        "dependencies":  "fs, @aws-sdk/client-ec2, @aws-sdk/client-auto-scaling, @aws-sdk/client-health, @aws-sdk/client-service-quotas"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/rewrite_aws_provider.js",
+        "lines":  327,
+        "dependencies":  "fs, @aws-sdk/client-ec2, @aws-sdk/client-s3, @aws-sdk/client-iam, @aws-sdk/client-route-53, @aws-sdk/client-lambda, @aws-sdk/client-rds, @aws-sdk/client-dynamodb, @aws-sdk/client-ecs, @aws-sdk/client-eks, @aws-sdk/client-elastic-load-balancing-v2"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/rewrite_cost.js",
+        "lines":  91,
+        "dependencies":  "fs, @aws-sdk/client-cost-explorer"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/test_aws.js",
+        "lines":  26,
+        "dependencies":  "dotenv, ../db/database, ../providers/ProviderFactory, ../services/discoveryEngine"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/scripts/test_aws_sync.js",
+        "lines":  19,
+        "dependencies":  "path, sqlite3, ../providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/actionService.js",
+        "lines":  530,
+        "dependencies":  "./azureCredentialManager, ../db/database, ./notificationService, ./operationService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/advisorService.js",
+        "lines":  100,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/aiService.js",
+        "lines":  281,
+        "dependencies":  "../db/database, ../providers/ProviderFactory, @azure/openai"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/anomalyDetectionService.js",
+        "lines":  67,
+        "dependencies":  "../db/database, ./eventBus"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/auditLogger.js",
+        "lines":  54,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/authConfigValidator.js",
+        "lines":  214,
+        "dependencies":  "path"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/awsSecurityService.js",
+        "lines":  142,
+        "dependencies":  "../db/database, ./unifiedThreatEngine, ./lambdaService, winston"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/azureCredentialManager.js",
+        "lines":  209,
+        "dependencies":  "@azure/identity, @azure/arm-resources, @azure/arm-monitor, @azure/arm-policy, @azure/arm-recoveryservicesbackup, @azure/arm-consumption, @azure/arm-compute, @azure/arm-storage, @azure/arm-network, @azure/arm-authorization, @azure/arm-keyvault, ../db/database, ./secretsManager"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/bootstrapService.js",
+        "lines":  141,
+        "dependencies":  "fs, path, crypto, bcryptjs, dotenv"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/cacheService.js",
+        "lines":  90,
+        "dependencies":  "redis, ./logging/logger"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/cloudHealthService.js",
+        "lines":  106,
+        "dependencies":  "./defenderService, ./monitoringService, ./riskEngine"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/cloudTrailService.js",
+        "lines":  42,
+        "dependencies":  "@aws-sdk/client-cloudtrail, winston"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/complianceEngine.js",
+        "lines":  58,
+        "dependencies":  "../providers/ProviderFactory, ../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/complianceService.js",
+        "lines":  211,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/costEngine.js",
+        "lines":  47,
+        "dependencies":  "../providers/ProviderFactory, ../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/defenderService.js",
+        "lines":  185,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/discoveryEngine.js",
+        "lines":  872,
+        "dependencies":  "../db/database, ./azureCredentialManager, ./syncStatusService, ../websockets/gateway, ../providers/ProviderFactory, ./resourceGraphService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/drService.js",
+        "lines":  89,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/eventBus.js",
+        "lines":  45,
+        "dependencies":  "events, ../websockets/gateway, ./incidentService, ./actionService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/finopsService.js",
+        "lines":  308,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/governanceService.js",
+        "lines":  325,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/healthService.js",
+        "lines":  140,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/identityService.js",
+        "lines":  281,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/incidentService.js",
+        "lines":  224,
+        "dependencies":  "../db/database, ./notificationService, ../providers/ProviderFactory, ./aiService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/jobQueue.js",
+        "lines":  110,
+        "dependencies":  "../db/database, ./discoveryEngine, ../websockets/gateway"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/lambdaService.js",
+        "lines":  61,
+        "dependencies":  "@aws-sdk/client-iam, winston"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/migrationService.js",
+        "lines":  230,
+        "dependencies":  "../db/database, ./operationService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/monitoringService.js",
+        "lines":  531,
+        "dependencies":  "./azureCredentialManager, ../db/database, ../providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/notificationService.js",
+        "lines":  67,
+        "dependencies":  "../db/database, ../websockets/gateway"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/operationService.js",
+        "lines":  100,
+        "dependencies":  "../db/database, ./notificationService"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/optimizationService.js",
+        "lines":  699,
+        "dependencies":  "../db/database, ./operationService, ./advisorService, ${rec.current_sku}"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/performanceEngine.js",
+        "lines":  276,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/predictiveService.js",
+        "lines":  604,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/reportingService.js",
+        "lines":  116,
+        "dependencies":  "jspdf, jspdf-autotable, xlsx, node-cron, ../db/database, ./logging/logger"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/resourceGraphService.js",
+        "lines":  344,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/resourceTypeHandlers.js",
+        "lines":  93,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/riskEngine.js",
+        "lines":  314,
+        "dependencies":  "./azureCredentialManager, ../db/database, axios"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/sagemakerService.js",
+        "lines":  392,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/secretsManager.js",
+        "lines":  139,
+        "dependencies":  "@azure/keyvault-secrets, @azure/identity, @aws-sdk/client-secrets-manager, ./logging/logger, crypto"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/securityHubService.js",
+        "lines":  36,
+        "dependencies":  "@aws-sdk/client-securityhub, winston"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/startupValidator.js",
+        "lines":  100,
+        "dependencies":  "../db/database"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/syncStatusService.js",
+        "lines":  158,
+        "dependencies":  "../db/database, ../websockets/gateway"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/unifiedThreatEngine.js",
+        "lines":  179,
+        "dependencies":  "../db/database, ./defenderService, ../providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/services/logging/logger.js",
+        "lines":  33,
+        "dependencies":  "winston"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/server/websockets/gateway.js",
+        "lines":  111,
+        "dependencies":  "socket.io, jsonwebtoken, jwks-rsa"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/.env.example",
+        "lines":  27,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/.npmrc",
+        "lines":  1,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/API_AUDIT_REPORT.md",
+        "lines":  67,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/architecture-diagram.md",
+        "lines":  128,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/auth-redirect.html",
+        "lines":  57,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/AUTHENTICATION_AUDIT.md",
+        "lines":  206,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/azure-connectivity-report.md",
+        "lines":  109,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/AZURE_DASHBOARD_DATA_MISMATCH_REPORT.md",
+        "lines":  145,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/corrected-main.bicep",
+        "lines":  155,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/corrected-parameters.json",
+        "lines":  12,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/dashboard-audit-report.md",
+        "lines":  251,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/DASHBOARD_TRACE_MATRIX.md",
+        "lines":  18,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/DATABASE_AUDIT_REPORT.md",
+        "lines":  50,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/DISCOVERY_VALIDATION_REPORT.md",
+        "lines":  35,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/ERROR_REPORT.md",
+        "lines":  36,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/eslint.config.js",
+        "lines":  34,
+        "dependencies":  "@eslint/js, globals, eslint-plugin-react-hooks, eslint-plugin-react-refresh, typescript-eslint, eslint/config"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/FINAL_PRODUCTION_REPORT.md",
+        "lines":  37,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/healthcheck.cjs",
+        "lines":  38,
+        "dependencies":  "http"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/healthcheck.js",
+        "lines":  38,
+        "dependencies":  "http"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/IMPLEMENTATION_VERIFICATION_REPORT.md",
+        "lines":  74,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/index.html",
+        "lines":  71,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/live-data-verification-report.md",
+        "lines":  144,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/local-setup.md",
+        "lines":  44,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/main",
+        "lines":  0,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/migrate.cjs",
+        "lines":  15,
+        "dependencies":  "./server/db/database.js"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/migrate.js",
+        "lines":  15,
+        "dependencies":  "./server/db/database.js"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/MULTI_TENANT_SECURITY_AUDIT.md",
+        "lines":  84,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/package.json",
+        "lines":  58,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/PERFORMANCE_REPORT.md",
+        "lines":  47,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/PRODUCTION_DEPLOYMENT_REPORT.md",
+        "lines":  129,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/PRODUCTION_VERIFICATION_REPORT.md",
+        "lines":  41,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/project-documentation.html",
+        "lines":  1644,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/PROJECT_AUDIT.md",
+        "lines":  18,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/README.md",
+        "lines":  73,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/REALITY_VERIFICATION_REPORT.md",
+        "lines":  24,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/refactor.cjs",
+        "lines":  37,
+        "dependencies":  "fs, path, \\.\\.\\/utils\\/format, ../utils/format, ../components/ErrorBoundary"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/render.yaml",
+        "lines":  76,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/replace-formatters.cjs",
+        "lines":  57,
+        "dependencies":  "fs, path, ../utils/format, \\.\\.\\/utils\\/format, ../utils/formatters, ../../utils/format, \\.\\.\\/\\.\\.\\/utils\\/format, ../../utils/formatters"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/run_migration.cjs",
+        "lines":  6,
+        "dependencies":  "./server/db/migrations/v12_schema"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/scratch.ps1",
+        "lines":  37,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/security-review.md",
+        "lines":  94,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/start.cjs",
+        "lines":  53,
+        "dependencies":  "child_process, path"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/start.js",
+        "lines":  53,
+        "dependencies":  "child_process, path"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/testAws.cjs",
+        "lines":  17,
+        "dependencies":  "./server/db/database, ./server/providers/ProviderFactory"
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/tsconfig.app.json",
+        "lines":  25,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/tsconfig.json",
+        "lines":  7,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/tsconfig.node.json",
+        "lines":  24,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/vercel.json",
+        "lines":  8,
+        "dependencies":  ""
+    },
+    {
+        "relativePath":  "E:/cp-1/Azure-CloudOps/vite.config.ts",
+        "lines":  63,
+        "dependencies":  "vite, @vitejs/plugin-react, path"
+    }
+]

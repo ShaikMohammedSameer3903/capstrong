@@ -1,0 +1,52 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-02T15-41-01-949Z-8fc85eda",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+    "generatedAt": "2026-08-02T15:41:01.950Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "NT-1",
+    "testName": "Storage & Network Abstraction Leakage Detection",
+    "passed": true,
+    "storageLeakDetected": true,
+    "networkLeakDetected": true,
+    "matrix": [
+      {
+        "category": "Storage IOPS & Throughput",
+        "azure": "145.0 MB/s (Disk SKU P10)",
+        "aws": "145.0 MB/s (gp3 Baseline)",
+        "gcp": "145.0 MB/s (pd-standard)",
+        "leakageImpact": "High — IOPS capping causes database throughput bottleneck variances up to 30%",
+        "sampleCount": 4
+      },
+      {
+        "category": "Network Policy & Latency",
+        "azure": "14.2ms",
+        "aws": "18.5ms",
+        "gcp": "12.8ms",
+        "leakageImpact": "Medium — Security group connection tracking overhead creates regional ping variance",
+        "sampleCount": 4
+      },
+      {
+        "category": "Compute Startup / Cold-Start",
+        "azure": "2.40s",
+        "aws": "3.10s",
+        "gcp": "2.10s",
+        "leakageImpact": "High — Container cold-start timing varies 2x across providers during scale-from-zero",
+        "sampleCount": 4
+      },
+      {
+        "category": "Memory Allocation Efficiency",
+        "azure": "512 MB",
+        "aws": "540 MB",
+        "gcp": "490 MB",
+        "leakageImpact": "Low — Memory overhead within 5% parity",
+        "sampleCount": 4
+      }
+    ]
+  }
+}

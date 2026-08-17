@@ -1,0 +1,21 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-08T06-44-06-227Z-dd146613",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": "aws",
+    "generatedBy": "test-retry.cjs",
+    "generatedAt": "2026-08-08T06:44:06.227Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-NEG-003",
+    "scenario": "Temporary Failure Followed by Idempotent Retry",
+    "precondition": "Initial deployment attempt failed due to transient error",
+    "trigger": "Retry initiated with original idempotency key",
+    "expectedSafeResponse": "Retry succeeds without producing duplicate resources or stack collisions",
+    "observedResult": "Attempt 1: Failed (ETIMEDOUT). Attempt 2: Succeeded. Duplicate stacks created: false",
+    "recoveryEvidence": "CloudFormation stack update executed in-place cleanly.",
+    "residualRisk": "None. Idempotent key verification confirmed."
+  }
+}

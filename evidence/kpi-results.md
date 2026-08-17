@@ -1,0 +1,31 @@
+# KPI Results — Evidence-Backed Summary
+
+**Document ID**: CLOUD-223-KPI-RESULTS  
+**Date**: 2026-08-06 (KPI-2/3/4 remediated per Gate G0 audit)  
+**Manifest Reference**: `evidence/manifest.json`
+
+---
+
+## Baseline vs Target vs Achieved Table
+
+| KPI | Baseline | Target | Achieved | Test Condition | Variability / Uncertainty | Evidence Pointer |
+|-----|----------|--------|----------|----------------|---------------------------|------------------|
+| **KPI-1: Leakage Points Identified** | 0 | ≥ 3 distinct points | **3 distinct points** (Storage IOPS, Network latency, Cold-start) | Multi-cloud deployment pipeline comparison | 0% variance across runs | `evidence/runs/acceptance/nt-1/2026-08-02T15-25-34-291Z-multi-negative-test.json` |
+| **KPI-2: Behavioural Differences Quantified** | 0 | ≥ 5 variance categories | **5 variance categories** (Storage IOPS & Throughput, Network Policy & Latency, Compute Startup / Cold-Start, Memory Allocation Efficiency, CPU Utilization / Throttling), each with numeric per-provider values | `infraDiffEngine.getInfraMatrix()` against live `deployment_metrics` (5th category added by surfacing the previously-unused `avg_cpu` aggregate) | Ablation impact score 20.0% per signal (was 25.0% across 4 signals) | `evidence/o3-ablation.md`, `evidence/o3-condition-wise-error.md` |
+| **KPI-3: Deployment Success / Parity Score** | Not measured | Real, computed parity index (≥3 runs, with std dev) | **33.33% behavioural parity** across 3 multi-provider batches (1 of 3 batches — `app-inventory-service`, azure vs gcp — was equivalent within ±10% tolerance on all 5 signals; the other 2 were not, primarily on latency/startup/cpu) | `comparisonEngine.computeParityScore()` — real cross-provider comparison of `deployment_metrics` for Completed multi-provider deployment batches, ±10% tolerance per signal | **Std Dev = 47.14** (population std dev of per-batch 0/100 equivalence scores) | latest `parity` entry in `evidence/manifest.json`; underlying batches in `deployments`/`deployment_metrics` |
+| **KPI-4: Repeatability Across Trials** | Not measured | Std dev / 95% CI of KPI-1/2/3 across ≥3 trials | **3 independent trials** run via `repeatabilityEngine.runTrials()`: ablation signal count = [5,5,5] (Std Dev 0.0), variance category count = [5,5,5] (Std Dev 0.0), parity score % = [33.33, 33.33, 33.33] (Std Dev 0.0) | `repeatabilityEngine.computeVariability()` over 3 live re-invocations of `runAblation()`, `getInfraMatrix()`, `computeParityScore()` | Std Dev = 0.0 for all three KPIs (fully repeatable given the current, deterministic deployment data — no random simulation is used) | latest `repeatability` entry in `evidence/manifest.json` |
+| **KPI-5: Recovery Success Rate** | 0% | ≥ 80% recovery rate | **100% (5/5 Negative Tests Passed)** | Fault campaign (NT-1 to NT-5) | 0 failures out of 5 NT runs | `evidence/runs/acceptance/nt-5/2026-08-02T15-25-35-050Z-multi-negative-test.json` |
+
+---
+
+## KPI-2/3/4 Remediation Notes
+
+- **KPI-2** previously reported only 4 variance categories. `infraDiffEngine.getInfraMatrix()` was already querying `avg_cpu` from `deployment_metrics` but never used it. A 5th category, `CPU Utilization / Throttling`, was added using that existing query result, and `'cpu'` was added to the `signals` array in `runAblation()` so it flows through ablation/error-report evidence automatically.
+- **KPI-3** previously reported `test_deployment_engine.js`'s "100% Safety & Parity Check Pass", which is a pre-deployment credential/config check — not a behavioural parity measurement. `comparisonEngine.computeParityScore()` now computes a real score: it identifies applications with ≥2 distinct `Completed` target-cloud deployments as "batches" (3 found: `app-ecommerce-api`, `app-ai-recommendation`, `app-inventory-service`), compares `cpu`/`memory`/`latency`/`storage`/`startup` averages per provider within ±10% tolerance, and reports the % of batches that are behaviourally equivalent across all providers, plus the standard deviation of that score across batches. A 33.33% parity score is not a failure of the implementation — it is the honest, expected outcome of a project whose problem statement is that infrastructure differences *do* leak through the abstraction; 2 of 3 batches show real, measurable behavioural drift (primarily latency and cold-start).
+- **KPI-4** previously reported "Standard Deviation < 0.05s on RTO" — RTO (Recovery Time Objective) is a KPI-5 fault-recovery concept, not a repeatability metric for KPI-1/2/3. `repeatabilityEngine.computeVariability()` now runs `runAblation()`, `getInfraMatrix()`, and `computeParityScore()` three independent times and reports the standard deviation (and 95% CI) of each result. All three are currently perfectly repeatable (Std Dev 0.0) because the underlying deployment data is static seed data with no randomized workload generator yet — this is reported as-is rather than masked.
+
+---
+
+## Verification Statement
+
+All values in this table were generated by running `test-suite/run-all-tests.cjs`, `server/test_deployment_engine.js`, and the new `comparisonEngine.computeParityScore()` / `repeatabilityEngine.runTrials()` calls, all of which write evidence via `evidenceWriter.write()`. Checksums and timestamps are verified in `evidence/manifest.json`.

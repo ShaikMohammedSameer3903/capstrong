@@ -1,0 +1,41 @@
+{
+  "_evidenceMeta": {
+    "runId": "ablation-2026-08-02T15-25-02-411Z-ef9dedf6",
+    "runType": "ablation",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/infraDiffEngine.js",
+    "generatedAt": "2026-08-02T15:25:02.411Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "ablationResults": [
+      {
+        "ablatedSignal": "storage",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      },
+      {
+        "ablatedSignal": "network",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      },
+      {
+        "ablatedSignal": "startup",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      },
+      {
+        "ablatedSignal": "memory",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      }
+    ],
+    "timestamp": "2026-08-02T15:25:02.411Z"
+  }
+}

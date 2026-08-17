@@ -1,0 +1,21 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-08T06-35-23-100Z-2e7d000a",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": "multi",
+    "generatedBy": "test-abstraction.cjs",
+    "generatedAt": "2026-08-08T06:35:23.101Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-NEG-005",
+    "scenario": "Abstraction Leakage Inspection",
+    "precondition": "Common Application Contract definition generated",
+    "trigger": "Static analysis for provider-specific property assumptions",
+    "expectedSafeResponse": "Common contract contains ZERO provider-specific assumptions (e.g. azureAppServicePlanId, awsAccountId). All provider metadata isolated to provider adapter layer.",
+    "observedResult": "Forbidden keys found: 0. Provider neutrality: true",
+    "recoveryEvidence": "Provider-specific configuration remains encapsulated within AzureDeploymentProvider, AwsDeploymentProvider, and GcpDeploymentProvider.",
+    "residualRisk": "None. Clean application platform boundary enforced."
+  }
+}

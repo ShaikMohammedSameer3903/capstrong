@@ -1,0 +1,420 @@
+// ============================================================
+// Dashboard Home — Cloud Selector Hub
+// After login, shows available cloud dashboards with live stats
+// ============================================================
+
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Cloud, Cpu, Layers, Server, Shield, DollarSign,
+  AlertTriangle, ArrowRight, Activity, Globe, RefreshCw,
+} from 'lucide-react';
+import { api } from '../services/api';
+import { useCloudStore } from '../store/cloudStore';
+import { useAuth } from '../providers/AuthProvider';
+
+interface CloudStats {
+  resources: number;
+  alerts: number;
+  spend: number;
+  securityScore: number | null;
+  accounts: number;
+}
+
+const EMPTY_STATS: CloudStats = { resources: 0, alerts: 0, spend: 0, securityScore: null, accounts: 0 };
+
+import {fmtNumber, fmtCurrency} from '../utils/formatters';
+
+export default function DashboardHome() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { cloudAccounts } = useCloudStore();
+  const [loading, setLoading] = useState(true);
+  const [azureStats, setAzureStats] = useState<CloudStats>(EMPTY_STATS);
+  const [awsStats, setAwsStats] = useState<CloudStats>(EMPTY_STATS);
+  const azureAccounts = cloudAccounts.filter(a => a.provider === 'azure');
+  const awsAccounts = cloudAccounts.filter(a => a.provider === 'aws');
+  const gcpAccounts = cloudAccounts.filter(a => a.provider === 'gcp');
+  const hasAzure = azureAccounts.length > 0;
+  const hasAws = awsAccounts.length > 0;
+  const hasGcp = gcpAccounts.length > 0;
+  const hasMultiCloud = (hasAzure && hasAws) || (hasAzure && hasGcp) || (hasAws && hasGcp);
+
+  const [gcpStats, setGcpStats] = useState<CloudStats>(EMPTY_STATS);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const fetchStats = async () => {
+    try {
+      const [resResult, azureCostResult, azureSecResult, awsCostResult, awsSecResult, gcpCostResult, gcpSecResult] = await Promise.allSettled([
+        api.get<any[]>('/api/resources'),
+        api.get<any>('/api/monitoring/cost/unified?provider=azure'),
+        api.get<any>('/api/monitoring/security/unified?provider=azure'),
+        api.get<any>('/api/monitoring/cost/unified?provider=aws'),
+        api.get<any>('/api/monitoring/security/unified?provider=aws'),
+        api.get<any>('/api/monitoring/cost/unified?provider=gcp'),
+        api.get<any>('/api/monitoring/security/unified?provider=gcp'),
+      ]);
+
+      const allResources = resResult.status === 'fulfilled' ? resResult.value : [];
+      const azureCostData = azureCostResult.status === 'fulfilled' ? azureCostResult.value : null;
+      const azureSecData = azureSecResult.status === 'fulfilled' ? azureSecResult.value : null;
+      const awsCostData = awsCostResult.status === 'fulfilled' ? awsCostResult.value : null;
+      const awsSecData = awsSecResult.status === 'fulfilled' ? awsSecResult.value : null;
+      const gcpCostData = gcpCostResult.status === 'fulfilled' ? gcpCostResult.value : null;
+      const gcpSecData = gcpSecResult.status === 'fulfilled' ? gcpSecResult.value : null;
+
+      const azureRes = allResources.filter(r => (r.provider || 'azure').toLowerCase() === 'azure');
+      const awsRes = allResources.filter(r => (r.provider || '').toLowerCase() === 'aws');
+      const gcpRes = allResources.filter(r => (r.provider || '').toLowerCase() === 'gcp');
+
+      setAzureStats({
+        resources: azureRes.length,
+        alerts: azureSecData?.criticalAlerts || 0,
+        spend: azureCostData?.totalCost || 0,
+        securityScore: azureSecData?.overallScore ?? null,
+        accounts: azureAccounts.length,
+      });
+
+      setAwsStats({
+        resources: awsRes.length,
+        alerts: awsSecData?.criticalAlerts || 0,
+        spend: awsCostData?.totalCost || 0,
+        securityScore: awsSecData?.overallScore ?? null,
+        accounts: awsAccounts.length,
+      });
+
+      setGcpStats({
+        resources: gcpRes.length,
+        alerts: gcpSecData?.criticalAlerts || 0,
+        spend: gcpCostData?.totalCost || 0,
+        securityScore: gcpSecData?.overallScore ?? null,
+        accounts: gcpAccounts.length,
+      });
+    } catch (err) {
+      console.error('[DashboardHome] Failed to fetch stats:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSync = async () => {
+    setIsRefreshing(true);
+    try {
+      await api.post('/api/sync/trigger').catch(() => {});
+      await fetchStats();
+    } finally {
+      setIsRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+    const interval = setInterval(fetchStats, 15000);
+    return () => clearInterval(interval);
+  }, [cloudAccounts]);
+
+  if (loading && cloudAccounts.length === 0) {
+    return (
+      <div>
+        <div className="page-header"><div className="page-header-content">
+          <div className="skeleton skeleton-text lg" style={{ width: 260, height: 26, marginBottom: 6 }} />
+          <div className="skeleton skeleton-text" style={{ width: 400 }} />
+        </div></div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: 24 }}>
+          {[...Array(3)].map((_, i) => <div key={i} className="skeleton" style={{ height: 180, borderRadius: 16 }} />)}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* Page Header */}
+      <div className="page-header">
+        <div className="page-header-content">
+          <h1 className="page-title">Dashboard Home</h1>
+          <p className="page-subtitle">
+            Welcome back, <strong>{user?.displayName || 'Cloud Administrator'}</strong> — select a cloud platform to manage
+          </p>
+        </div>
+        <div className="page-actions">
+          <button 
+            className="btn btn-secondary btn-sm" 
+            onClick={handleSync} 
+            disabled={isRefreshing}
+          >
+            <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} style={{ marginRight: 6 }} />
+            {isRefreshing ? 'Syncing Cloud State…' : 'Sync All Clouds'}
+          </button>
+        </div>
+      </div>
+
+      {/* Empty State when no accounts connected */}
+      {cloudAccounts.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 20px', background: 'var(--bg-surface)', borderRadius: 16, border: '1px solid var(--border-default)', margin: '16px 0 32px' }}>
+          <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(0,120,212,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+            <Cloud size={32} color="var(--accent-color, #0078d4)" />
+          </div>
+          <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: 'var(--text-primary)' }}>No Cloud Accounts Connected</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: 24, maxWidth: 500, margin: '0 auto 24px', lineHeight: 1.5 }}>
+            Welcome to CloudOps Enterprise! Connect your Azure, AWS, or GCP accounts to begin multi-cloud resource discovery, cost optimization, and real-time monitoring.
+          </p>
+          <button className="btn btn-primary btn-lg" onClick={() => navigate('/settings/cloud-accounts')}>
+            Connect Cloud Account
+          </button>
+        </div>
+      )}
+
+      {/* Cloud Selector Cards */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+        gap: 24,
+        padding: '0 0 32px',
+      }}>
+        {/* Azure Card */}
+        {hasAzure && (
+          <button
+            id="cloud-card-azure"
+            onClick={() => navigate('/azure')}
+            style={{
+              all: 'unset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
+              background: 'var(--bg-surface)', border: '1px solid var(--border-default)',
+              borderRadius: 16, overflow: 'hidden',
+              transition: 'all 250ms cubic-bezier(.4,0,.2,1)',
+              position: 'relative',
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,120,212,0.15)';
+              e.currentTarget.style.borderColor = '#0078d4';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
+            }}
+          >
+            <div style={{ height: 4, background: 'linear-gradient(90deg, #0078d4, #00B7C3)' }} />
+            <div style={{ padding: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(0,120,212,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Cloud size={24} color="#0078d4" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Azure</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{azureStats.accounts} subscription(s) connected</div>
+                </div>
+                <ArrowRight size={18} color="var(--text-tertiary)" style={{ marginLeft: 'auto' }} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <StatChip icon={Server} label="Resources" value={String(azureStats.resources)} color="#0078d4" />
+                <StatChip icon={Shield} label="Security" value={azureStats.securityScore != null ? `${Math.round(azureStats.securityScore)}%` : '—'} color="#107C10" />
+                <StatChip icon={DollarSign} label="Spend" value={fmtCurrency(azureStats.spend)} color="#00B7C3" />
+                <StatChip icon={Activity} label="Status" value={azureAccounts.some(a => a.status === 'Failed') ? 'Failed' : 'Connected'} color={azureAccounts.some(a => a.status === 'Failed') ? '#D13438' : '#107C10'} />
+              </div>
+            </div>
+          </button>
+        )}
+
+        {/* AWS Card */}
+        {hasAws && (
+          <button
+            id="cloud-card-aws"
+            onClick={() => navigate('/aws')}
+            style={{
+              all: 'unset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
+              background: 'var(--bg-surface)', border: '1px solid var(--border-default)',
+              borderRadius: 16, overflow: 'hidden',
+              transition: 'all 250ms cubic-bezier(.4,0,.2,1)',
+              position: 'relative',
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(255,153,0,0.15)';
+              e.currentTarget.style.borderColor = '#FF9900';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
+            }}
+          >
+            <div style={{ height: 4, background: 'linear-gradient(90deg, #FF9900, #FF6600)' }} />
+            <div style={{ padding: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(255,153,0,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Cpu size={24} color="#FF9900" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>AWS</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{awsStats.accounts} account(s) connected</div>
+                </div>
+                <ArrowRight size={18} color="var(--text-tertiary)" style={{ marginLeft: 'auto' }} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <StatChip icon={Server} label="Resources" value={String(awsStats.resources)} color="#FF9900" />
+                <StatChip icon={Shield} label="Security" value={awsStats.securityScore != null ? `${Math.round(awsStats.securityScore)}%` : '—'} color="#107C10" />
+                <StatChip icon={DollarSign} label="Spend" value={fmtCurrency(awsStats.spend)} color="#FF6600" />
+                <StatChip icon={Activity} label="Status" value={awsAccounts.some(a => a.status === 'Failed') ? 'Failed' : 'Connected'} color={awsAccounts.some(a => a.status === 'Failed') ? '#D13438' : '#107C10'} />
+              </div>
+            </div>
+          </button>
+        )}
+
+        {/* GCP Card */}
+        {hasGcp && (
+          <button
+            id="cloud-card-gcp"
+            onClick={() => navigate('/gcp')}
+            style={{
+              all: 'unset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
+              background: 'var(--bg-surface)', border: '1px solid var(--border-default)',
+              borderRadius: 16, overflow: 'hidden',
+              transition: 'all 250ms cubic-bezier(.4,0,.2,1)',
+              position: 'relative',
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(66,133,244,0.15)';
+              e.currentTarget.style.borderColor = '#4285F4';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
+            }}
+          >
+            <div style={{ height: 4, background: 'linear-gradient(90deg, #4285F4, #34A853)' }} />
+            <div style={{ padding: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(66,133,244,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Cloud size={24} color="#4285F4" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Google Cloud</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{gcpStats.accounts} project(s) connected</div>
+                </div>
+                <ArrowRight size={18} color="var(--text-tertiary)" style={{ marginLeft: 'auto' }} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <StatChip icon={Server} label="Resources" value={String(gcpStats.resources)} color="#4285F4" />
+                <StatChip icon={Shield} label="Security" value={gcpStats.securityScore != null ? `${Math.round(gcpStats.securityScore)}%` : '—'} color="#34A853" />
+                <StatChip icon={DollarSign} label="Spend" value={fmtCurrency(gcpStats.spend)} color="#FBBC05" />
+                <StatChip icon={Activity} label="Status" value={gcpAccounts.some(a => a.status === 'Failed') ? 'Failed' : 'Connected'} color={gcpAccounts.some(a => a.status === 'Failed') ? '#D13438' : '#107C10'} />
+              </div>
+            </div>
+          </button>
+        )}
+
+        {/* Multi-Cloud Overview Card */}
+        {hasMultiCloud && (
+          <button
+            id="cloud-card-multicloud"
+            onClick={() => navigate('/multicloud')}
+            style={{
+              all: 'unset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
+              background: 'var(--bg-surface)', border: '1px solid var(--border-default)',
+              borderRadius: 16, overflow: 'hidden',
+              transition: 'all 250ms cubic-bezier(.4,0,.2,1)',
+              position: 'relative',
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(139,92,246,0.15)';
+              e.currentTarget.style.borderColor = '#8b5cf6';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
+            }}
+          >
+            <div style={{ height: 4, background: 'linear-gradient(90deg, #0078d4, #FF9900, #8b5cf6)' }} />
+            <div style={{ padding: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Globe size={24} color="#8b5cf6" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Multi-Cloud Overview</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Executive cross-cloud intelligence</div>
+                </div>
+                <ArrowRight size={18} color="var(--text-tertiary)" style={{ marginLeft: 'auto' }} />
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <StatChip icon={Server} label="Total Resources" value={String(azureStats.resources + awsStats.resources)} color="#8b5cf6" />
+                <StatChip icon={DollarSign} label="Total Spend" value={fmtCurrency(azureStats.spend + awsStats.spend)} color="#0078d4" />
+                <StatChip icon={Cloud} label="Azure" value={`${azureStats.resources} res`} color="#0078d4" />
+                <StatChip icon={Cpu} label="AWS" value={`${awsStats.resources} res`} color="#FF9900" />
+              </div>
+            </div>
+          </button>
+        )}
+
+        {/* Show single-cloud multi-cloud card as "Executive View" even with one provider */}
+        {!hasMultiCloud && (hasAzure || hasAws) && (
+          <button
+            id="cloud-card-executive"
+            onClick={() => navigate('/multicloud')}
+            style={{
+              all: 'unset', cursor: 'pointer', display: 'flex', flexDirection: 'column',
+              background: 'var(--bg-surface)', border: '1px solid var(--border-default)',
+              borderRadius: 16, overflow: 'hidden',
+              transition: 'all 250ms cubic-bezier(.4,0,.2,1)',
+            }}
+            onMouseOver={e => {
+              e.currentTarget.style.transform = 'translateY(-4px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(139,92,246,0.15)';
+              e.currentTarget.style.borderColor = '#8b5cf6';
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.borderColor = 'var(--border-default)';
+            }}
+          >
+            <div style={{ height: 4, background: 'linear-gradient(90deg, #8b5cf6, #a78bfa)' }} />
+            <div style={{ padding: 24 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(139,92,246,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Layers size={24} color="#8b5cf6" />
+                </div>
+                <div>
+                  <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Executive View</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Unified operations dashboard</div>
+                </div>
+                <ArrowRight size={18} color="var(--text-tertiary)" style={{ marginLeft: 'auto' }} />
+              </div>
+            </div>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Stat Chip Component ──
+function StatChip({ icon: Icon, label, value, color }: {
+  icon: any; label: string; value: string; color: string;
+}) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 8,
+      background: 'var(--bg-surface-secondary)', borderRadius: 8,
+      padding: '8px 10px', border: '1px solid var(--border-subtle)',
+    }}>
+      <div style={{
+        width: 28, height: 28, borderRadius: 6,
+        background: `${color}15`, display: 'flex',
+        alignItems: 'center', justifyContent: 'center',
+      }}>
+        <Icon size={14} color={color} />
+      </div>
+      <div>
+        <div style={{ fontSize: 10, color: 'var(--text-tertiary)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>{value}</div>
+      </div>
+    </div>
+  );
+}

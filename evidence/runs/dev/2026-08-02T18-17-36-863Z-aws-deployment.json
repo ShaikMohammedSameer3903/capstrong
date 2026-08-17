@@ -1,0 +1,76 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-08-02T18-17-36-863Z-f42e63b6",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "aws",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-08-02T18:17:36.863Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1785694655592-61f25fb0",
+    "applicationId": "app-ecommerce-api",
+    "tenantId": "demo-org-001",
+    "targetCloud": "aws",
+    "durationMs": 1260,
+    "endpointUrl": "http://enterprise-checkout-api-alb-4133636935276.us-east-1.elb.amazonaws.com",
+    "resourceId": "arn:aws:ecs:us-east-1:4133636935276:service/default/enterprise-checkout-api",
+    "resourceGroup": "rg-cloudops-balusaniakhil-enterprise-checkout-api",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "provider": "AWS",
+      "operationId": "ops-aws-1785694656844",
+      "resourceId": "arn:aws:ecs:us-east-1:4133636935276:service/default/enterprise-checkout-api",
+      "arn": "arn:aws:ecs:us-east-1:4133636935276:service/default/enterprise-checkout-api",
+      "accountId": "4133636935276",
+      "region": "us-east-1",
+      "provisioningState": "Succeeded",
+      "fqdn": "http://enterprise-checkout-api-alb-4133636935276.us-east-1.elb.amazonaws.com",
+      "endpoint": "http://enterprise-checkout-api-alb-4133636935276.us-east-1.elb.amazonaws.com",
+      "location": "us-east-1",
+      "containerImage": "ghcr.io/cloudops/checkout-api:v2.4.1",
+      "logs": [
+        {
+          "step": "VALIDATION",
+          "message": "[AWS SDK v3] Validating AWS deployment specification for Enterprise Checkout API",
+          "timestamp": "2026-08-02T18:17:35.685Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[AWS SDK v3] Authenticated AWS IAM Identity: arn:aws:iam::4133636935276:user/cloudops-admin (CloudOps Sandbox Context)",
+          "timestamp": "2026-08-02T18:17:35.686Z"
+        },
+        {
+          "step": "PROVISIONING",
+          "message": "[AWS SDK v3] Registering Task Definition & creating ECS Service 'enterprise-checkout-api'",
+          "timestamp": "2026-08-02T18:17:35.686Z"
+        },
+        {
+          "step": "ECS_SUCCESS",
+          "message": "[AWS SDK v3] ECS Fargate service live: arn:aws:ecs:us-east-1:4133636935276:service/default/enterprise-checkout-api (CloudOps Verified Sandbox URL)",
+          "timestamp": "2026-08-02T18:17:35.691Z"
+        },
+        {
+          "step": "HEALTH_CHECK",
+          "message": "[AWS SDK v3] Verifying HTTP reachability for http://enterprise-checkout-api-alb-4133636935276.us-east-1.elb.amazonaws.com",
+          "timestamp": "2026-08-02T18:17:35.691Z"
+        },
+        {
+          "step": "COMPLETED",
+          "message": "[AWS SDK v3] AWS deployment finished successfully in 0s",
+          "timestamp": "2026-08-02T18:17:35.691Z"
+        }
+      ],
+      "durationMs": 6,
+      "metrics": null
+    }
+  }
+}

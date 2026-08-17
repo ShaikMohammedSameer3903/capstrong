@@ -1,0 +1,72 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-08-08T06-44-00-102Z-393f905c",
+    "runType": "deployment",
+    "partition": "acceptance",
+    "provider": "azure",
+    "generatedBy": "test-azure.cjs",
+    "generatedAt": "2026-08-08T06:44:00.102Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-AZURE-001",
+    "appSpec": {
+      "id": "app-ecommerce-api",
+      "name": "Student Portal",
+      "version": "1.4.0",
+      "deployment_type": "Docker",
+      "container_image": "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
+    },
+    "deploymentSpec": {
+      "region": "eastus",
+      "environment": "production"
+    },
+    "result": {
+      "success": true,
+      "deploymentId": "dep-1786171440101",
+      "operationId": "9d62ae6e-09be-476c-9a17-913e2fced287",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-devops-student-portal/providers/Microsoft.Web/sites/student-portal-devops-demo",
+      "fqdn": "https://student-portal-devops-demo.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 16,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Docker deployment workflow for 'Student Portal'",
+          "timestamp": "2026-08-08T06:44:00.085Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-08-08T06:44:00.100Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-devops-student-portal' in region 'southindia'...",
+          "timestamp": "2026-08-08T06:44:00.100Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-devops-student-portal' created & verified in Azure Portal (Region: southindia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-08-08T06:44:00.100Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://student-portal-devops-demo.azurewebsites.net (CloudOps Verified Sandbox URL)",
+          "timestamp": "2026-08-08T06:44:00.100Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-08-08T06:44:00.100Z"
+        }
+      ],
+      "metrics": null
+    }
+  }
+}

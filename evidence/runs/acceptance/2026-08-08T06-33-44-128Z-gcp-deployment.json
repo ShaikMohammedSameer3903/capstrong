@@ -1,0 +1,72 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-08-08T06-33-44-128Z-98d48236",
+    "runType": "deployment",
+    "partition": "acceptance",
+    "provider": "gcp",
+    "generatedBy": "test-gcp.cjs",
+    "generatedAt": "2026-08-08T06:33:44.129Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-GCP-001",
+    "appSpec": {
+      "id": "app-ecommerce-api",
+      "name": "Student Portal",
+      "version": "1.4.0",
+      "deployment_type": "Docker",
+      "container_image": "gcr.io/google-samples/hello-app:1.0"
+    },
+    "deploymentSpec": {
+      "region": "us-central1",
+      "environment": "production"
+    },
+    "result": {
+      "success": true,
+      "provider": "GCP",
+      "operationId": "ops-gcp-1786170824127",
+      "resourceId": "projects/demo-gcp-project-41336/locations/us-central1/services/student-portal",
+      "projectId": "demo-gcp-project-41336",
+      "region": "us-central1",
+      "provisioningState": "Succeeded",
+      "fqdn": "https://student-portal-demo-gcp-project-41336.us-central1.a.run.app",
+      "endpoint": "https://student-portal-demo-gcp-project-41336.us-central1.a.run.app",
+      "location": "us-central1",
+      "containerImage": "gcr.io/google-samples/hello-app:1.0",
+      "logs": [
+        {
+          "step": "VALIDATION",
+          "message": "[GCP SDK] Validating Google Cloud deployment specification for Student Portal",
+          "timestamp": "2026-08-08T06:33:39.889Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[GCP SDK] Authenticated Google Cloud Project context: demo-gcp-project-41336 (CloudOps Sandbox Context)",
+          "timestamp": "2026-08-08T06:33:39.890Z"
+        },
+        {
+          "step": "PROVISIONING",
+          "message": "[GCP SDK] Deploying Google Cloud Run service 'student-portal' from image gcr.io/google-samples/hello-app:1.0",
+          "timestamp": "2026-08-08T06:33:39.890Z"
+        },
+        {
+          "step": "RUN_SUCCESS",
+          "message": "[GCP SDK] Cloud Run service live at assigned URL: https://student-portal-demo-gcp-project-41336.us-central1.a.run.app (CloudOps Verified Sandbox URL)",
+          "timestamp": "2026-08-08T06:33:44.126Z"
+        },
+        {
+          "step": "HEALTH_CHECK",
+          "message": "[GCP SDK] Executing HTTP Liveness check on https://student-portal-demo-gcp-project-41336.us-central1.a.run.app",
+          "timestamp": "2026-08-08T06:33:44.126Z"
+        },
+        {
+          "step": "COMPLETED",
+          "message": "[GCP SDK] GCP deployment completed successfully in 4s",
+          "timestamp": "2026-08-08T06:33:44.126Z"
+        }
+      ],
+      "durationMs": 4240,
+      "metrics": null
+    }
+  }
+}

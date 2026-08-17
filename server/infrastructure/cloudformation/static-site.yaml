@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudOps Platform - S3 Static Website and CloudFront Distribution Template'
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name identifier
+  Environment:
+    Type: String
+    Default: production
+    Description: Deployment environment (e.g. production, staging)
+  DeploymentId:
+    Type: String
+    Description: Unique deployment identifier for resource tagging
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub '${AppName}-static-${AWS::AccountId}'
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      Tags:
+        - Key: ManagedBy
+          Value: CloudOps
+        - Key: Application
+          Value: !Ref AppName
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: DeploymentId
+          Value: !Ref DeploymentId
+
+  BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub '${S3Bucket.Arn}/*'
+
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: !Sub 'CloudOps CDN for ${AppName}'
+        DefaultRootObject: index.html
+        Origins:
+          - Id: S3Origin
+            DomainName: !Sub '${S3Bucket}.s3-website-${AWS::Region}.amazonaws.com'
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: http-only
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS]
+          CachedMethods: [GET, HEAD]
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          MinTTL: 0
+          DefaultTTL: 86400
+          MaxTTL: 31536000
+        Tags:
+          - Key: ManagedBy
+            Value: CloudOps
+          - Key: Application
+            Value: !Ref AppName
+          - Key: Environment
+            Value: !Ref Environment
+          - Key: DeploymentId
+            Value: !Ref DeploymentId
+
+Outputs:
+  BucketName:
+    Value: !Ref S3Bucket
+    Description: S3 Static Website Bucket Name
+  WebsiteURL:
+    Value: !GetAtt S3Bucket.WebsiteURL
+    Description: S3 Static Website Direct URL
+  DistributionId:
+    Value: !Ref CloudFrontDistribution
+    Description: CloudFront Distribution ID
+  DistributionDomain:
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    Description: CloudFront Distribution Domain Name
+  ApplicationURL:
+    Value: !Sub 'https://${CloudFrontDistribution.DomainName}'
+    Description: Primary Application HTTPS URL

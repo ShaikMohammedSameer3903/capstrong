@@ -1,0 +1,75 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-08-08T06-44-02-379Z-4487b792",
+    "runType": "deployment",
+    "partition": "acceptance",
+    "provider": "aws",
+    "generatedBy": "test-aws.cjs",
+    "generatedAt": "2026-08-08T06:44:02.380Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-AWS-001",
+    "appSpec": {
+      "id": "app-ecommerce-api",
+      "name": "Student Portal",
+      "version": "1.4.0",
+      "deployment_type": "AWS S3 + CloudFront",
+      "container_image": "public.ecr.aws/docker/library/node:latest"
+    },
+    "deploymentSpec": {
+      "region": "us-east-1",
+      "environment": "production"
+    },
+    "result": {
+      "success": true,
+      "provider": "AWS",
+      "operationId": "ops-aws-1786171442379",
+      "deploymentId": "dep-1786171440129",
+      "stackName": "platform-student-portal-production",
+      "resourceId": "arn:aws:cloudfront::4133636935276:distribution/dmsk0cwn7",
+      "arn": "arn:aws:cloudfront::4133636935276:distribution/dmsk0cwn7",
+      "accountId": "4133636935276",
+      "region": "us-east-1",
+      "provisioningState": "Succeeded",
+      "fqdn": "http://localhost:5173/preview/student-portal",
+      "endpoint": "http://localhost:5173/preview/student-portal",
+      "location": "us-east-1",
+      "containerImage": "public.ecr.aws/docker/library/node:latest",
+      "logs": [
+        {
+          "step": "VALIDATION",
+          "message": "[AWS SDK v3] Validating AWS deployment specification for Student Portal (AWS S3 + CloudFront)",
+          "timestamp": "2026-08-08T06:44:00.129Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[AWS SDK v3] Authenticated AWS IAM Identity: arn:aws:iam::4133636935276:user/cloudops-admin (Sandbox Context)",
+          "timestamp": "2026-08-08T06:44:01.218Z"
+        },
+        {
+          "step": "CLOUDFORMATION",
+          "message": "[AWS SDK v3] Orchestrating CloudFormation stack 'platform-student-portal-production' for Static Web App",
+          "timestamp": "2026-08-08T06:44:01.219Z"
+        },
+        {
+          "step": "CLOUDFRONT_SUCCESS",
+          "message": "[AWS SDK v3] CloudFront distribution live at http://localhost:5173/preview/student-portal (Sandbox Preview URL)",
+          "timestamp": "2026-08-08T06:44:01.219Z"
+        },
+        {
+          "step": "HEALTH_CHECK",
+          "message": "[AWS SDK v3] Verifying reachability for http://localhost:5173/preview/student-portal",
+          "timestamp": "2026-08-08T06:44:01.219Z"
+        },
+        {
+          "step": "COMPLETED",
+          "message": "[AWS SDK v3] AWS deployment completed successfully in 1s",
+          "timestamp": "2026-08-08T06:44:01.219Z"
+        }
+      ],
+      "durationMs": 1090,
+      "metrics": null
+    }
+  }
+}

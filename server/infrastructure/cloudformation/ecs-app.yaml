@@ -1,0 +1,134 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudOps Platform - Container Application Infrastructure Template (ECS Fargate + ECR)'
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name identifier
+  ContainerImage:
+    Type: String
+    Description: Docker container image URI
+  ContainerPort:
+    Type: Number
+    Default: 80
+    Description: Container port to expose
+  Cpu:
+    Type: String
+    Default: '256'
+    Description: ECS Fargate CPU units (256, 512, 1024, etc.)
+  Memory:
+    Type: String
+    Default: '512'
+    Description: ECS Fargate Memory MB (512, 1024, 2048, etc.)
+  DesiredCount:
+    Type: Number
+    Default: 1
+    Description: Desired task replicas
+  Environment:
+    Type: String
+    Default: production
+    Description: Deployment environment
+  DeploymentId:
+    Type: String
+    Description: Unique deployment identifier for resource tagging
+
+Resources:
+  ECRRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: !Ref AppName
+      ImageScanningConfiguration:
+        ScanOnPush: true
+      Tags:
+        - Key: ManagedBy
+          Value: CloudOps
+        - Key: Application
+          Value: !Ref AppName
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: DeploymentId
+          Value: !Ref DeploymentId
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/ecs/${AppName}'
+      RetentionInDays: 14
+
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub '${AppName}-cluster'
+      Tags:
+        - Key: ManagedBy
+          Value: CloudOps
+        - Key: Application
+          Value: !Ref AppName
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: DeploymentId
+          Value: !Ref DeploymentId
+
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub '${AppName}-ecs-execution-role'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Tags:
+        - Key: ManagedBy
+          Value: CloudOps
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Ref AppName
+      Cpu: !Ref Cpu
+      Memory: !Ref Memory
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: !Ref AppName
+          Image: !Ref ContainerImage
+          Essential: true
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+              HostPort: !Ref ContainerPort
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref LogGroup
+              awslogs-region: !Ref 'AWS::Region'
+              awslogs-stream-prefix: ecs
+      Tags:
+        - Key: ManagedBy
+          Value: CloudOps
+        - Key: Application
+          Value: !Ref AppName
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: DeploymentId
+          Value: !Ref DeploymentId
+
+Outputs:
+  RepositoryUri:
+    Value: !GetAtt ECRRepository.RepositoryUri
+    Description: ECR Repository URI
+  ClusterName:
+    Value: !Ref ECSCluster
+    Description: ECS Cluster Name
+  TaskDefinitionArn:
+    Value: !Ref TaskDefinition
+    Description: ECS Task Definition ARN
+  LogGroupName:
+    Value: !Ref LogGroup
+    Description: CloudWatch Log Group Name

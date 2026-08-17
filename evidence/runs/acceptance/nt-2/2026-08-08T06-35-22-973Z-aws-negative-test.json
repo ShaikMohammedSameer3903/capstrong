@@ -1,0 +1,21 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-08T06-35-22-973Z-953bf107",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": "aws",
+    "generatedBy": "test-timeout.cjs",
+    "generatedAt": "2026-08-08T06:35:22.974Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-NEG-002",
+    "scenario": "Cloud Infrastructure Operation Timeout",
+    "precondition": "Long-running stack creation operation active",
+    "trigger": "Operation threshold timer expired",
+    "expectedSafeResponse": "Deployment status transitions to TIMEOUT, preventing stuck DEPLOYING state",
+    "observedResult": "Timeout detected: CLOUD_API_TIMEOUT: CloudFormation stack creation timed out after 300 seconds.",
+    "recoveryEvidence": "System cancelled polling, logged timeout warning, and provided user option for automated retry or rollback.",
+    "residualRisk": "Low. Cloud stack cleanup recommended if partial resources created."
+  }
+}

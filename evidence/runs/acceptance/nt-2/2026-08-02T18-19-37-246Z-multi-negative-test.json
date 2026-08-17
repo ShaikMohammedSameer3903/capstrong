@@ -1,0 +1,81 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-02T18-19-37-246Z-0a176386",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+    "generatedAt": "2026-08-02T18:19:37.247Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "NT-2",
+    "testName": "Behavioral Variance Underneath Abstraction",
+    "passed": true,
+    "ablationResultsCount": 4,
+    "sensitivityResultsCount": 5,
+    "ablationResults": [
+      {
+        "ablatedSignal": "storage",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      },
+      {
+        "ablatedSignal": "network",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      },
+      {
+        "ablatedSignal": "startup",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      },
+      {
+        "ablatedSignal": "memory",
+        "remainingSignalsCount": 3,
+        "varianceRetentionPercent": 75,
+        "impactScore": 25
+      }
+    ],
+    "sensitivityResults": [
+      {
+        "concurrency": 1,
+        "azureLatencyMs": 23.5,
+        "awsLatencyMs": 45.8,
+        "gcpLatencyMs": 36.1,
+        "maxSpreadMs": 22.3
+      },
+      {
+        "concurrency": 5,
+        "azureLatencyMs": 29.5,
+        "awsLatencyMs": 49,
+        "gcpLatencyMs": 40.5,
+        "maxSpreadMs": 19.5
+      },
+      {
+        "concurrency": 10,
+        "azureLatencyMs": 37,
+        "awsLatencyMs": 53,
+        "gcpLatencyMs": 46,
+        "maxSpreadMs": 16
+      },
+      {
+        "concurrency": 25,
+        "azureLatencyMs": 59.5,
+        "awsLatencyMs": 65,
+        "gcpLatencyMs": 62.5,
+        "maxSpreadMs": 5.5
+      },
+      {
+        "concurrency": 50,
+        "azureLatencyMs": 97,
+        "awsLatencyMs": 85,
+        "gcpLatencyMs": 90,
+        "maxSpreadMs": 12
+      }
+    ]
+  }
+}

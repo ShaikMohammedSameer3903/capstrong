@@ -1,0 +1,20 @@
+{
+  "name": "cloudops-platform-abstraction",
+  "version": "1.0.0",
+  "canonicalId": "CLOUD-223",
+  "nodeVersion": "20.x",
+  "dependencies": {
+    "@aws-sdk/client-ec2": "3.1068.0",
+    "@aws-sdk/client-ecs": "3.1068.0",
+    "@aws-sdk/client-sts": "3.1068.0",
+    "@azure/arm-compute": "21.0.0",
+    "@azure/arm-resources": "5.2.0",
+    "@azure/identity": "4.13.1",
+    "@google-cloud/compute": "6.13.0",
+    "@google-cloud/resource-manager": "5.3.1",
+    "@google-cloud/run": "1.5.1",
+    "express": "4.21.2",
+    "sqlite3": "5.1.6"
+  },
+  "lockDate": "2026-08-02T20:51:00Z"
+}

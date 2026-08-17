@@ -1,0 +1,52 @@
+{
+  "_evidenceMeta": {
+    "runId": "sensitivity-2026-08-08T06-49-17-619Z-c094ff61",
+    "runType": "sensitivity",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/infraDiffEngine.js",
+    "generatedAt": "2026-08-08T06:49:17.619Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "sensitivityResults": [
+      {
+        "concurrency": 1,
+        "azureLatencyMs": 23.5,
+        "awsLatencyMs": 45.8,
+        "gcpLatencyMs": 36.1,
+        "maxSpreadMs": 22.3
+      },
+      {
+        "concurrency": 5,
+        "azureLatencyMs": 29.5,
+        "awsLatencyMs": 49,
+        "gcpLatencyMs": 40.5,
+        "maxSpreadMs": 19.5
+      },
+      {
+        "concurrency": 10,
+        "azureLatencyMs": 37,
+        "awsLatencyMs": 53,
+        "gcpLatencyMs": 46,
+        "maxSpreadMs": 16
+      },
+      {
+        "concurrency": 25,
+        "azureLatencyMs": 59.5,
+        "awsLatencyMs": 65,
+        "gcpLatencyMs": 62.5,
+        "maxSpreadMs": 5.5
+      },
+      {
+        "concurrency": 50,
+        "azureLatencyMs": 97,
+        "awsLatencyMs": 85,
+        "gcpLatencyMs": 90,
+        "maxSpreadMs": 12
+      }
+    ],
+    "timestamp": "2026-08-08T06:49:17.619Z"
+  }
+}

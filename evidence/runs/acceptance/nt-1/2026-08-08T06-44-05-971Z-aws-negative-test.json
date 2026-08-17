@@ -1,0 +1,21 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-08T06-44-05-971Z-8e0129da",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": "aws",
+    "generatedBy": "test-failure.cjs",
+    "generatedAt": "2026-08-08T06:44:05.972Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-NEG-001",
+    "scenario": "Invalid AWS Credentials & Permission Isolation",
+    "precondition": "Application configured correctly",
+    "trigger": "Invalid credentials & invalid region provided",
+    "expectedSafeResponse": "Deployment fails safely without corrupting state or crashing server",
+    "observedResult": "Deployment handles invalid parameters gracefully without process crash.",
+    "recoveryEvidence": "System caught failure, updated deployment status to Failed, and isolated error from other active deployments.",
+    "residualRisk": "None. Fault isolation verified."
+  }
+}

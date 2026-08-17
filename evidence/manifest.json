@@ -1,0 +1,606 @@
+{
+  "generatedAt": "2026-08-08T07:13:46.012Z",
+  "totalFiles": 60,
+  "files": [
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-33-37-211Z-azure-deployment.json",
+      "sha256": "733854a3423681403d40b9f3ce65f485899decb5ea1defb95fe5394c3c9f69d3",
+      "generated_by": "test-azure.cjs",
+      "generated_at": "2026-08-08T06:33:37.213Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-33-37-211Z-34ad0d63"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-33-39-866Z-aws-deployment.json",
+      "sha256": "d458f2437cd2d5947a00f7c373a7bcaf2b4e2ac91d761eaa6025233d973c454f",
+      "generated_by": "test-aws.cjs",
+      "generated_at": "2026-08-08T06:33:39.870Z",
+      "provider": "aws",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-33-39-866Z-aa646695"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-33-44-128Z-gcp-deployment.json",
+      "sha256": "d4db64f55369d3534531050ea4d75ad7fa38e5c09ca6e912418ad555271553a5",
+      "generated_by": "test-gcp.cjs",
+      "generated_at": "2026-08-08T06:33:44.149Z",
+      "provider": "gcp",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-33-44-128Z-98d48236"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-33-47-418Z-aws-negative-test.json",
+      "sha256": "04c5b953e52802ef43f5c4c6e04e069d248d00b78eb01ec1625a7c23f85133c1",
+      "generated_by": "test-failure.cjs",
+      "generated_at": "2026-08-08T06:33:47.421Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-33-47-418Z-629d4952"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-33-47-634Z-aws-negative-test.json",
+      "sha256": "c1a3341310c5384a89ca92db6ec1d98b36345fa3451ec0d5877530fd36495b78",
+      "generated_by": "test-timeout.cjs",
+      "generated_at": "2026-08-08T06:33:47.636Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-33-47-634Z-1d799d3d"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-33-47-640Z-aws-negative-test.json",
+      "sha256": "3b38f315ac3500a74250b11cee874b53000fc9eae7028b7cc576c933248eb93a",
+      "generated_by": "test-retry.cjs",
+      "generated_at": "2026-08-08T06:33:47.643Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-33-47-640Z-84ac7979"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-33-47-760Z-multi-negative-test.json",
+      "sha256": "7785d2e5ba5f1d994d202650ea67ccff227a0593c33df8068deaae7aa7f7d4e0",
+      "generated_by": "test-concurrency.cjs",
+      "generated_at": "2026-08-08T06:33:47.762Z",
+      "provider": "multi",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-33-47-760Z-aea363b9"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-33-47-768Z-multi-negative-test.json",
+      "sha256": "ed9f2705336217306b9001916e3d2dd9721493d44f83736402a19a50179843c4",
+      "generated_by": "test-abstraction.cjs",
+      "generated_at": "2026-08-08T06:33:47.770Z",
+      "provider": "multi",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-33-47-768Z-156f0de2"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-35-16-497Z-azure-deployment.json",
+      "sha256": "4c349a77faaf78d9a9c43589fe5dffa4e1f6d18035f434730177bb205ac3d234",
+      "generated_by": "test-azure.cjs",
+      "generated_at": "2026-08-08T06:35:16.498Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-35-16-497Z-f7c62aca"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-35-19-044Z-aws-deployment.json",
+      "sha256": "ca825a78c763cd101cc4f3324febec8e563c094fe2f2629ab9002dd72d80961f",
+      "generated_by": "test-aws.cjs",
+      "generated_at": "2026-08-08T06:35:19.045Z",
+      "provider": "aws",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-35-19-044Z-c3005dc8"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-35-19-397Z-gcp-deployment.json",
+      "sha256": "385d4add75d4faf6caed40b7e465fc961354d8b9aa2b7ebd49098ce5b4a9e291",
+      "generated_by": "test-gcp.cjs",
+      "generated_at": "2026-08-08T06:35:19.407Z",
+      "provider": "gcp",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-35-19-397Z-f4291486"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-35-22-737Z-aws-negative-test.json",
+      "sha256": "e9a056a27c64d83ecfa5019a270edab331e9ee2aec37c89110374585c3a3b029",
+      "generated_by": "test-failure.cjs",
+      "generated_at": "2026-08-08T06:35:22.739Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-35-22-737Z-7dc8a628"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-35-22-973Z-aws-negative-test.json",
+      "sha256": "6a659173325fdbebae11352fb43af9f14eb9a4522149552ecae99fd284362336",
+      "generated_by": "test-timeout.cjs",
+      "generated_at": "2026-08-08T06:35:22.977Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-35-22-973Z-953bf107"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-35-22-980Z-aws-negative-test.json",
+      "sha256": "99662694370547e056cf8b1d94327b65b068fec37eccc3d66ecdb948b7db4273",
+      "generated_by": "test-retry.cjs",
+      "generated_at": "2026-08-08T06:35:22.981Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-35-22-980Z-0433719b"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-35-23-088Z-multi-negative-test.json",
+      "sha256": "ec57cd98c28651544444bc104fabb1418e2c6a61e09a6cda794e4d468a7940ff",
+      "generated_by": "test-concurrency.cjs",
+      "generated_at": "2026-08-08T06:35:23.091Z",
+      "provider": "multi",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-35-23-088Z-174cb9f8"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-35-23-100Z-multi-negative-test.json",
+      "sha256": "b3480ef79ffcd70ef686bb12cbb819ef6d99b6596fbcd1d869ed3caf8d79a303",
+      "generated_by": "test-abstraction.cjs",
+      "generated_at": "2026-08-08T06:35:23.102Z",
+      "provider": "multi",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-35-23-100Z-2e7d000a"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-44-00-102Z-azure-deployment.json",
+      "sha256": "be1e800af983256b3471087bab2ce6fe2c8ade681c7bb4e38ccc2e9d63b3d052",
+      "generated_by": "test-azure.cjs",
+      "generated_at": "2026-08-08T06:44:00.103Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-44-00-102Z-393f905c"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-44-02-379Z-aws-deployment.json",
+      "sha256": "d06be2045429553c00c813fa68d6680559202a657f40eb1b889a81d55758e000",
+      "generated_by": "test-aws.cjs",
+      "generated_at": "2026-08-08T06:44:02.381Z",
+      "provider": "aws",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-44-02-379Z-4487b792"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-44-02-705Z-gcp-deployment.json",
+      "sha256": "93ae9dfec49437eb5003299116fb70de79cc6d9785d035c3d8d5ddd6334ef121",
+      "generated_by": "test-gcp.cjs",
+      "generated_at": "2026-08-08T06:44:02.716Z",
+      "provider": "gcp",
+      "run_type": "deployment",
+      "partition": "acceptance",
+      "run_id": "deployment-2026-08-08T06-44-02-705Z-70ace363"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-44-05-971Z-aws-negative-test.json",
+      "sha256": "36d74ef3af62e6fc570c04574dfdd2631abebc1991e82237b0ef12df98a3a5e8",
+      "generated_by": "test-failure.cjs",
+      "generated_at": "2026-08-08T06:44:05.973Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-05-971Z-8e0129da"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-44-06-199Z-aws-negative-test.json",
+      "sha256": "f67f8266531e3854d3168294bd79b9ffc440208b0bc1d200e2e84a11df58f795",
+      "generated_by": "test-timeout.cjs",
+      "generated_at": "2026-08-08T06:44:06.202Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-06-199Z-54d519e8"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-44-06-227Z-aws-negative-test.json",
+      "sha256": "4d42c386650c5049436fb25526fd084f96346853bd15d501adfb8d3c3d400f3b",
+      "generated_by": "test-retry.cjs",
+      "generated_at": "2026-08-08T06:44:06.228Z",
+      "provider": "aws",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-06-227Z-dd146613"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-44-06-339Z-multi-negative-test.json",
+      "sha256": "21e59ce800a73e3bd7e025e7653826feb89bcf47ec8eefe73104c4b1aec6e9ea",
+      "generated_by": "test-concurrency.cjs",
+      "generated_at": "2026-08-08T06:44:06.341Z",
+      "provider": "multi",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-06-339Z-28cb909a"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-44-06-375Z-multi-negative-test.json",
+      "sha256": "507234bb3858ac8f1b07f9f02ea9b095e5aeeff60fcc6914e2929d3d94be9be5",
+      "generated_by": "test-abstraction.cjs",
+      "generated_at": "2026-08-08T06:44:06.376Z",
+      "provider": "multi",
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-06-375Z-8717a432"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-44-16-857Z-multi-negative-test.json",
+      "sha256": "5c5ec1e2a580ebdb18bfe490e72842919f1fb5fb8b61dde827d6d0d11f46a3cf",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-08T06:44:16.859Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-16-857Z-f39cfde3"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-44-16-863Z-multi-ablation.json",
+      "sha256": "b973d58eb513f82c40354a91509887fd358553496cd41e9cb886f88f51f70228",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-08T06:44:16.864Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-08T06-44-16-863Z-179e8ef7"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-44-16-866Z-multi-sensitivity.json",
+      "sha256": "1f038aff61d5780b0a0b0bfbbb257cdccf5c41bc5ca848618cbcbbae955f4bd0",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-08T06:44:16.867Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-08T06-44-16-866Z-d9d7bfa2"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-44-16-869Z-multi-negative-test.json",
+      "sha256": "2b958ae58f5f951273b8e25ed152049e362353cb42623e440c95293cf1b8f3fc",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-08T06:44:16.870Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-16-869Z-cc7d6376"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-44-16-871Z-multi-negative-test.json",
+      "sha256": "4be0df1ff58a937a6f06eaf87690598aaaebbfa971e80f0b2c56839a326bc26c",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-08T06:44:16.873Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-16-871Z-31d971f9"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-16-961Z-multi-chaos.json",
+      "sha256": "5800b994405bf10ad97333e6089bef64203cc6fee8ac998b9556963f9d97d672",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:44:16.962Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-44-16-961Z-e26eb16d"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-44-16-965Z-multi-negative-test.json",
+      "sha256": "d59b513e78fb2e76d99c23bb1095a98c25db30640d8adf755a9283181c03cf94",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-08T06:44:16.966Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-16-965Z-59c15035"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-250Z-multi-chaos.json",
+      "sha256": "8c0ba6ad38f9fe6b0ec0a3aa5f66953623baf97383047d6099478719f3816ef6",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:44:17.275Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-44-17-250Z-ee5baf2c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-252Z-multi-chaos.json",
+      "sha256": "f69bcab3907037e61f588e42e480dba728f13f07a609d3d1a2a06ac8e8303ca5",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:44:17.275Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-44-17-252Z-18b3ceba"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-44-17-479Z-multi-chaos.json",
+      "sha256": "a86a6525d117405123836064b4fe545e423f7b980cc6eb6c0dbee15b0647a86c",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:44:17.481Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-44-17-479Z-5d7af9fe"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-44-17-507Z-multi-negative-test.json",
+      "sha256": "5976ac9eea62df2d13c3a4ad212fd8fb2904b5682f497269a5e17736e566b4bb",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-08T06:44:17.508Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-44-17-507Z-f4250db1"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T06-49-17-611Z-multi-negative-test.json",
+      "sha256": "58d949306390efc9241960a488fc1b8fe585cb087bb4168a300c505978ab3bd1",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-08T06:49:17.614Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-49-17-611Z-708bf94a"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-49-17-616Z-multi-ablation.json",
+      "sha256": "1ffef6e3d06396a0689bdb471514a94f7ea4a8cc3f3fd984584160f156df4bb5",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-08T06:49:17.617Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-08T06-49-17-616Z-3c360719"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T06-49-17-619Z-multi-sensitivity.json",
+      "sha256": "7e36221f5bbfb87ce6b0b225a2b31b8cb824cba4d25e78027dc3e26b4622996b",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-08T06:49:17.620Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-08T06-49-17-619Z-c094ff61"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T06-49-17-622Z-multi-negative-test.json",
+      "sha256": "06b29e24396eb857dd40417942a618465a9a409747dfbc663dfc9608ae43b061",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-08T06:49:17.623Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-49-17-622Z-b11f2407"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T06-49-17-625Z-multi-negative-test.json",
+      "sha256": "8f0eeb6999c956afd526b11557e9e316388a2d131b48299f4dc1f96c690affd9",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-08T06:49:17.626Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-49-17-625Z-c5bd70d6"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-17-700Z-multi-chaos.json",
+      "sha256": "c59c6ae57ed5a1622eb3bf1860afe8b1a589cdaf0b2814ffc14ec43ae5e9d4c1",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:49:17.701Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-49-17-700Z-d4203f86"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T06-49-17-705Z-multi-negative-test.json",
+      "sha256": "da311f3f6fdf8efb51862f51385de99d77a404363ab105431e58fff985acef85",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-08T06:49:17.706Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-49-17-705Z-244f0414"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-011Z-multi-chaos.json",
+      "sha256": "0bb58b1edbecbad2903acf14db04c4d0484abac12f4c57f6c6033052e9290d14",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:49:18.013Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-49-18-011Z-8a6f7bbf"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-012Z-multi-chaos.json",
+      "sha256": "1ee713470c1b1a6b4e8dd181d57f634b41036184755bc1687a173393020df41c",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:49:18.013Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-49-18-012Z-38c64372"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T06-49-18-239Z-multi-chaos.json",
+      "sha256": "e7e150025a0ad54cdaf8e2861ad6322929904a82e28468030adcae5f1d86f1c6",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:49:18.241Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T06-49-18-239Z-103f04ef"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T06-49-18-244Z-multi-negative-test.json",
+      "sha256": "9e346e676e3deb01ff3c42ea279a238c9c4db716cce91ee6deb69ee04b28b35e",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-08T06:49:18.245Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T06-49-18-244Z-66b8bcc2"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-08T06-50-31-586Z-multi-chaos.json",
+      "sha256": "81f0d1d83787bec29aeba0622b6177fcdace1a85958178492d1530717b097c73",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:50:31.589Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-08T06-50-31-586Z-ceed12ae"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-08T06-50-48-562Z-multi-chaos.json",
+      "sha256": "f3cdf47821ba47a8d39183fb52dfb1b399c8891bb2f12530894908fcd2697d60",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T06:50:48.564Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-08T06-50-48-562Z-b4ac45e7"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-08T07-13-45-379Z-multi-negative-test.json",
+      "sha256": "7e6395dcab51bff9dc0ba7a7d3132e25722c8bfa727416d5938013cdcc178a06",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-08T07:13:45.382Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T07-13-45-379Z-083e037f"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T07-13-45-386Z-multi-ablation.json",
+      "sha256": "d58dc0282caf93cfc272c0a8da5cb11a203a07a8031891dc9b685ad31cf6f32f",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-08T07:13:45.388Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-08T07-13-45-386Z-00715aca"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-08T07-13-45-390Z-multi-sensitivity.json",
+      "sha256": "461aebe67cff2a3b7fe676e6ff9a93bbfc0ef0d2146b7b2f2c0b758dbb4c28ad",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-08T07:13:45.392Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-08T07-13-45-390Z-6ab62a1c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-08T07-13-45-395Z-multi-negative-test.json",
+      "sha256": "303325731a09cdebc35b3dcaddb57ccd6105d858fb3bbe44433608f422fc9c12",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-08T07:13:45.397Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T07-13-45-395Z-d6d9caa0"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-08T07-13-45-399Z-multi-negative-test.json",
+      "sha256": "29647107e15a112df635b60d0b083432a85a3f6a9ad05e77d10cfa734a1b4d7a",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-08T07:13:45.400Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T07-13-45-399Z-2ec1c724"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-464Z-multi-chaos.json",
+      "sha256": "61fe4a5692ef9d7f7cd13a5c3b1630482b91fe569cc0d35cc8422f3a69ff976d",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T07:13:45.465Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T07-13-45-464Z-4e1e7ff2"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-08T07-13-45-471Z-multi-negative-test.json",
+      "sha256": "62b52f6e9a77b2b3e20a398a66636e369bc4173a189d4f7115539e2aa1ae3170",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-08T07:13:45.471Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T07-13-45-471Z-b17f3641"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-759Z-multi-chaos.json",
+      "sha256": "3e2788c83c358dd51d4b08c2494f9ad8b4e184d23973336f91956fb18cd63c97",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T07:13:45.761Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T07-13-45-759Z-5c9b900e"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-760Z-multi-chaos.json",
+      "sha256": "56d0f1f884c32016a09c64da3b54ee0a9657266f5e9f1fbdebed5e4cbe522c47",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T07:13:45.762Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T07-13-45-760Z-50c51deb"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-08T07-13-45-900Z-multi-chaos.json",
+      "sha256": "2a78de82c36d4b684b9b4701dcb1fe88d0e2adb605d24ac848ddac7ead22858c",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T07:13:45.902Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-08T07-13-45-900Z-997aef8c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-08T07-13-45-988Z-multi-chaos.json",
+      "sha256": "520a5c033b9f74eca2de22856ac3e34d7bc675234f64c19f093fb89f2d0a4611",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-08T07:13:45.989Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-08T07-13-45-988Z-73d6cd1c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-08T07-13-46-008Z-multi-negative-test.json",
+      "sha256": "565888e54e7a5f5f235d3a946ee41e696d0cef475caad8014299628cf8e131d9",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-08T07:13:46.009Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-08T07-13-46-008Z-6e47a853"
+    }
+  ]
+}

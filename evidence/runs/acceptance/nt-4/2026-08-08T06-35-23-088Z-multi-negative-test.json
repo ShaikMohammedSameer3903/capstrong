@@ -1,0 +1,21 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-08T06-35-23-088Z-174cb9f8",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": "multi",
+    "generatedBy": "test-concurrency.cjs",
+    "generatedAt": "2026-08-08T06:35:23.089Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "CLOUD-223-NEG-004",
+    "scenario": "Simultaneous Concurrent Deployment Submission",
+    "precondition": "Two concurrent deploy clicks received within same millisecond window",
+    "trigger": "Parallel HTTP POST /api/deployments",
+    "expectedSafeResponse": "Only one deployment operation acquires concurrency lock; second request rejected cleanly with 409 Conflict / lock notice",
+    "observedResult": "Request 1: ACCEPTED, Request 2: REJECTED_CONCURRENT. Lock protection: true",
+    "recoveryEvidence": "System prevented double stack creation and race conditions.",
+    "residualRisk": "None. Mutex lock verified."
+  }
+}

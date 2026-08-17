@@ -1,0 +1,41 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-08-02T18-19-37-301Z-cf175266",
+    "runType": "chaos",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-08-02T18:19:37.301Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-1785694777252-968",
+    "tenantId": "demo-org-001",
+    "targetResource": "test-resource-nt4",
+    "experimentType": "KILL_POD",
+    "status": "Completed",
+    "rtoSeconds": 0.049,
+    "rpoSeconds": 0,
+    "realPerturbation": false,
+    "simulationMethod": "process-level simulation (SIGTERM to child)",
+    "fidelityLevel": "low — no Docker daemon or k8s cluster available; simulated via timed delay",
+    "durationMs": 49,
+    "startedAt": "2026-08-02T18:19:37.252Z",
+    "completedAt": "2026-08-02T18:19:37.301Z",
+    "details": {
+      "experiment": "KILL_POD",
+      "method": "process-level simulation (SIGTERM to child)",
+      "fidelity": "low — no Docker daemon or k8s cluster available; simulated via timed delay",
+      "realExecution": false,
+      "parameters": {
+        "targetResource": "test-resource-nt4",
+        "signal": "SIGKILL"
+      },
+      "measurements": {
+        "simulatedKillDelayMs": 50,
+        "containerKilled": false,
+        "note": "No Docker daemon or Kubernetes cluster reachable. See docs/o4-fault-simulation-method.md for fidelity analysis."
+      }
+    }
+  }
+}
