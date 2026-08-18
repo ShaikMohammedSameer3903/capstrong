@@ -29,6 +29,46 @@ async function createSession(db, user, provider, req) {
   return sessionId;
 }
 
+// Track and register private Azure Subscriptions for authenticated user
+async function ensureUserAzureSubscription(db, sessionUser, loginProvider, req) {
+  try {
+    const userAzureToken = req.headers ? (req.headers['x-azure-token'] || req.body?.accessToken) : null;
+    
+    // If the user authenticated with Microsoft and has an ARM management token, fetch their real private subscriptions
+    if (loginProvider === 'Microsoft' && userAzureToken) {
+      try {
+        const armResponse = await fetch('https://management.azure.com/subscriptions?api-version=2020-01-01', {
+          headers: { 'Authorization': `Bearer ${userAzureToken}` }
+        });
+        if (armResponse.ok) {
+          const armData = await armResponse.json();
+          const armSubs = armData.value || [];
+          for (const armSub of armSubs) {
+            const subId = armSub.subscriptionId;
+            const newId = `azure-${subId}`;
+            const subName = armSub.displayName || `Azure Subscription (${sessionUser.email})`;
+            await db.run(
+              `INSERT OR REPLACE INTO azure_subscriptions (id, tenant_id, user_id, subscription_id, name, auth_type, status, created_at)
+               VALUES (?, ?, ?, ?, ?, 'MSAL', ?, CURRENT_TIMESTAMP)`,
+              [newId, sessionUser.tenantId, sessionUser.id, subId, subName, armSub.state || 'Active']
+            );
+            await db.run(
+              `INSERT OR REPLACE INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, subscription_id, region, status, created_at)
+               VALUES (?, ?, ?, 'azure', ?, ?, 'global', ?, CURRENT_TIMESTAMP)`,
+              [newId, sessionUser.tenantId, sessionUser.id, subName, subId, armSub.state || 'Active']
+            );
+            console.log(`[AUTH] Registered private Azure subscription ${subName} (${subId}) for ${sessionUser.email}`);
+          }
+        }
+      } catch (armErr) {
+        console.warn('[AUTH] Could not query Microsoft ARM subscriptions:', armErr.message);
+      }
+    }
+  } catch (err) {
+    console.error('[AUTH] Error ensuring user Azure subscription:', err.message);
+  }
+}
+
 // In-memory rate limiting store for authentication endpoints
 const loginAttempts = new Map();
 
@@ -222,6 +262,9 @@ router.post('/entra-login', authRateLimiter, async (req, res) => {
     await logAudit(sessionUser.tenantId, sessionUser.id, sessionUser.email, 'LOGIN_SUCCESS', 'User', sessionUser.id, ip, 'SUCCESS', { provider: 'Microsoft', userAgent });
     await logAdminAudit(normalizedEmail, 'Microsoft Login Success', ip, userAgent);
 
+    // Auto-track and link Azure Account / Subscription to user's email & tenant
+    await ensureUserAzureSubscription(db, sessionUser, 'Microsoft', req);
+
     // Start background resource discovery engine upon successful Microsoft authentication
     const { startDiscoveryScheduler, discoverAllResources } = require('../services/discoveryEngine');
     startDiscoveryScheduler();
@@ -231,7 +274,7 @@ router.post('/entra-login', authRateLimiter, async (req, res) => {
       try {
         const db = await getDatabase();
         // Get all subs for this tenant
-        let subs = await db.all('SELECT id, tenant_id FROM azure_subscriptions WHERE tenant_id = ?', [sessionUser.tenantId]);
+        let subs = await db.all('SELECT id, tenant_id FROM azure_subscriptions WHERE tenant_id = ? OR user_id = ?', [sessionUser.tenantId, sessionUser.id]);
         // Also scan demo-org-001 shared subs if different tenant
         if (sessionUser.tenantId !== 'demo-org-001') {
           const demoSubs = await db.all('SELECT id, tenant_id FROM azure_subscriptions WHERE tenant_id = ?', ['demo-org-001']);

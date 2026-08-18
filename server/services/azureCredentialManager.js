@@ -100,16 +100,17 @@ async function getAzureClients(tenantId, subscriptionId, userAccessToken = null)
     throw err;
   }
 
-  const hasCredentials = !!(
-    sub.client_id &&
-    sub.client_secret &&
-    sub.azure_tenant_id &&
-    sub.client_id !== 'demo-client-id' &&
-    sub.client_id !== 'mock-client-id' &&
-    sub.client_id !== ''
-  );
+  const envTenantId = process.env.AZURE_TENANT_ID;
+  const envClientId = process.env.AZURE_CLIENT_ID;
+  const envClientSecret = process.env.AZURE_CLIENT_SECRET;
 
-  if (!hasCredentials) {
+  const targetTenantId = sub.azure_tenant_id || envTenantId;
+  const targetClientId = (sub.client_id && sub.client_id !== 'demo-client-id' && sub.client_id !== 'mock-client-id') ? sub.client_id : envClientId;
+  const targetClientSecret = sub.client_secret ? secretsManager.decryptSecret(sub.client_secret) : envClientSecret;
+
+  const canUseServicePrincipal = !!(targetTenantId && targetClientId && targetClientSecret);
+
+  if (!canUseServicePrincipal) {
     if (userAccessToken) {
       const credential = {
         getToken: async () => ({
@@ -118,7 +119,7 @@ async function getAzureClients(tenantId, subscriptionId, userAccessToken = null)
         })
       };
 
-      const realSubId = sub.subscription_id;
+      const realSubId = sub.subscription_id || process.env.AZURE_SUBSCRIPTION_ID;
 
       return {
         credential,
@@ -141,7 +142,7 @@ async function getAzureClients(tenantId, subscriptionId, userAccessToken = null)
       };
     }
 
-    const err = new Error('Azure integration not configured.');
+    const err = new Error('Azure integration not configured: missing Service Principal credentials or user access token.');
     err.statusCode = 503;
     err.code = 'AZURE_NOT_CONFIGURED';
     throw err;
@@ -150,12 +151,12 @@ async function getAzureClients(tenantId, subscriptionId, userAccessToken = null)
   // Real Azure credential path using Service Principal
   try {
     const credential = new ClientSecretCredential(
-      sub.azure_tenant_id,
-      sub.client_id,
-      secretsManager.decryptSecret(sub.client_secret)
+      targetTenantId,
+      targetClientId,
+      targetClientSecret
     );
 
-    const realSubId = sub.subscription_id;
+    const realSubId = sub.subscription_id || process.env.AZURE_SUBSCRIPTION_ID;
 
     const clients = {
       credential,

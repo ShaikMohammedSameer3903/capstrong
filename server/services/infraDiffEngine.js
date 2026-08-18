@@ -31,6 +31,9 @@ const MIN_SAMPLES_FOR_MEASUREMENT = 1;
 // carries the qualitative leakage rationale from the reference report.
 // The rationale text explains *why this dimension matters*; it is never
 // a substitute for the measured value itself.
+//
+// EXTENDED (Phase 2): 10 total dimensions including cost, security,
+// compliance, availability, and auto-scaling for broader provider parity.
 const CATEGORY_DEFS = [
   {
     key: 'storage',
@@ -71,6 +74,47 @@ const CATEGORY_DEFS = [
     unit: '% avg utilization',
     decimals: 1,
     leakageRationale: 'vCPU scheduling and throttling behavior differs across hypervisors under sustained load.'
+  },
+  // ── Phase 2: Broader Provider Parity Dimensions ──
+  {
+    key: 'cost',
+    category: 'Cost Efficiency',
+    column: 'avg_cost_per_hour',
+    unit: '$/hr',
+    decimals: 4,
+    leakageRationale: 'Compute pricing, egress costs, and managed-service overhead vary significantly across providers, creating cost asymmetry for identical workloads.'
+  },
+  {
+    key: 'security',
+    category: 'Security Posture Score',
+    column: 'avg_security_score',
+    unit: 'score (0-100)',
+    decimals: 1,
+    leakageRationale: 'Default security configurations (network policies, encryption, IAM granularity) differ between providers, affecting out-of-box security posture.'
+  },
+  {
+    key: 'compliance',
+    category: 'Compliance Adherence',
+    column: 'avg_compliance_score',
+    unit: 'score (0-100)',
+    decimals: 1,
+    leakageRationale: 'Built-in compliance frameworks (SOC2, HIPAA, PCI-DSS) vary in coverage and enforcement depth across cloud providers.'
+  },
+  {
+    key: 'availability',
+    category: 'Availability / Uptime',
+    column: 'avg_uptime_pct',
+    unit: '% uptime',
+    decimals: 3,
+    leakageRationale: 'SLA commitments and actual uptime track records differ between providers and across regions, affecting application reliability.'
+  },
+  {
+    key: 'autoscaling',
+    category: 'Auto-Scaling Responsiveness',
+    column: 'avg_scale_latency_sec',
+    unit: 's',
+    decimals: 2,
+    leakageRationale: 'Time from scaling trigger to new instance readiness varies by provider orchestrator (ECS vs AKS vs Cloud Run), affecting burst-traffic handling.'
   }
 ];
 
@@ -91,19 +135,43 @@ class InfraDiffEngine {
   async getInfraMatrix(tenantId, opts = {}) {
     const db = await getDatabase();
 
-    const metrics = await db.all(`
-      SELECT dm.target_cloud,
-             AVG(dm.cpu_usage_avg) as avg_cpu,
-             AVG(dm.memory_mb_avg) as avg_memory,
-             AVG(dm.latency_ms) as avg_latency,
-             AVG(dm.storage_read_mbps) as avg_storage,
-             AVG(dm.container_startup_sec) as avg_startup,
-             COUNT(*) as sample_count
-      FROM deployment_metrics dm
-      LEFT JOIN deployments d ON dm.deployment_id = d.id
-      WHERE d.tenant_id = ? OR ? IS NULL OR d.tenant_id IS NULL
-      GROUP BY dm.target_cloud
-    `, [tenantId, tenantId]);
+    // Try extended query with Phase 2 columns first, fall back to original 5 columns
+    let metrics;
+    try {
+      metrics = await db.all(`
+        SELECT dm.target_cloud,
+               AVG(dm.cpu_usage_avg) as avg_cpu,
+               AVG(dm.memory_mb_avg) as avg_memory,
+               AVG(dm.latency_ms) as avg_latency,
+               AVG(dm.storage_read_mbps) as avg_storage,
+               AVG(dm.container_startup_sec) as avg_startup,
+               AVG(dm.cost_per_hour) as avg_cost_per_hour,
+               AVG(dm.security_score) as avg_security_score,
+               AVG(dm.compliance_score) as avg_compliance_score,
+               AVG(dm.uptime_pct) as avg_uptime_pct,
+               AVG(dm.scale_latency_sec) as avg_scale_latency_sec,
+               COUNT(*) as sample_count
+        FROM deployment_metrics dm
+        LEFT JOIN deployments d ON dm.deployment_id = d.id
+        WHERE d.tenant_id = ? OR ? IS NULL OR d.tenant_id IS NULL
+        GROUP BY dm.target_cloud
+      `, [tenantId, tenantId]);
+    } catch (_) {
+      // Fall back to original 5-column query if extended columns don't exist
+      metrics = await db.all(`
+        SELECT dm.target_cloud,
+               AVG(dm.cpu_usage_avg) as avg_cpu,
+               AVG(dm.memory_mb_avg) as avg_memory,
+               AVG(dm.latency_ms) as avg_latency,
+               AVG(dm.storage_read_mbps) as avg_storage,
+               AVG(dm.container_startup_sec) as avg_startup,
+               COUNT(*) as sample_count
+        FROM deployment_metrics dm
+        LEFT JOIN deployments d ON dm.deployment_id = d.id
+        WHERE d.tenant_id = ? OR ? IS NULL OR d.tenant_id IS NULL
+        GROUP BY dm.target_cloud
+      `, [tenantId, tenantId]);
+    }
 
     const byCloud = {};
     metrics.forEach(m => {

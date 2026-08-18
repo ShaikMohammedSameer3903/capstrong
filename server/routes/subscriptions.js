@@ -102,8 +102,19 @@ router.get('/', async (req, res) => {
       }
     }
 
-    console.log(`[SECURITY] Returning ${subs.length} subscription(s) to user ${req.userEmail} (role: ${req.userRole})`);
-    res.json(subs);
+    // Deduplicate by subscription_id, prioritizing user-linked entries
+    const seenSubs = new Set();
+    const uniqueSubs = [];
+    for (const s of subs) {
+      const key = s.subscription_id || s.id;
+      if (!seenSubs.has(key)) {
+        seenSubs.add(key);
+        uniqueSubs.push(s);
+      }
+    }
+
+    console.log(`[SECURITY] Returning ${uniqueSubs.length} unique subscription(s) to user ${req.userEmail} (role: ${req.userRole})`);
+    res.json(uniqueSubs);
   } catch (error) {
     console.error('[ROUTES] GET /subscriptions failed:', error);
     const classified = classifyCloudError(error, 'azure');

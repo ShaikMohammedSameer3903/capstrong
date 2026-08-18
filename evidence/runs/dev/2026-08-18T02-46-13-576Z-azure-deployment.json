@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-08-18T02-46-13-576Z-c7ea73b6",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-08-18T02:46:13.576Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1787021173476-812c6615",
+    "applicationId": "app-1787021173472-540e28e8",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 93,
+    "endpointUrl": "https://portfolio-web-site-taticitees-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticiteest-portfolio-web-site/providers/Microsoft.Web/sites/portfolio-web-site-taticitees-demo",
+    "resourceGroup": "rg-cloudops-taticiteest-portfolio-web-site",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1787021173476-812c6615",
+      "operationId": "9cc962d4-7368-4c18-b1d4-9903fe0582c3",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticiteest-portfolio-web-site/providers/Microsoft.Web/sites/portfolio-web-site-taticitees-demo",
+      "fqdn": "https://portfolio-web-site-taticitees-demo.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 14,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'Portfolio Web Site'",
+          "timestamp": "2026-08-18T02:46:13.542Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-08-18T02:46:13.556Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-taticiteest-portfolio-web-site' in region 'southeastasia'...",
+          "timestamp": "2026-08-18T02:46:13.556Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-taticiteest-portfolio-web-site' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-08-18T02:46:13.556Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'portfolio-web-site-taticitees-demo'...",
+          "timestamp": "2026-08-18T02:46:13.556Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'portfolio-web-site-taticitees-demo' created: https://portfolio-web-site-taticitees-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-08-18T02:46:13.556Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-08-18T02:46:13.556Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

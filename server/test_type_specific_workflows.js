@@ -163,11 +163,13 @@ async function runWorkflowVerificationSuite() {
     }
     console.log('✓ Virtual Machine dedicated workflow verified.\n');
 
-    // Clean up test applications
-    console.log('[CLEANUP] Cleaning up test application records...');
+    // Clean up test applications & resources
+    console.log('[CLEANUP] Cleaning up test application records & resources...');
     for (const appId of createdAppIds) {
       await applicationService.deleteApplication(appId, tenantId);
     }
+    await db.run("DELETE FROM resources WHERE id LIKE 'res-wf-%' OR name IN ('Portfolio Web Site', 'Order API Microservice', 'PostgreSQL Database Node') OR resource_group LIKE 'rg-cloudops-%'");
+    await db.run("DELETE FROM deployments WHERE app_id IN (SELECT id FROM applications WHERE name IN ('Portfolio Web Site', 'Order API Microservice', 'PostgreSQL Database Node'))");
     console.log('✓ Cleanup completed successfully.\n');
 
     console.log('===========================================================');

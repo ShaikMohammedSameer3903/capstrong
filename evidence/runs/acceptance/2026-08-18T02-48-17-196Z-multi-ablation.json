@@ -1,0 +1,103 @@
+{
+  "_evidenceMeta": {
+    "runId": "ablation-2026-08-18T02-48-17-196Z-97439fa8",
+    "runType": "ablation",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/infraDiffEngine.js",
+    "generatedAt": "2026-08-18T02:48:17.197Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "tenantId": "demo-org-001",
+    "baselineAvgSpreadPercent": 70.96,
+    "ablationResults": [
+      {
+        "ablatedSignal": "storage",
+        "category": "Storage IOPS & Throughput",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 70.96,
+        "ablatedAvgSpreadPercent": 86.28,
+        "deltaPercent": -15.32,
+        "interpretation": "Removing Storage IOPS & Throughput shifts average measured cross-provider spread by -15.32 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "network",
+        "category": "Network Policy & Latency",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 70.96,
+        "ablatedAvgSpreadPercent": 43.63,
+        "deltaPercent": 27.33,
+        "interpretation": "Removing Network Policy & Latency shifts average measured cross-provider spread by 27.33 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "startup",
+        "category": "Compute Startup / Cold-Start",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 70.96,
+        "ablatedAvgSpreadPercent": 82.3,
+        "deltaPercent": -11.34,
+        "interpretation": "Removing Compute Startup / Cold-Start shifts average measured cross-provider spread by -11.34 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "memory",
+        "category": "Memory Allocation Efficiency",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 70.96,
+        "ablatedAvgSpreadPercent": 78.63,
+        "deltaPercent": -7.67,
+        "interpretation": "Removing Memory Allocation Efficiency shifts average measured cross-provider spread by -7.67 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "cpu",
+        "category": "CPU Utilization / Throttling",
+        "status": "MEASURED",
+        "baselineAvgSpreadPercent": 70.96,
+        "ablatedAvgSpreadPercent": 63.97,
+        "deltaPercent": 6.98,
+        "interpretation": "Removing CPU Utilization / Throttling shifts average measured cross-provider spread by 6.98 percentage points.",
+        "dataSource": "deployment_metrics (real recorded rows)",
+        "executionMode": "RECOMPUTED_FROM_RECORDED_MEASUREMENTS"
+      },
+      {
+        "ablatedSignal": "cost",
+        "category": "Cost Efficiency",
+        "status": "EXPERIMENT_NOT_AVAILABLE",
+        "reason": "This category has no baseline measurement to ablate."
+      },
+      {
+        "ablatedSignal": "security",
+        "category": "Security Posture Score",
+        "status": "EXPERIMENT_NOT_AVAILABLE",
+        "reason": "This category has no baseline measurement to ablate."
+      },
+      {
+        "ablatedSignal": "compliance",
+        "category": "Compliance Adherence",
+        "status": "EXPERIMENT_NOT_AVAILABLE",
+        "reason": "This category has no baseline measurement to ablate."
+      },
+      {
+        "ablatedSignal": "availability",
+        "category": "Availability / Uptime",
+        "status": "EXPERIMENT_NOT_AVAILABLE",
+        "reason": "This category has no baseline measurement to ablate."
+      },
+      {
+        "ablatedSignal": "autoscaling",
+        "category": "Auto-Scaling Responsiveness",
+        "status": "EXPERIMENT_NOT_AVAILABLE",
+        "reason": "This category has no baseline measurement to ablate."
+      }
+    ],
+    "timestamp": "2026-08-18T02:48:17.196Z"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-18T02-55-55-708Z-76f0eef4",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+    "generatedAt": "2026-08-18T02:55:55.708Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "NT-4",
+    "testName": "Partial Failure & State Consistency",
+    "passed": true,
+    "chaosResult": {
+      "experimentId": "chaos-1787021755591-483",
+      "tenantId": "demo-org-001",
+      "targetResource": "test-resource-nt4",
+      "experimentType": "KILL_POD",
+      "status": "Completed",
+      "rtoSeconds": 0.106,
+      "rpoSeconds": 0,
+      "realPerturbation": false,
+      "simulationMethod": "process-level simulation (SIGTERM to child)",
+      "fidelityLevel": "low — no Docker daemon or k8s cluster available; simulated via timed delay",
+      "durationMs": 106,
+      "startedAt": "2026-08-18T02:55:55.591Z",
+      "completedAt": "2026-08-18T02:55:55.698Z",
+      "details": {
+        "experiment": "KILL_POD",
+        "method": "process-level simulation (SIGTERM to child)",
+        "fidelity": "low — no Docker daemon or k8s cluster available; simulated via timed delay",
+        "realExecution": false,
+        "parameters": {
+          "targetResource": "test-resource-nt4",
+          "signal": "SIGKILL"
+        },
+        "measurements": {
+          "simulatedKillDelayMs": 50,
+          "containerKilled": false,
+          "note": "No Docker daemon or Kubernetes cluster reachable. See docs/o4-fault-simulation-method.md for fidelity analysis."
+        }
+      },
+      "evidenceRunId": "chaos-2026-08-18T02-55-55-698Z-d7b029a6",
+      "evidenceFile": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-55-55-698Z-multi-chaos.json"
+    },
+    "recoveryMetricsSummary": {
+      "dataSource": "recovery_results_table",
+      "highestSuccessRate": "GCP (99.99%)"
+    }
+  }
+}

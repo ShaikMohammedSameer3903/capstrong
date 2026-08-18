@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-17T14:15:01.917Z",
-  "totalFiles": 218,
+  "generatedAt": "2026-08-18T03:08:10.192Z",
+  "totalFiles": 299,
   "files": [
     {
       "file": "evidence/runs/acceptance/nt-3/2026-08-16T17-34-22-446Z-multi-negative-test.json",
@@ -331,6 +331,816 @@
       "run_type": "negative-test",
       "partition": "acceptance",
       "run_id": "negative-test-2026-08-17T14-15-01-741Z-334a8f16"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-44-55-207Z-multi-chaos.json",
+      "sha256": "c32aecc5c1f4586ca6b8e597e0ed795d97cb1d8f23f0e5d457eb2c59bfdcbde4",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:44:55.209Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-18T02-44-55-207Z-a71b6973"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-45-18-769Z-multi-chaos.json",
+      "sha256": "18f27c5f3bee569b2fba9ca93d3eabfd03089e78a2f2ca6198aac8975388494e",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:45:18.771Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-18T02-45-18-769Z-e77c6d22"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-03-185Z-azure-deployment.json",
+      "sha256": "d2d6513b2d3840f87e85adf67d4afd065d79ea7301c2f06878f5838f104f00f7",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:03.186Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-03-185Z-2e7a49e9"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-13-576Z-azure-deployment.json",
+      "sha256": "088632e9ef3a5d6cb6cf53a51779b24e0962df9ebfc3dc56e098463cd67a72ec",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:13.577Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-13-576Z-c7ea73b6"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-13-646Z-azure-deployment.json",
+      "sha256": "89b6b75269bb1fefad52aeb29d494f036380bd23d272f112c9f6cf3dd075588d",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:13.647Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-13-646Z-8eceed1a"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-13-713Z-azure-deployment.json",
+      "sha256": "b3546e0c760ca544de27bb75c95e9f9f29b14159b83f67e60bf5c1dc6799a994",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:13.714Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-13-713Z-f50234c6"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-23-311Z-azure-deployment.json",
+      "sha256": "7ac7bb8f0c06cc980644ebd1621d7ea590f5e109ef407f5376657610fab17be4",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:23.312Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-23-311Z-5f9de22c"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-23-388Z-azure-deployment.json",
+      "sha256": "5850c75d45c265f2da55e03c2137e9ff780cadd68fee2aa14d4bc8811a0b79cd",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:23.390Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-23-388Z-73c002a7"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-23-466Z-azure-deployment.json",
+      "sha256": "1d3ad900a69a505280ad6585033c098701c4e499a7a3a2a39bdb73ccdf9add29",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:23.467Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-23-466Z-f41b3590"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-23-532Z-azure-deployment.json",
+      "sha256": "95a6552099611fe480169d4f4f044a094457f9af317b8a4fc817998525640c23",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:23.533Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-23-532Z-d7df0cd0"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-23-600Z-azure-deployment.json",
+      "sha256": "ad10a96132014d567776250c656409de6f729cee9c3e14f5a985ef9357cfc27d",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:23.601Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-23-600Z-b561555b"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-46-23-664Z-azure-deployment.json",
+      "sha256": "360d86d89fe447fb12f5576dd27901b3bad8a9a8bb691b7d089233d5d335119f",
+      "generated_by": "server/services/deploymentService.js",
+      "generated_at": "2026-08-18T02:46:23.665Z",
+      "provider": "azure",
+      "run_type": "deployment",
+      "partition": "dev",
+      "run_id": "deployment-2026-08-18T02-46-23-664Z-39d145d5"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-18T02-46-33-547Z-multi-negative-test.json",
+      "sha256": "f52b92db8736121017b8659fe7dd9fabb006e8e6b2e35015e7a1ff7f3b9a9ada",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-18T02:46:33.549Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-46-33-547Z-8f9dffc0"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-46-38-703Z-multi-ablation.json",
+      "sha256": "3d9aa458cfe88f7d87dd0955b3b8ac6f6909db7710f8207a24c3f0aeef563adb",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:46:38.704Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-18T02-46-38-703Z-201a2d5a"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-46-38-707Z-multi-sensitivity.json",
+      "sha256": "9e3d1c413844cc9dba87abe7c9fa6007e2e95bba5d202d3ca1f5017fc4b2c9bf",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:46:38.708Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-18T02-46-38-707Z-ee53a590"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-18T02-46-38-709Z-multi-negative-test.json",
+      "sha256": "a271308dcb465ba7b2b32a64b3b6ef81d4feb1a1b75e3475754f8761953e5f5a",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-18T02:46:38.710Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-46-38-709Z-b5df7c10"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-18T02-46-48-949Z-multi-negative-test.json",
+      "sha256": "b9c30d99d8376f2b92b723a648f171ff017f8b59addeee4d4c224af7ced2d98a",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-18T02:46:48.972Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-46-48-949Z-3684eaf8"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-46-54-727Z-multi-chaos.json",
+      "sha256": "d5f2416691437ee79595f17ee8d6fb7f69bf4df37e239c09b215bfe467d0652b",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:46:54.730Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-46-54-727Z-65837713"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-18T02-46-54-733Z-multi-negative-test.json",
+      "sha256": "0e5b4ce9f9e6ecbf7fe36502939d725a9d9e685dbd13b71dec28cf592ac124a4",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-18T02:46:54.734Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-46-54-733Z-0c481ad9"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-47-00-731Z-multi-chaos.json",
+      "sha256": "600a4b72c37c7f6ac9aff5be2025e14cb8cfd9bf05df979726aafd9301f444c2",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:47:00.733Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-47-00-731Z-b35540fc"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-47-00-978Z-multi-chaos.json",
+      "sha256": "44aee45d96cdd7422fb261030929c75ce71b5c053e9674c8ce918a191c63c11e",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:47:00.979Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-47-00-978Z-9b07bd75"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-47-01-023Z-multi-chaos.json",
+      "sha256": "c851d466a724d26c0c744b3775f8a0a0737f8867fe1b432dfb8afe889bebc188",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:47:01.025Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-47-01-023Z-8280d368"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-18T02-47-01-029Z-multi-negative-test.json",
+      "sha256": "ef7474cc57730e27ab209c42e0617b72599f6f0945e7c22d78256de9b1e9248b",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-18T02:47:01.031Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-47-01-029Z-1211b48b"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-18T02-48-17-191Z-multi-negative-test.json",
+      "sha256": "96df8eee2707b89345136fe90919fa478b95c6ba75e6a28ed389baedbe3c5886",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-18T02:48:17.194Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-48-17-191Z-f7905dff"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-48-17-196Z-multi-ablation.json",
+      "sha256": "2a486aa8c51a84606ddbbaa645900d1e8365bc17b3d57d0b7f2a8f6dd753d1f3",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:48:17.197Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-18T02-48-17-196Z-97439fa8"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-48-17-199Z-multi-sensitivity.json",
+      "sha256": "24ad58f00c7f8f7429125ef157d749834a5466e6d5cb0da4766a621e0d024e6f",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:48:17.199Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-18T02-48-17-199Z-bd4c1831"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-18T02-48-17-201Z-multi-negative-test.json",
+      "sha256": "c2dccff874ab76de78cca513dd715200f00365aa51c9c8da51fc14e031a313eb",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-18T02:48:17.202Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-48-17-201Z-6e957cd7"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-18T02-48-19-285Z-multi-negative-test.json",
+      "sha256": "6d4751107439dd92fe5e3101a9c789d35bcb678057950a55c3be4e8ad1448c0d",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-18T02:48:19.287Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-48-19-285Z-d87ab19d"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-48-19-344Z-multi-chaos.json",
+      "sha256": "e85d5af12a084bca6833df5dec40af2bf08f895f0a7811c25c19c16c4dd03c5f",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:48:19.345Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-48-19-344Z-62534bdb"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-18T02-48-19-348Z-multi-negative-test.json",
+      "sha256": "f53778c6c99836eed37dcbb4b505dc304be443e1ddbda7334426a926d466e64e",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-18T02:48:19.349Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-48-19-348Z-9ff4d22c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-48-19-614Z-multi-chaos.json",
+      "sha256": "f6fc46916b3bbcb41df1f9dafe1658ea1e3efa9d6d59da755b88c7fb1004f329",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:48:19.615Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-48-19-614Z-80b68014"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-48-19-614Z-multi-chaos.json",
+      "sha256": "26f10036a4979d99a198e8bf33c769ae3e61e2d6cfddb537744c467809a5958b",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:48:19.615Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-48-19-614Z-d9c2cd71"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-48-19-849Z-multi-chaos.json",
+      "sha256": "72371228cce855b6c2d74c8b6df36ef96277b59b59c4c2c55ef98d30e284b7e2",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:48:19.852Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-48-19-849Z-c4bafbdd"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-18T02-48-19-856Z-multi-negative-test.json",
+      "sha256": "227b8eb42b1e9b4a029dfb0fe31887ad2ffcb0cbc9817a7b85a8c79cb2c7fe9e",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-18T02:48:19.858Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-48-19-856Z-ecae1f60"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-18T02-54-40-952Z-multi-negative-test.json",
+      "sha256": "ab0ab2e22d4deca7b179393d98d66f3596f73b3f21331b26c4f29549e3533770",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-18T02:54:40.954Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-54-40-952Z-c85902da"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-54-40-960Z-multi-ablation.json",
+      "sha256": "cd89077e84da905423c4ce50289da1b70c28b2c4657678157e3923d0384f9d27",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:54:40.961Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-18T02-54-40-960Z-6f1fceec"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-54-40-963Z-multi-sensitivity.json",
+      "sha256": "66e32ae859dcb8b37c0fd9925e11dba34f8482c86d677270ef4f6034e411e922",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:54:40.963Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-18T02-54-40-963Z-1d27c1ef"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-18T02-54-40-964Z-multi-negative-test.json",
+      "sha256": "90d5c3e5b0ed8f1ed83ffdc485433fbb12bc18966901b2fa882415a37c3167a3",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-18T02:54:40.965Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-54-40-964Z-0b3f64e5"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-18T02-54-43-163Z-multi-negative-test.json",
+      "sha256": "749999365daeebcbae35b8c1170ed20c311665b659dffdf5e32cec8704b79016",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-18T02:54:43.165Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-54-43-163Z-88d4b0a7"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-54-43-215Z-multi-chaos.json",
+      "sha256": "79bb81d3884bb96e4cade2974f151e88a993a5d7be2fe21a17eecb664208f368",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:54:43.216Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-54-43-215Z-52f4b75f"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-18T02-54-43-220Z-multi-negative-test.json",
+      "sha256": "40750a4b0b62a10b61b8fc8d23b06ef4560cb6def48fa53e571124d6a179d9a5",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-18T02:54:43.220Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-54-43-220Z-c8c5d0e3"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-54-43-486Z-multi-chaos.json",
+      "sha256": "d95e2fa28117626e9154f54f478f67c1afd2c5f54d23a1ad3028f96bd301596e",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:54:43.487Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-54-43-486Z-830d9ebf"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-54-43-486Z-multi-chaos.json",
+      "sha256": "4dcc9a7bb7a29afbbe038faf224820171de25e2975f61d73a8949be4e96f32b0",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:54:43.487Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-54-43-486Z-aceab3dc"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-54-43-723Z-multi-chaos.json",
+      "sha256": "8f9cfe1198bbe82324ce53f0b1e12745d0dd09795282e6b194b9e6f809fb0f9c",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:54:43.725Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-54-43-723Z-3ae6b657"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-18T02-54-43-731Z-multi-negative-test.json",
+      "sha256": "cc1d249b6952becb53145c8b1ef1b55fbd3f9e95d2f09b54e616d55948bff0e1",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-18T02:54:43.732Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-54-43-731Z-2958377d"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-54-48-927Z-multi-chaos.json",
+      "sha256": "87b7abcbe8d1503d54eb1a17871b5d2cd2b1ae54894a75b43814e7ddbb53242c",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:54:48.929Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-18T02-54-48-927Z-abf3f25c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-18T02-55-53-495Z-multi-negative-test.json",
+      "sha256": "0f0bae8c0b663a5e83c37fa076329536666c6dd9c1e321249148eb29c55d0e8c",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-18T02:55:53.496Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-55-53-495Z-faef2efc"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-55-53-499Z-multi-ablation.json",
+      "sha256": "e9e01c6f93364cce988f5350f8f588167fdd70d471ff917a0f28b5067eda5387",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:55:53.500Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-18T02-55-53-499Z-6cbfdea0"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T02-55-53-502Z-multi-sensitivity.json",
+      "sha256": "ea4ea6ccc09d19076792f7aa9a87f234b395bf840ff3e950cdfb9e77a0d17f83",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T02:55:53.503Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-18T02-55-53-502Z-5bb3e111"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-18T02-55-53-504Z-multi-negative-test.json",
+      "sha256": "43e6057690c843243351371710f5abdfe473118b38c02b9c4cce045aeb786b4c",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-18T02:55:53.505Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-55-53-504Z-e5e4e66e"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-18T02-55-55-584Z-multi-negative-test.json",
+      "sha256": "e1ab1ce380f9588803ed4dc4ae21326b7d709c2ae8a7c7979611e64db2f0eeaa",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-18T02:55:55.586Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-55-55-584Z-5e0b50e0"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-55-55-698Z-multi-chaos.json",
+      "sha256": "73da29490d530c1316179c7de9af6611a838d236c316aed4f541347819ce1e4a",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:55:55.699Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-55-55-698Z-d7b029a6"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-18T02-55-55-708Z-multi-negative-test.json",
+      "sha256": "02f86d5f270b673b05a4e487a9e5e7ff6373b1c6224080acf01b6b50def53ef9",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-18T02:55:55.710Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-55-55-708Z-76f0eef4"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-55-56-048Z-multi-chaos.json",
+      "sha256": "928509b66b5937ef970913a62ea4d31b6f0b941e7147b2ffe667f785e9b47733",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:55:56.052Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-55-56-048Z-6300981d"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-55-56-050Z-multi-chaos.json",
+      "sha256": "9f2c602ae310ecfed4cb89894905a883213f8e0aa2eae633ce8dd11f542d9071",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:55:56.052Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-55-56-050Z-096b41c3"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T02-55-56-273Z-multi-chaos.json",
+      "sha256": "89e436b94e463cb93d31267b7ebf6830614a2f758391070e9cd6bbe811aa3484",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:55:56.276Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T02-55-56-273Z-5c945410"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-18T02-55-56-281Z-multi-negative-test.json",
+      "sha256": "eec98a78afd73349cc2164d67830f0961ab45df097710ee66b13b800cf29c7a1",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-18T02:55:56.284Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T02-55-56-281Z-02bebc6f"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T02-56-10-955Z-multi-chaos.json",
+      "sha256": "2d61bf7c82d5b35b3b009c3047a9173da328daa7f2741874b80d25b062ad010d",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T02:56:10.956Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-18T02-56-10-955Z-fbfecb5f"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-18T03-02-04-567Z-multi-negative-test.json",
+      "sha256": "f5aba0239179f6f866818ff65fbca5ae0ea8ee042ffe673462cc579bb8c0e3e4",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-18T03:02:04.569Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-02-04-567Z-d09fec8f"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T03-02-04-572Z-multi-ablation.json",
+      "sha256": "3336c1ce2f8f558d824068f55df08c5ca2598d7d500c5f89fd2e3d666e9ff405",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T03:02:04.574Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-18T03-02-04-572Z-7939d9c3"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T03-02-04-576Z-multi-sensitivity.json",
+      "sha256": "51bccf93054e9388792ef4dde017caea4c6d7658d317976348dd36978507f3d7",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T03:02:04.577Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-18T03-02-04-576Z-3de5726d"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-18T03-02-04-578Z-multi-negative-test.json",
+      "sha256": "af686511bbdcba1e3187a230ba6fd25719c3e8b8c87b111677b827ec12af03d9",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-18T03:02:04.579Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-02-04-578Z-4f98b17c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-18T03-02-06-504Z-multi-negative-test.json",
+      "sha256": "c5d7b5da535cda4f88b7502b24bac0b2dfe256aa2aa64b3ee7f3ae289bd33941",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-18T03:02:06.506Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-02-06-504Z-b3d37fbb"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-02-06-562Z-multi-chaos.json",
+      "sha256": "5771fc6df76625fe0ec1c6d30489de88a5fb69d492a2390e13ba9ef40f02279f",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:02:06.564Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-02-06-562Z-f5287596"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-18T03-02-06-568Z-multi-negative-test.json",
+      "sha256": "60d6e01ad7662f214869c74477b16a1871f18fb610a2c4998d53c7c94723eb8d",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-18T03:02:06.569Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-02-06-568Z-0ee6ec0a"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-02-06-835Z-multi-chaos.json",
+      "sha256": "6bd1b12bcd26d3098364fbddfe5d7b95553cbd7a60a0bf954952241f94004125",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:02:06.836Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-02-06-835Z-f7351f0c"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-02-06-835Z-multi-chaos.json",
+      "sha256": "cc8316584772a52b7ada10ef0fd885dd49f428a37d293cb349c9a4fdd16a786a",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:02:06.836Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-02-06-835Z-24cd8b75"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-02-07-073Z-multi-chaos.json",
+      "sha256": "f2466c347243e19e4762b67bee19c6e3114c7a07cf30a2474de4d1b84c155e53",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:02:07.076Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-02-07-073Z-715476a4"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-18T03-02-07-081Z-multi-negative-test.json",
+      "sha256": "31b1813ddb31433af97c5ae23b96e257572cda41a925319f288e2907b571d5a8",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-18T03:02:07.083Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-02-07-081Z-4c8786d9"
+    },
+    {
+      "file": "evidence/runs/dev/2026-08-18T03-04-45-461Z-multi-chaos.json",
+      "sha256": "85ba990ed597e932af8bf5f8ed3f0cf1519618d8a37a87e755fa2918673668cf",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:04:45.462Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "dev",
+      "run_id": "chaos-2026-08-18T03-04-45-461Z-a7882e00"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-1/2026-08-18T03-08-07-621Z-multi-negative-test.json",
+      "sha256": "03350afe174e43380d7645a8a423dc223bcd4baf6288cb68160da0ac5a9f57e5",
+      "generated_by": "test-suite/negative-tests/NT-1-storage-network-leak.cjs",
+      "generated_at": "2026-08-18T03:08:07.623Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-08-07-621Z-b6eb2e2d"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T03-08-07-626Z-multi-ablation.json",
+      "sha256": "bfb40a2722d3b66205e8520e885a5aa8fa259a5901a581cd1be4653ecab11862",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T03:08:07.628Z",
+      "provider": null,
+      "run_type": "ablation",
+      "partition": "acceptance",
+      "run_id": "ablation-2026-08-18T03-08-07-626Z-7c0c4ea2"
+    },
+    {
+      "file": "evidence/runs/acceptance/2026-08-18T03-08-07-630Z-multi-sensitivity.json",
+      "sha256": "577246dfa29b6213d6e39a7b1bbef4202a9da2db655a8894af70bde0d9fc22fa",
+      "generated_by": "server/services/infraDiffEngine.js",
+      "generated_at": "2026-08-18T03:08:07.632Z",
+      "provider": null,
+      "run_type": "sensitivity",
+      "partition": "acceptance",
+      "run_id": "sensitivity-2026-08-18T03-08-07-630Z-5c56f1af"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-2/2026-08-18T03-08-07-633Z-multi-negative-test.json",
+      "sha256": "07c441db9535132f117b7499b02be9b0feca836d93fbf35c568e60da2547d7a4",
+      "generated_by": "test-suite/negative-tests/NT-2-behaviour-underneath.cjs",
+      "generated_at": "2026-08-18T03:08:07.634Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-08-07-633Z-30c5c8a8"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-3/2026-08-18T03-08-09-592Z-multi-negative-test.json",
+      "sha256": "cee15f33bd2998ef90481f51c538fa342e2d444d95bf293eb47326b7769613ba",
+      "generated_by": "test-suite/negative-tests/NT-3-false-success.cjs",
+      "generated_at": "2026-08-18T03:08:09.593Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-08-09-592Z-a9ccb131"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-08-09-644Z-multi-chaos.json",
+      "sha256": "80596aa251fcb13440d6997957e170c2dcc86d5e68b594f7477414dc5419c2c4",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:08:09.645Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-08-09-644Z-3b4871ac"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-4/2026-08-18T03-08-09-649Z-multi-negative-test.json",
+      "sha256": "ef498ccb0c17cf20e89b4ea3f6b26a25f23d2d77a82044b756ab2b4fecf05f55",
+      "generated_by": "test-suite/negative-tests/NT-4-partial-failure-inconsistent-state.cjs",
+      "generated_at": "2026-08-18T03:08:09.650Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-08-09-649Z-9f0839c9"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-08-09-909Z-multi-chaos.json",
+      "sha256": "e526bd359c3d251f223b1bf55996a1e41e70b965448d381e5a1c93fac70cd302",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:08:09.911Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-08-09-909Z-7bf7bc32"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-08-09-910Z-multi-chaos.json",
+      "sha256": "1cc9901fc767714e674d1e40d2e623c09c3d9b47aa665062a4df634c1e2d2f3a",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:08:09.911Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-08-09-910Z-382febbe"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-chaos/2026-08-18T03-08-10-153Z-multi-chaos.json",
+      "sha256": "1837a317c09ad2c7ab5b673e87f116d6e4766463f5e51869390707a632d95941",
+      "generated_by": "server/services/chaosEngine.js",
+      "generated_at": "2026-08-18T03:08:10.156Z",
+      "provider": null,
+      "run_type": "chaos",
+      "partition": "acceptance",
+      "run_id": "chaos-2026-08-18T03-08-10-153Z-f195eaa0"
+    },
+    {
+      "file": "evidence/runs/acceptance/nt-5/2026-08-18T03-08-10-160Z-multi-negative-test.json",
+      "sha256": "ea1e04b13dfb20aed654a84b4d1808635e772d37cc09c6da3eaf694054315e26",
+      "generated_by": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+      "generated_at": "2026-08-18T03:08:10.162Z",
+      "provider": null,
+      "run_type": "negative-test",
+      "partition": "acceptance",
+      "run_id": "negative-test-2026-08-18T03-08-10-160Z-28dc6ad9"
     },
     {
       "file": "evidence/runs/acceptance/2026-08-02T15-25-02-411Z-multi-ablation.json",

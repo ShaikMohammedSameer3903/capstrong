@@ -412,34 +412,7 @@ async function getDatabase() {
   // Ensure default administrator is seeded
   await seedDefaultAdmin(db);
 
-  // Seed default Azure subscription from environment if configured
-  const subCheck = await db.get('SELECT COUNT(*) as count FROM azure_subscriptions');
-  if (subCheck.count === 0 && process.env.AZURE_SUBSCRIPTION_ID) {
-    const activeTenantId = process.env.AZURE_TENANT_ID || 'demo-org-001';
-    console.log('[DB] Seeding Azure subscription from environment variables...');
-    await db.run(`
-      INSERT INTO azure_subscriptions (id, tenant_id, subscription_id, name, client_id, client_secret, azure_tenant_id, auth_type, status, user_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, 'CREDENTIALS', 'Active', 'local-admin-001')
-    `, [
-      'sub-default-prod',
-      activeTenantId,
-      process.env.AZURE_SUBSCRIPTION_ID,
-      'Azure Subscription',
-      process.env.AZURE_CLIENT_ID || null,
-      process.env.AZURE_CLIENT_SECRET || null,
-      process.env.AZURE_TENANT_ID || null
-    ]);
-
-    await db.run(`
-      INSERT INTO cloud_accounts (id, tenant_id, provider, account_name, subscription_id, region, status, created_at)
-      VALUES (?, ?, 'azure', ?, ?, 'global', 'Active', CURRENT_TIMESTAMP)
-    `, [
-      'sub-default-prod',
-      activeTenantId,
-      'Azure Subscription',
-      process.env.AZURE_SUBSCRIPTION_ID
-    ]);
-  }
+  // Validate and sync schema without inserting duplicate default accounts
 
   await seedCloudOpsAppPlatform(db);
 

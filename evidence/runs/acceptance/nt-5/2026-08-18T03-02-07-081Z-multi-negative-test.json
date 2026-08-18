@@ -1,0 +1,34 @@
+{
+  "_evidenceMeta": {
+    "runId": "negative-test-2026-08-18T03-02-07-081Z-4c8786d9",
+    "runType": "negative-test",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "test-suite/negative-tests/NT-5-retry-concurrency-corruption.cjs",
+    "generatedAt": "2026-08-18T03:02:07.081Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "testId": "NT-5",
+    "testName": "Retry & Concurrency Idempotency",
+    "passed": true,
+    "concurrentRunsCount": 3,
+    "resultsSummary": [
+      {
+        "runId": "chaos-1787022126571-25",
+        "type": "CPU_STRESS",
+        "status": "Completed"
+      },
+      {
+        "runId": "chaos-1787022126790-209",
+        "type": "NETWORK_LATENCY",
+        "status": "Completed"
+      },
+      {
+        "runId": "chaos-1787022126817-134",
+        "type": "STORAGE_DISCONNECT",
+        "status": "Completed"
+      }
+    ]
+  }
+}

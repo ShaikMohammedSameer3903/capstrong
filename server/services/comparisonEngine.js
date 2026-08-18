@@ -288,6 +288,90 @@ class ComparisonEngine {
     };
   }
 
+  /**
+   * Compute a comprehensive Provider Parity Matrix across all 10 infrastructure dimensions.
+   * Leverages infraDiffEngine's expanded CATEGORY_DEFS for broader coverage.
+   *
+   * @param {string} tenantId
+   * @returns {Promise<object>}
+   */
+  async getProviderParityMatrix(tenantId) {
+    const infraDiffEngine = require('./infraDiffEngine');
+    const matrix = await infraDiffEngine.getInfraMatrix(tenantId);
+
+    const providers = ['azure', 'aws', 'gcp'];
+    const dimensions = matrix.map(row => {
+      const measured = providers.filter(p => row[p] !== 'NOT_MEASURED');
+      return {
+        category: row.category,
+        status: row.status,
+        measured: measured.length,
+        totalProviders: providers.length,
+        providerValues: providers.reduce((acc, p) => {
+          acc[p] = row[p];
+          return acc;
+        }, {}),
+        leakageImpact: row.leakageImpact,
+        leakageRationale: row.leakageRationale
+      };
+    });
+
+    const measuredDimensions = dimensions.filter(d => d.status === 'MEASURED');
+    const gapDimensions = dimensions.filter(d => d.status !== 'MEASURED');
+    const coveragePercent = dimensions.length > 0
+      ? Math.round((measuredDimensions.length / dimensions.length) * 100)
+      : 0;
+
+    return {
+      evaluatedAt: new Date().toISOString(),
+      tenantId,
+      totalDimensions: dimensions.length,
+      measuredDimensions: measuredDimensions.length,
+      gapDimensions: gapDimensions.length,
+      coveragePercent,
+      dimensions,
+      summary: {
+        measured: measuredDimensions.map(d => d.category),
+        gaps: gapDimensions.map(d => d.category)
+      }
+    };
+  }
+
+  /**
+   * Generate a Provider Parity Coverage Report showing which dimensions
+   * have cross-provider data and which are gaps.
+   *
+   * @param {string} tenantId
+   * @returns {Promise<object>}
+   */
+  async getParityCoverageReport(tenantId) {
+    const parityMatrix = await this.getProviderParityMatrix(tenantId);
+    const behaviourComparison = await this.getBehaviourComparison(tenantId);
+    const parityScore = await this.computeParityScore(tenantId);
+
+    return {
+      evaluatedAt: new Date().toISOString(),
+      tenantId,
+      overallCoverage: `${parityMatrix.coveragePercent}% (${parityMatrix.measuredDimensions}/${parityMatrix.totalDimensions} dimensions)`,
+      parityScore: `${parityScore.parityScorePercent}% across ${parityScore.runsUsed} batches`,
+      dimensionBreakdown: parityMatrix.dimensions.map(d => ({
+        category: d.category,
+        status: d.status === 'MEASURED' ? '✅ Measured' : '⚠️ Gap',
+        providers: d.providerValues,
+        impact: d.leakageImpact
+      })),
+      recommendations: parityMatrix.dimensions
+        .filter(d => d.status !== 'MEASURED')
+        .map(d => ({
+          dimension: d.category,
+          action: `Deploy workloads to at least 2 cloud providers to generate ${d.category} comparison data`,
+          rationale: d.leakageRationale
+        })),
+      behaviourWinners: behaviourComparison.winners,
+      deploymentSampleSize: behaviourComparison.deploymentSampleSize
+    };
+  }
+
   /** Population standard deviation of a numeric array. */
   _stdDevOf(values) {
     if (!values || values.length === 0) return 0;
@@ -298,3 +382,4 @@ class ComparisonEngine {
 }
 
 module.exports = new ComparisonEngine();
+

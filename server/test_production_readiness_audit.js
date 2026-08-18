@@ -273,6 +273,11 @@ async function runProductionReadinessAudit() {
   auditResults.performanceMetrics.details.push(`Memory usage: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`);
   console.log(`✓ Performance Metrics PASSED (DB Latency: ${dbLatency}ms).\n`);
 
+  // Clean up any test resources created during audit
+  const db = await dbTest.getDatabase();
+  await db.run("DELETE FROM resources WHERE name LIKE 'Audit Static%' OR id LIKE 'res-audit-%' OR resource_group LIKE 'rg-cloudops-taticudit-%'");
+  await db.run("DELETE FROM deployments WHERE app_id IN (SELECT id FROM applications WHERE name LIKE 'Audit Static%')");
+
   console.log('===========================================================');
   console.log(' PRODUCTION READINESS AUDIT COMPLETE!');
   console.log('===========================================================');

@@ -36,22 +36,36 @@ async function getAuthorizedAccount(db, id, req, res) {
 router.get('/', async (req, res) => {
   try {
     const db = await getDatabase();
+
     let query = `
       SELECT 
         c.id, c.tenant_id, c.user_id, c.provider, c.account_name, 
         c.subscription_id, c.account_id, c.region, c.status, c.last_sync, c.created_at,
-        u.email AS connected_by_email, u.name AS connected_by_name,
+        u.email AS connected_by_email, COALESCE(u.display_name, u.email, 'Administrator') AS connected_by_name,
         (SELECT COUNT(*) FROM resources r WHERE r.subscription_id = c.subscription_id OR r.subscription_id = c.account_id OR r.cloud_account_id = c.id OR (LOWER(r.provider) = LOWER(c.provider) AND r.tenant_id = c.tenant_id)) AS resource_count,
         sub.azure_tenant_id
       FROM cloud_accounts c
       LEFT JOIN users u ON c.user_id = u.id
       LEFT JOIN azure_subscriptions sub ON c.id = sub.id
       WHERE (c.tenant_id = ? OR c.user_id = ?)
+      ORDER BY c.user_id DESC, c.created_at DESC
     `;
     const params = [req.tenantId, req.userId];
 
     const accounts = await db.all(query, params);
-    res.json(accounts);
+
+    // Deduplicate by subscription/account key, prioritizing user-linked entries
+    const seen = new Set();
+    const uniqueAccounts = [];
+    for (const acc of accounts) {
+      const key = acc.subscription_id || acc.account_id || acc.id;
+      if (!seen.has(key)) {
+        seen.add(key);
+        uniqueAccounts.push(acc);
+      }
+    }
+
+    res.json(uniqueAccounts);
   } catch (err) {
     const classified = classifyCloudError(err, 'unknown');
     res.status(classified.status).json(classified.body);
@@ -63,43 +77,47 @@ router.get('/', async (req, res) => {
 // ─────────────────────────────────────────────────────────
 const handleAzureAccountAdd = async (req, res) => {
   const { subscriptionId, accountName, azureTenantId, clientId, clientSecret } = req.body;
-  if (!subscriptionId || !accountName) {
-    return res.status(400).json({ error: 'Missing required fields: subscriptionId, accountName' });
+  if (!subscriptionId) {
+    return res.status(400).json({ error: 'Missing required field: subscriptionId' });
   }
 
+  const finalName = accountName || `Azure Subscription (${req.userEmail || subscriptionId})`;
   const id = `azure-${subscriptionId}`;
   try {
     const db = await getDatabase();
 
-    const existing = await db.get('SELECT id FROM cloud_accounts WHERE id = ? AND tenant_id = ?', [id, req.tenantId]);
+    const existing = await db.get('SELECT id FROM cloud_accounts WHERE id = ? AND (tenant_id = ? OR user_id = ?)', [id, req.tenantId, req.userId]);
     if (existing) {
+      // Update with latest user tracking
+      await db.run('UPDATE cloud_accounts SET user_id = ?, tenant_id = ?, account_name = ? WHERE id = ?', [req.userId, req.tenantId, finalName, id]);
+      await db.run('UPDATE azure_subscriptions SET user_id = ?, tenant_id = ?, name = ? WHERE id = ?', [req.userId, req.tenantId, finalName, id]);
       return res.status(200).json({
         success: true,
         alreadyConnected: true,
         accountId: subscriptionId,
         provider: 'azure',
-        message: 'Azure account already connected'
+        message: 'Azure account updated and linked to your email'
       });
     }
 
-    const encryptedSecret = secretsManager.encryptSecret(clientSecret);
+    const encryptedSecret = secretsManager.encryptSecret(clientSecret || process.env.AZURE_CLIENT_SECRET);
 
     await db.run(`
-      INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, subscription_id, region, status, access_key_id, secret_access_key)
-      VALUES (?, ?, ?, 'azure', ?, ?, 'global', 'Active', ?, ?)
-    `, [id, req.tenantId, req.userId, accountName, subscriptionId, clientId || null, encryptedSecret || null]);
+      INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, subscription_id, region, status, access_key_id, secret_access_key, created_at)
+      VALUES (?, ?, ?, 'azure', ?, ?, 'global', 'Active', ?, ?, datetime('now'))
+    `, [id, req.tenantId, req.userId, finalName, subscriptionId, clientId || process.env.AZURE_CLIENT_ID || null, encryptedSecret || null]);
 
     // Also insert into azure_subscriptions for backwards compatibility
     await db.run(`
-      INSERT OR IGNORE INTO azure_subscriptions (id, tenant_id, subscription_id, name, client_id, client_secret, azure_tenant_id, status, user_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', ?)
-    `, [id, req.tenantId, subscriptionId, accountName, clientId || null, encryptedSecret || null, azureTenantId || null, req.userId]);
+      INSERT OR REPLACE INTO azure_subscriptions (id, tenant_id, subscription_id, name, client_id, client_secret, azure_tenant_id, status, user_id, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', ?, datetime('now'))
+    `, [id, req.tenantId, subscriptionId, finalName, clientId || process.env.AZURE_CLIENT_ID || null, encryptedSecret || null, azureTenantId || process.env.AZURE_TENANT_ID || null, req.userId]);
 
-    console.log(`[CloudAccounts] Azure account connected: ${accountName} (${subscriptionId})`);
-    await logAudit(req.tenantId, req.userId, req.userEmail, 'ADD_CLOUD_ACCOUNT', 'cloud_accounts', id, req.ip || req.connection?.remoteAddress || '127.0.0.1', 'SUCCESS', { provider: 'azure', accountName, subscriptionId });
-    res.status(201).json({ id, provider: 'azure', accountName, subscriptionId });
+    console.log(`[CloudAccounts] Azure account connected: ${finalName} (${subscriptionId}) by ${req.userEmail || req.userId}`);
+    await logAudit(req.tenantId, req.userId, req.userEmail, 'ADD_CLOUD_ACCOUNT', 'cloud_accounts', id, req.ip || req.connection?.remoteAddress || '127.0.0.1', 'SUCCESS', { provider: 'azure', accountName: finalName, subscriptionId });
+    res.status(201).json({ id, provider: 'azure', accountName: finalName, subscriptionId });
   } catch (err) {
-    await logAudit(req.tenantId, req.userId, req.userEmail, 'ADD_CLOUD_ACCOUNT', 'cloud_accounts', id, req.ip || req.connection?.remoteAddress || '127.0.0.1', 'FAILURE', { provider: 'azure', accountName, subscriptionId, error: err.message });
+    await logAudit(req.tenantId, req.userId, req.userEmail, 'ADD_CLOUD_ACCOUNT', 'cloud_accounts', id, req.ip || req.connection?.remoteAddress || '127.0.0.1', 'FAILURE', { provider: 'azure', accountName: finalName, subscriptionId, error: err.message });
     const classified = classifyCloudError(err, 'azure');
     res.status(classified.status).json(classified.body);
   }

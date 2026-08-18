@@ -150,4 +150,27 @@ router.get('/matrix', async (req, res) => {
   }
 });
 
+// ── Provider Parity Matrix (10 dimensions) ──
+router.get('/parity-matrix', async (req, res) => {
+  try {
+    const comparisonEngine = require('../services/comparisonEngine');
+    const result = await comparisonEngine.getProviderParityMatrix(req.tenantId);
+    res.json({ success: true, ...result });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ── Provider Parity Coverage Report ──
+router.get('/parity-coverage', async (req, res) => {
+  try {
+    const comparisonEngine = require('../services/comparisonEngine');
+    const result = await comparisonEngine.getParityCoverageReport(req.tenantId);
+    res.json({ success: true, ...result });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 module.exports = router;
+

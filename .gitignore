@@ -44,9 +44,9 @@ server/key.pem
 
 # Environment files
 .env
-.env.production
-.env.local
-.env.*.local
+.env.*
+server/.env
+server/.env.*
 *.tfvars
 secrets.json
 credentials.json
