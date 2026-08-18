@@ -24,8 +24,9 @@ export default function RecoveryDashboard() {
   const fetchRecoveryData = async () => {
     setLoading(true);
     try {
+      const token = localStorage.getItem('cloudops-local-token') || localStorage.getItem('token') || '';
       const res = await fetch('/api/recovery/metrics', {
-        headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` }
+        headers: { Authorization: `Bearer ${token}` }
       });
       const result = await res.json();
       if (result.success) setData(result.data);

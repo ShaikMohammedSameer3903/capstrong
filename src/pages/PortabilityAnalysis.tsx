@@ -31,7 +31,7 @@ export default function PortabilityAnalysis() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+          Authorization: `Bearer ${localStorage.getItem('cloudops-local-token') || localStorage.getItem('token') || ''}`
         },
         body: JSON.stringify({ applicationId: 'app-ecommerce-api' })
       });

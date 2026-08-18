@@ -18,8 +18,9 @@ export default function InfrastructureDifferenceReport() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
   useEffect(() => {
+    const token = localStorage.getItem('cloudops-local-token') || localStorage.getItem('token') || '';
     fetch('/api/infrastructure-difference/matrix', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(data => {

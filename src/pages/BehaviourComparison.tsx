@@ -27,8 +27,9 @@ export default function BehaviourComparison() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const token = localStorage.getItem('cloudops-local-token') || localStorage.getItem('token') || '';
     fetch('/api/behaviour/comparison', {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` }
+      headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => res.json())
       .then(res => {

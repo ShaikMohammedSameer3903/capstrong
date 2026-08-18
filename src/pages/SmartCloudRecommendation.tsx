@@ -33,7 +33,7 @@ export default function SmartCloudRecommendation() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token') || ''}`
+          Authorization: `Bearer ${localStorage.getItem('cloudops-local-token') || localStorage.getItem('token') || ''}`
         },
         body: JSON.stringify(params)
       });
