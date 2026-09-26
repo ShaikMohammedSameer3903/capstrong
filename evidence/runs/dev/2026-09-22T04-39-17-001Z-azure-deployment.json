@@ -1,0 +1,82 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-22T04-39-17-001Z-115872ee",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-22T04:39:17.001Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1790051953552-51b77b4e",
+    "applicationId": "app-ecommerce-api",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 3421,
+    "endpointUrl": "https://enterprise-checkout-api-erificatio-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-erificationestuite-enterprise-checkout-api/providers/Microsoft.Web/sites/enterprise-checkout-api-erificatio-demo",
+    "resourceGroup": "rg-cloudops-erificationestuite-enterprise-checkout-api",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1790051953552-51b77b4e",
+      "operationId": "9dc24a0a-f45f-4e30-bf94-ccc6fa92528f",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-erificationestuite-enterprise-checkout-api/providers/Microsoft.Web/sites/enterprise-checkout-api-erificatio-demo",
+      "fqdn": "https://enterprise-checkout-api-erificatio-demo.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "https://github.com/cloudops-enterprise/checkout-api",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 332,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Kubernetes deployment workflow for 'Enterprise Checkout API'",
+          "timestamp": "2026-09-22T04:39:16.427Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-22T04:39:16.638Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-erificationestuite-enterprise-checkout-api' in region 'southeastasia'...",
+          "timestamp": "2026-09-22T04:39:16.651Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-erificationestuite-enterprise-checkout-api' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-22T04:39:16.731Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://enterprise-checkout-api-erificatio-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-22T04:39:16.747Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-22T04:39:16.759Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

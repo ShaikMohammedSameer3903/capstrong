@@ -1,0 +1,82 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-22T04-43-14-974Z-ec188278",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-22T04:43:14.975Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1790052194111-48c69182",
+    "applicationId": "app-1790052194106-fbe854fb",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 844,
+    "endpointUrl": "https://order-api-microservice-ontaineror-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-ontainerorkflowest-order-api-microservice/providers/Microsoft.Web/sites/order-api-microservice-ontaineror-demo",
+    "resourceGroup": "rg-cloudops-ontainerorkflowest-order-api-microservice",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1790052194111-48c69182",
+      "operationId": "54c00643-530e-49d3-85e4-326b7bbe4f01",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-ontainerorkflowest-order-api-microservice/providers/Microsoft.Web/sites/order-api-microservice-ontaineror-demo",
+      "fqdn": "https://order-api-microservice-ontaineror-demo.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 3,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Container Apps deployment workflow for 'Order API Microservice'",
+          "timestamp": "2026-09-22T04:43:14.926Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-22T04:43:14.929Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-ontainerorkflowest-order-api-microservice' in region 'southeastasia'...",
+          "timestamp": "2026-09-22T04:43:14.929Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-ontainerorkflowest-order-api-microservice' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-22T04:43:14.929Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://order-api-microservice-ontaineror-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-22T04:43:14.929Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-22T04:43:14.929Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

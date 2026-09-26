@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-01T04-55-07-489Z-65f6ef72",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-01T04:55:07.490Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1788238507300-910c96cb",
+    "applicationId": "app-1788238507297-58142106",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 177,
+    "endpointUrl": "https://audit-static-azure-static-web-apps-taticudit-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-azure-static-web-apps/providers/Microsoft.Web/sites/audit-static-azure-static-web-apps-taticudit-demo",
+    "resourceGroup": "rg-cloudops-taticudit-audit-static-azure-static-web-apps",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1788238507300-910c96cb",
+      "operationId": "8db4311b-3c15-4d24-84da-b6686d6e0118",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-azure-static-web-apps/providers/Microsoft.Web/sites/audit-static-azure-static-web-apps-taticudit-demo",
+      "fqdn": "https://audit-static-azure-static-web-apps-taticudit-demo.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 84,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'Audit Static Azure Static Web Apps'",
+          "timestamp": "2026-09-01T04:55:07.374Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-01T04:55:07.458Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-taticudit-audit-static-azure-static-web-apps' in region 'southeastasia'...",
+          "timestamp": "2026-09-01T04:55:07.458Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-taticudit-audit-static-azure-static-web-apps' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-01T04:55:07.458Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'audit-static-azure-static-web-apps-taticudit-demo'...",
+          "timestamp": "2026-09-01T04:55:07.458Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'audit-static-azure-static-web-apps-taticudit-demo' created: https://audit-static-azure-static-web-apps-taticudit-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-01T04:55:07.458Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-01T04:55:07.458Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

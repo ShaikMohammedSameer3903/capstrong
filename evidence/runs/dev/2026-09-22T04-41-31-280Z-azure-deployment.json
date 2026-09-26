@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-22T04-41-31-280Z-63f28cc5",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-22T04:41:31.281Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1790052090347-646acad9",
+    "applicationId": "app-1790052090343-e9055b26",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 914,
+    "endpointUrl": "https://audit-static-firebase-hosting-taticudit-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-firebase-hosting/providers/Microsoft.Web/sites/audit-static-firebase-hosting-taticudit-demo",
+    "resourceGroup": "rg-cloudops-taticudit-audit-static-firebase-hosting",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1790052090347-646acad9",
+      "operationId": "e71ef2b7-403e-4f1c-a0ab-14f9c22c0aae",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-firebase-hosting/providers/Microsoft.Web/sites/audit-static-firebase-hosting-taticudit-demo",
+      "fqdn": "https://audit-static-firebase-hosting-taticudit-demo.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 5,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Firebase Hosting deployment workflow for 'Audit Static Firebase Hosting'",
+          "timestamp": "2026-09-22T04:41:31.224Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-22T04:41:31.228Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-taticudit-audit-static-firebase-hosting' in region 'southeastasia'...",
+          "timestamp": "2026-09-22T04:41:31.228Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-taticudit-audit-static-firebase-hosting' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-22T04:41:31.228Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'audit-static-firebase-hosting-taticudit-demo'...",
+          "timestamp": "2026-09-22T04:41:31.228Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'audit-static-firebase-hosting-taticudit-demo' created: https://audit-static-firebase-hosting-taticudit-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-22T04:41:31.229Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-22T04:41:31.229Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

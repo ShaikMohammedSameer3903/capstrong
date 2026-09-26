@@ -1,0 +1,101 @@
+services:
+  # ─────────────────────────────────────────────────────────────
+  # 1. Database Tier: PostgreSQL (Port 5432)
+  # ─────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: cloud223-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER:-cloudops}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-cloudops_secure_pass}
+      POSTGRES_DB: ${DB_NAME:-cloudops}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/db/pg_schema.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cloudops} -d ${DB_NAME:-cloudops}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    networks:
+      - cloud223-net
+
+  # ─────────────────────────────────────────────────────────────
+  # 2. Caching & Queue Tier: Redis (Port 6379)
+  # ─────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: cloud223-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - cloud223-net
+
+  # ─────────────────────────────────────────────────────────────
+  # 3. Backend API Tier: Node.js Express (Port 5000)
+  # ─────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: cloud223-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DATABASE_URL: postgres://${DB_USER:-cloudops}:${DB_PASSWORD:-cloudops_secure_pass}@postgres:5432/${DB_NAME:-cloudops}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-cloudops_super_secret_jwt_key_production_32chars}
+      SESSION_SECRET: ${SESSION_SECRET:-cloudops_super_secret_session_key_production_32chars}
+      REFRESH_SECRET: ${REFRESH_SECRET:-cloudops_super_secret_refresh_key_production_32chars}
+      AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
+      AZURE_TENANT_ID: ${AZURE_TENANT_ID:-}
+      AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:-}
+      AZURE_SUBSCRIPTION_ID: ${AZURE_SUBSCRIPTION_ID:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - cloud223-net
+
+  # ─────────────────────────────────────────────────────────────
+  # 4. Frontend Web Tier: React + NGINX SPA (Port 80 / Host 8080)
+  # ─────────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: cloud223-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - cloud223-net
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  cloud223-net:
+    driver: bridge

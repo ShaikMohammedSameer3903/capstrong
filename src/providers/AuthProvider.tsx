@@ -258,6 +258,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const loginTimeStr = localStorage.getItem('cloudops-login-timestamp');
       if (loginTimeStr) {
         const loginTime = parseInt(loginTimeStr, 10);
+        if (isNaN(loginTime) || loginTime <= 0) {
+          localStorage.setItem('cloudops-login-timestamp', Date.now().toString());
+          return false;
+        }
         if (Date.now() - loginTime >= TWO_HOURS_MS) {
           console.warn('[AuthProvider] 2-hour session duration reached. Auto-logging out all accounts...');
           if (logoutRef.current) logoutRef.current();
@@ -382,6 +386,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (data.refreshToken) localStorage.setItem('cloudops-local-refresh-token', data.refreshToken);
     localStorage.setItem('cloudops-local-user', JSON.stringify(data.user));
     localStorage.setItem('cloudops-selected-provider', 'azure');
+    localStorage.setItem('cloudops-login-timestamp', Date.now().toString());
     setToken(data.token);
     setUser(data.user);
     setMsalRedirectError(null);
@@ -409,6 +414,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (data.refreshToken) localStorage.setItem('cloudops-local-refresh-token', data.refreshToken);
       localStorage.setItem('cloudops-local-user', JSON.stringify(data.user));
       localStorage.setItem('cloudops-selected-provider', 'all');
+      localStorage.setItem('cloudops-login-timestamp', Date.now().toString());
       setToken(data.token);
       setUser(data.user);
     } catch (error) {

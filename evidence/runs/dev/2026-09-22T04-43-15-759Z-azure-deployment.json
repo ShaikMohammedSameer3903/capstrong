@@ -1,0 +1,82 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-22T04-43-15-759Z-1b6e9a14",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-22T04:43:15.759Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1790052194983-7951226e",
+    "applicationId": "app-1790052194981-f0b8b3ad",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 763,
+    "endpointUrl": "https://postgresql-database-node-orkflowest-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-orkflowest-postgresql-database-node/providers/Microsoft.Web/sites/postgresql-database-node-orkflowest-demo",
+    "resourceGroup": "rg-cloudops-orkflowest-postgresql-database-node",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1790052194983-7951226e",
+      "operationId": "0c918564-cb77-4a43-abb0-28f542524430",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-orkflowest-postgresql-database-node/providers/Microsoft.Web/sites/postgresql-database-node-orkflowest-demo",
+      "fqdn": "https://postgresql-database-node-orkflowest-demo.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 5,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Virtual Machine deployment workflow for 'PostgreSQL Database Node'",
+          "timestamp": "2026-09-22T04:43:15.716Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-22T04:43:15.721Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-orkflowest-postgresql-database-node' in region 'southeastasia'...",
+          "timestamp": "2026-09-22T04:43:15.721Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-orkflowest-postgresql-database-node' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-22T04:43:15.721Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://postgresql-database-node-orkflowest-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-22T04:43:15.721Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-22T04:43:15.721Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

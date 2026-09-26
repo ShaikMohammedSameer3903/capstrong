@@ -276,7 +276,7 @@ async function runProductionReadinessAudit() {
   // Clean up any test resources created during audit
   const db = await dbTest.getDatabase();
   await db.run("DELETE FROM resources WHERE name LIKE 'Audit Static%' OR id LIKE 'res-audit-%' OR resource_group LIKE 'rg-cloudops-taticudit-%'");
-  await db.run("DELETE FROM deployments WHERE app_id IN (SELECT id FROM applications WHERE name LIKE 'Audit Static%')");
+  await db.run("DELETE FROM deployments WHERE application_id IN (SELECT id FROM applications WHERE name LIKE 'Audit Static%')");
 
   console.log('===========================================================');
   console.log(' PRODUCTION READINESS AUDIT COMPLETE!');

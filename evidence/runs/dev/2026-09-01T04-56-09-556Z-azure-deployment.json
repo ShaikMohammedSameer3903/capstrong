@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-01T04-56-09-556Z-971db2fe",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-01T04:56:09.556Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1788238569470-678cc549",
+    "applicationId": "app-1788238569468-6c971ab7",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 78,
+    "endpointUrl": "https://audit-static-aws-s3---cloudfront-taticudit-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-aws-s3---cloudfront/providers/Microsoft.Web/sites/audit-static-aws-s3---cloudfront-taticudit-demo",
+    "resourceGroup": "rg-cloudops-taticudit-audit-static-aws-s3---cloudfront",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1788238569470-678cc549",
+      "operationId": "d4ab9394-53d2-43f2-860e-9385477662a9",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-aws-s3---cloudfront/providers/Microsoft.Web/sites/audit-static-aws-s3---cloudfront-taticudit-demo",
+      "fqdn": "https://audit-static-aws-s3---cloudfront-taticudit-demo.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 2,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing AWS S3 + CloudFront deployment workflow for 'Audit Static AWS S3 + CloudFront'",
+          "timestamp": "2026-09-01T04:56:09.529Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-01T04:56:09.531Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-taticudit-audit-static-aws-s3---cloudfront' in region 'southeastasia'...",
+          "timestamp": "2026-09-01T04:56:09.531Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-taticudit-audit-static-aws-s3---cloudfront' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-01T04:56:09.531Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'audit-static-aws-s3---cloudfront-taticudit-demo'...",
+          "timestamp": "2026-09-01T04:56:09.531Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'audit-static-aws-s3---cloudfront-taticudit-demo' created: https://audit-static-aws-s3---cloudfront-taticudit-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-01T04:56:09.531Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-01T04:56:09.531Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

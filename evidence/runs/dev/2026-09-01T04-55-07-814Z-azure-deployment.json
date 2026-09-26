@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-01T04-55-07-814Z-c1ac8803",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-01T04:55:07.815Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1788238507739-04689710",
+    "applicationId": "app-1788238507737-ea3e0899",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 69,
+    "endpointUrl": "https://audit-static-gcp-cloud-storage-static-hosting-taticudit-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-gcp-cloud-storage-static-hosting/providers/Microsoft.Web/sites/audit-static-gcp-cloud-storage-static-hosting-taticudit-demo",
+    "resourceGroup": "rg-cloudops-taticudit-audit-static-gcp-cloud-storage-static-hosting",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1788238507739-04689710",
+      "operationId": "6574e66b-d399-4ae0-9a07-d0d663e4d050",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-gcp-cloud-storage-static-hosting/providers/Microsoft.Web/sites/audit-static-gcp-cloud-storage-static-hosting-taticudit-demo",
+      "fqdn": "https://audit-static-gcp-cloud-storage-static-hosting-taticudit-demo.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 2,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing GCP Cloud Storage Static Hosting deployment workflow for 'Audit Static GCP Cloud Storage Static Hosting'",
+          "timestamp": "2026-09-01T04:55:07.792Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-09-01T04:55:07.793Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-taticudit-audit-static-gcp-cloud-storage-static-hosting' in region 'southeastasia'...",
+          "timestamp": "2026-09-01T04:55:07.793Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-taticudit-audit-static-gcp-cloud-storage-static-hosting' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-09-01T04:55:07.793Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'audit-static-gcp-cloud-storage-static-hosting-taticudit-demo'...",
+          "timestamp": "2026-09-01T04:55:07.793Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'audit-static-gcp-cloud-storage-static-hosting-taticudit-demo' created: https://audit-static-gcp-cloud-storage-static-hosting-taticudit-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-09-01T04:55:07.794Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-09-01T04:55:07.794Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

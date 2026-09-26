@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-09-22T04-52-28-857Z-ceabf208",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "aws",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-09-22T04:52:28.858Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1790052745134-1371479d",
+    "applicationId": "app-1790052180019-bc54527f",
+    "tenantId": "demo-org-001",
+    "targetCloud": "aws",
+    "durationMs": 3699,
+    "endpointUrl": "http://checkout-microservice-alb-4133636935276.us-east-1.elb.amazonaws.com",
+    "resourceId": "arn:aws:ecs:us-east-1:4133636935276:service/checkout-microservice-cluster/checkout-microservice",
+    "resourceGroup": "rg-cloudops-shaiksameer3909sam-checkout-microservice",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "provider": "AWS",
+      "operationId": "ops-aws-1790052748814",
+      "deploymentId": "dep-1790052745134-1371479d",
+      "stackName": "platform-checkout-microservice-production",
+      "resourceId": "arn:aws:ecs:us-east-1:4133636935276:service/checkout-microservice-cluster/checkout-microservice",
+      "arn": "arn:aws:ecs:us-east-1:4133636935276:service/checkout-microservice-cluster/checkout-microservice",
+      "accountId": "4133636935276",
+      "region": "us-east-1",
+      "provisioningState": "Succeeded",
+      "fqdn": "http://checkout-microservice-alb-4133636935276.us-east-1.elb.amazonaws.com",
+      "endpoint": "http://checkout-microservice-alb-4133636935276.us-east-1.elb.amazonaws.com",
+      "location": "us-east-1",
+      "containerImage": "ghcr.io/cloudops/checkout:v2.1.0",
+      "logs": [
+        {
+          "step": "VALIDATION",
+          "message": "[AWS SDK v3] Validating AWS deployment specification for Checkout Microservice (Docker)",
+          "timestamp": "2026-09-22T04:52:26.178Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[AWS SDK v3] Authenticated AWS IAM Identity: arn:aws:iam::4133636935276:user/cloudops-admin (Sandbox Context)",
+          "timestamp": "2026-09-22T04:52:27.579Z"
+        },
+        {
+          "step": "CLOUDFORMATION",
+          "message": "[AWS SDK v3] Orchestrating CloudFormation stack 'platform-checkout-microservice-production' for ECS Fargate Application",
+          "timestamp": "2026-09-22T04:52:27.581Z"
+        },
+        {
+          "step": "ECS_SUCCESS",
+          "message": "[AWS SDK v3] ECS Fargate service live: arn:aws:ecs:us-east-1:4133636935276:service/checkout-microservice-cluster/checkout-microservice (Sandbox Context)",
+          "timestamp": "2026-09-22T04:52:27.584Z"
+        },
+        {
+          "step": "HEALTH_CHECK",
+          "message": "[AWS SDK v3] Verifying reachability for http://checkout-microservice-alb-4133636935276.us-east-1.elb.amazonaws.com",
+          "timestamp": "2026-09-22T04:52:27.589Z"
+        },
+        {
+          "step": "COMPLETED",
+          "message": "[AWS SDK v3] AWS deployment completed successfully in 1s",
+          "timestamp": "2026-09-22T04:52:27.593Z"
+        }
+      ],
+      "durationMs": 1411,
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "accountId": true,
+        "arn": true,
+        "resourceId": true,
+        "endpoint": true
+      }
+    }
+  }
+}
