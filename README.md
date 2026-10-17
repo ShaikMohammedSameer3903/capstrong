@@ -1,11 +1,13 @@
 # CLOUD-223 — Application Platform Abstraction Over Heterogeneous Cloud Infrastructure
 
-> **KL University • Engineering Capstone Project**  
-> **Canonical ID**: CLOUD-223  
-> **Technical Domain**: Cloud, Edge & DevOps Engineering  
-> **Dominant Specialization**: Cloud Infrastructure Design & Engineering  
-> **Reference Source**: [Cloud Foundry — Korifi](https://github.com/cloudfoundry/korifi)  
-> **Candidate**: Shaik Mohammed Sameer (Reg. No: 2300031607)
+> **KL University • Department of Computer Science & Engineering**  
+> **Canonical ID**: C2C-94 / CLOUD-223  
+> **Team Structure**: Class Y23 CSE-2 | Team P-16 | Semester S-4  
+> **Team Lead**: Shaik Mohammed Sameer (Regd. No: 2300030621)  
+> **Team Members**: Pravallika Gubba (2300033432), Jeethu Kumar Ganchi (2300031651), Khammapati Ganesh (2300033359)  
+> **Faculty Guide**: Dr. N. Raghavendra Sai  
+> **Event Readiness**: SAMYAK-2026 Capstone Poster Presentation, Research Paper Presentation & Project Expo  
+> **Official Submission Checklist**: [`SAMYAK_SUBMISSION_CHECKLIST.md`](./SAMYAK_SUBMISSION_CHECKLIST.md)
 
 ---
 

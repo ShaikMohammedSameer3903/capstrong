@@ -1,0 +1,41 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-10-17T10-20-46-367Z-7a4085bb",
+    "runType": "chaos",
+    "partition": "acceptance",
+    "provider": null,
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-10-17T10:20:46.367Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-1792232445941-260",
+    "tenantId": "demo-org-001",
+    "targetResource": "test-resource-nt5",
+    "experimentType": "NETWORK_LATENCY",
+    "status": "Completed",
+    "rtoSeconds": 0.426,
+    "rpoSeconds": 0,
+    "realPerturbation": false,
+    "simulationMethod": "simulated 250ms delay via Promise.setTimeout",
+    "fidelityLevel": "low — application-level delay only, not network-level",
+    "durationMs": 426,
+    "startedAt": "2026-10-17T10:20:45.941Z",
+    "completedAt": "2026-10-17T10:20:46.367Z",
+    "details": {
+      "experiment": "NETWORK_LATENCY",
+      "method": "simulated 250ms delay via Promise.setTimeout",
+      "fidelity": "low — application-level delay only, not network-level",
+      "realExecution": false,
+      "parameters": {
+        "targetResource": "test-resource-nt5",
+        "injectedLatencyMs": 250
+      },
+      "measurements": {
+        "actualDelayMs": 252,
+        "latencyInjected": false,
+        "note": "See docs/o4-fault-simulation-method.md for fidelity analysis."
+      }
+    }
+  }
+}

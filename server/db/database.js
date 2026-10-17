@@ -150,7 +150,14 @@ async function getDatabase() {
     await db.exec(schemaSql);
   }
 
-  // Trigger V13 Enterprise Migration
+  // Trigger Schema Migrations (V12 & V13)
+  try {
+    const { runV12Migration } = require('./migrations/v12_schema');
+    await runV12Migration();
+  } catch (v12Err) {
+    console.warn('[DB] V12 Schema Migration notice:', v12Err.message);
+  }
+
   try {
     const { runV13Migration } = require('./migrations/v13_enterprise_migration');
     await runV13Migration();
@@ -220,6 +227,14 @@ async function getDatabase() {
       if (!colNames.includes('user_id')) {
         console.log('[DB] Migrating: Adding user_id column to resources');
         await db.run('ALTER TABLE resources ADD COLUMN user_id TEXT');
+      }
+      if (!colNames.includes('updated_at')) {
+        console.log('[DB] Migrating: Adding updated_at column to resources');
+        await db.run('ALTER TABLE resources ADD COLUMN updated_at DATETIME DEFAULT CURRENT_TIMESTAMP');
+      }
+      if (!colNames.includes('created_at')) {
+        console.log('[DB] Migrating: Adding created_at column to resources');
+        await db.run('ALTER TABLE resources ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP');
       }
     } catch (err) {
       console.error('[DB] Migration of resources columns failed:', err);

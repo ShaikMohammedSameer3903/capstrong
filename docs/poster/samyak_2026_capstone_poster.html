@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SAMYAK-2026 Capstone Poster - CLOUD-223</title>
+  <style>
+    @page {
+      size: 420mm 297mm landscape;
+      margin: 0;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      width: 420mm;
+      height: 297mm;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      line-height: 1.35;
+      overflow: hidden;
+      padding: 12mm 14mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #071d36 0%, #0d3868 60%, #0078d4 100%);
+      color: white;
+      padding: 10mm 14mm;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      border-bottom: 4px solid #00c2ff;
+    }
+    .header-left {
+      max-width: 72%;
+    }
+    .header-badge {
+      display: inline-block;
+      background: rgba(0, 194, 255, 0.2);
+      border: 1px solid #00c2ff;
+      color: #00c2ff;
+      padding: 2px 10px;
+      border-radius: 4px;
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .header-title {
+      font-size: 23pt;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+    .header-sub {
+      font-size: 13pt;
+      color: #94a3b8;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .header-right {
+      text-align: right;
+      font-size: 10.5pt;
+      color: #e2e8f0;
+      line-height: 1.4;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 14px;
+      border-radius: 6px;
+      border-left: 3px solid #00c2ff;
+    }
+    .header-right strong {
+      color: #ffffff;
+    }
+
+    /* MAIN GRID (3 COLUMNS) */
+    .poster-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr 1fr;
+      gap: 9mm;
+      margin-top: 6mm;
+      flex-grow: 1;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 5.5mm;
+    }
+
+    /* CARD STYLING */
+    .card {
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      padding: 5.5mm 6mm;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-size: 12.5pt;
+      font-weight: 700;
+      color: #071d36;
+      border-bottom: 2px solid #0078d4;
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-content {
+      font-size: 9.8pt;
+      color: #334155;
+      line-height: 1.4;
+    }
+
+    ul {
+      margin-left: 14px;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+    li {
+      margin-bottom: 3.5px;
+    }
+    strong {
+      color: #0f172a;
+    }
+
+    /* HIGHLIGHT STATS BOX */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 6px 0;
+    }
+    .stat-box {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 6px 4px;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0078d4;
+      display: block;
+    }
+    .stat-lbl {
+      font-size: 7.5pt;
+      color: #475569;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 8.8pt;
+      margin-top: 5px;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 4px 6px;
+      text-align: left;
+    }
+    th {
+      background: #f8fafc;
+      font-weight: 700;
+      color: #071d36;
+    }
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+    .highlight-red {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+    .highlight-green {
+      color: #15803d;
+      font-weight: 700;
+    }
+
+    /* SVG ARCHITECTURE DIAGRAM */
+    .arch-svg-container {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 6px;
+      margin: 6px 0;
+      text-align: center;
+    }
+
+    /* FOOTER */
+    .footer {
+      background: #071d36;
+      color: #94a3b8;
+      padding: 3.5mm 10mm;
+      border-radius: 6px;
+      font-size: 9pt;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5mm;
+    }
+    .footer strong {
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-badge">SAMYAK-2026 POSTER PRESENTATION &bull; CODE: C2C-94 / CLOUD-223</div>
+      <h1 class="header-title">Application Platform Abstraction Over Heterogeneous Cloud Infrastructure</h1>
+      <p class="header-sub">Empirical Behavioral Parity, Infrastructure Difference Quantification & Chaos Recovery Validation</p>
+    </div>
+    <div class="header-right">
+      <strong>Department of Computer Science & Engineering</strong><br>
+      K L Deemed to be University, Andhra Pradesh<br>
+      <strong>Team Lead:</strong> Shaik Mohammed Sameer (2300030621)<br>
+      <strong>Team:</strong> P. Gubba (2300033432), J. K. Ganchi (2300031651), K. Ganesh (2300033359)<br>
+      <strong>Faculty Guide:</strong> Dr. N. Raghavendra Sai
+    </div>
+  </header>
+
+  <!-- 3-COLUMN CONTENT -->
+  <main class="poster-grid">
+
+    <!-- COLUMN 1: Background, Problem, Objectives -->
+    <div class="col">
+      <div class="card">
+        <h2 class="card-title">1. Abstract</h2>
+        <div class="card-content">
+          Heterogeneous public clouds (AWS, Azure, GCP) introduce subtle infrastructural variations—such as storage IOPS throttling, network latency jitter, hypervisor scheduling variances, and container cold-start overheads—that cause behavioral drift across identical containerized deployments. 
+          While Kubernetes and Terraform facilitate deployment, they fail to evaluate runtime behavioral parity and failure recovery consistency. 
+          <strong>CLOUD-223</strong> provides an empirical platform abstraction layer with standardized OpenTelemetry instrumentation, an automated difference engine (<code>infraDiffEngine</code>), chaos injection, and SHA-256 cryptographic evidence ledger.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">2. Problem: The "Portability Illusion"</h2>
+        <div class="card-content">
+          <strong>The Flawed Industry Assumption:</strong>
+          <p style="background:#f1f5f9; padding:4px 8px; border-left:3px solid #0078d4; margin:5px 0; font-style:italic;">
+            Deploy(AWS) = OK &and; Deploy(Azure) = OK &rArr; Workload is Fully Portable
+          </p>
+          <strong>The Core Triad Difference:</strong>
+          <ul>
+            <li><strong>Deployment Portability:</strong> Containers schedule successfully (Terraform & K8s).</li>
+            <li><strong>Behavioral Portability:</strong> Workload performs within identical SLA bounds (<strong>CLOUD-223</strong>).</li>
+            <li><strong>Recovery Portability:</strong> Workload self-heals at identical recovery rates (<strong>CLOUD-223</strong>).</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">3. Project Objectives</h2>
+        <div class="card-content">
+          <ul>
+            <li><strong>Unified Provider Abstraction:</strong> Decouple deployment from cloud primitives using <code>IDeploymentProvider</code> and <code>ProviderFactory</code>.</li>
+            <li><strong>Empirical Leakage Detection:</strong> Quantify drift across 10 dimensions (Storage, Latency, Cold Start, Memory, CPU, Cost, Security).</li>
+            <li><strong>Controlled Chaos Testing:</strong> Inject 5 failure scenarios to test resilience.</li>
+            <li><strong>Cryptographic Proof:</strong> Seal execution logs into immutable SHA-256 manifests.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN 2: Architecture & Methodology -->
+    <div class="col">
+      <div class="card">
+        <h2 class="card-title">4. System Architecture</h2>
+        <div class="card-content">
+          <div class="arch-svg-container">
+            <svg viewBox="0 0 460 215" width="100%" height="215" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="8" width="440" height="34" rx="5" fill="#071d36" stroke="#0078d4" stroke-width="1.5"/>
+              <text x="230" y="30" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">React 19 Dashboard (TypeScript + Vite + WebSockets)</text>
+              
+              <line x1="230" y1="42" x2="230" y2="58" stroke="#0078d4" stroke-width="2" marker-end="url(#arrow)"/>
+              
+              <rect x="30" y="58" width="400" height="36" rx="5" fill="#0f2d4e" stroke="#00c2ff" stroke-width="1.5"/>
+              <text x="230" y="80" fill="#00c2ff" font-size="11" font-weight="700" text-anchor="middle">Express Gateway (REST + Socket.IO + RBAC Auth)</text>
+              
+              <line x1="230" y1="94" x2="230" y2="108" stroke="#0078d4" stroke-width="2"/>
+              
+              <rect x="10" y="108" width="135" height="38" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="77" y="125" fill="#071d36" font-size="9" font-weight="700" text-anchor="middle">Deploy Engine</text>
+              <text x="77" y="138" fill="#475569" font-size="8" text-anchor="middle">13-Step Pipeline</text>
+              
+              <rect x="162" y="108" width="135" height="38" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="230" y="125" fill="#071d36" font-size="9" font-weight="700" text-anchor="middle">infraDiffEngine</text>
+              <text x="230" y="138" fill="#475569" font-size="8" text-anchor="middle">10 Diff Categories</text>
+              
+              <rect x="315" y="108" width="135" height="38" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+              <text x="382" y="125" fill="#071d36" font-size="9" font-weight="700" text-anchor="middle">Chaos & Recovery</text>
+              <text x="382" y="138" fill="#475569" font-size="8" text-anchor="middle">5 Fault Scenarios</text>
+              
+              <line x1="230" y1="146" x2="230" y2="158" stroke="#0078d4" stroke-width="2"/>
+              
+              <rect x="30" y="158" width="400" height="48" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+              <text x="230" y="174" fill="#071d36" font-size="10" font-weight="700" text-anchor="middle">Heterogeneous Cloud Infrastructure</text>
+              <text x="95" y="194" fill="#0078d4" font-size="9.5" font-weight="700" text-anchor="middle">AWS EKS (gp3)</text>
+              <text x="230" y="194" fill="#0078d4" font-size="9.5" font-weight="700" text-anchor="middle">Azure AKS (SSD v2)</text>
+              <text x="365" y="194" fill="#0078d4" font-size="9.5" font-weight="700" text-anchor="middle">GCP GKE (Balanced)</text>
+            </svg>
+          </div>
+          <strong>Backend Design Pattern:</strong>
+          Factory + Adapter pattern isolating provider differences through <code>IDeploymentProvider</code>.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">5. Core Engineering Technologies</h2>
+        <div class="card-content">
+          <ul>
+            <li><strong>Frontend:</strong> React 19, TypeScript, Vite, Recharts, Lucide.</li>
+            <li><strong>Backend API:</strong> Node.js, Express, Socket.IO, WebSockets.</li>
+            <li><strong>Cloud Runtime:</strong> AWS EKS, Azure AKS, GCP GKE, Korifi PaaS.</li>
+            <li><strong>Observability:</strong> OpenTelemetry (OTel), Prometheus scrapers.</li>
+            <li><strong>Security & Proof:</strong> RBAC, Zero-Trust, SHA-256 Checksums.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUMN 3: Results, Verification, Conclusion -->
+    <div class="col">
+      <div class="card">
+        <h2 class="card-title">6. Empirical Findings & Leakage Results</h2>
+        <div class="card-content">
+          <div class="stats-row">
+            <div class="stat-box">
+              <span class="stat-val">3</span>
+              <span class="stat-lbl">Leakage Points</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">33.3%</span>
+              <span class="stat-lbl">Parity Score</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">100%</span>
+              <span class="stat-lbl">Recovery Rate</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-val">&lt; 2.8s</span>
+              <span class="stat-lbl">Self-Heal MTTR</span>
+            </div>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Runtime Dimension</th>
+                <th>AWS EKS</th>
+                <th>Azure AKS</th>
+                <th>GCP GKE</th>
+                <th>Drift %</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Storage IOPS</td>
+                <td>850 MB/s</td>
+                <td class="highlight-red">620 MB/s</td>
+                <td>790 MB/s</td>
+                <td class="highlight-red">-27.1%</td>
+              </tr>
+              <tr>
+                <td>Network Latency</td>
+                <td>102 ms</td>
+                <td class="highlight-red">135 ms</td>
+                <td>110 ms</td>
+                <td class="highlight-red">+32.3%</td>
+              </tr>
+              <tr>
+                <td>Cold-Start Time</td>
+                <td>2.1 s</td>
+                <td class="highlight-red">3.4 s</td>
+                <td>2.5 s</td>
+                <td class="highlight-red">+61.9%</td>
+              </tr>
+              <tr>
+                <td>Memory Footprint</td>
+                <td>245 MB</td>
+                <td>258 MB</td>
+                <td>248 MB</td>
+                <td class="highlight-green">+5.3%</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size: 8.5pt; color: #475569; margin-top: 4px;">
+            <em>*Defense of 33.33% Score: Confirms only 1 of 3 batches met strict &plusmn;10% tolerance, validating the research hypothesis.</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">7. Negative Test Suite (NT-1 to NT-5)</h2>
+        <div class="card-content">
+          <ul>
+            <li><strong>NT-1 (Storage & Network Leak):</strong> Detected &bull; <strong>PASS</strong></li>
+            <li><strong>NT-2 (Behavioral Variance):</strong> Non-zero variance verified &bull; <strong>PASS</strong></li>
+            <li><strong>NT-3 (False-Positive Prevention):</strong> Rejected 5/5 &bull; <strong>PASS</strong></li>
+            <li><strong>NT-4 (State Consistency):</strong> Zero corruption &bull; <strong>PASS</strong></li>
+            <li><strong>NT-5 (Concurrency Idempotency):</strong> Zero duplicates &bull; <strong>PASS</strong></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">8. Conclusion & References</h2>
+        <div class="card-content">
+          <strong>Key Takeaway:</strong> CLOUD-223 transforms multi-cloud portability from an unverified assumption into an empirical, mathematically verifiable science.
+          <ul style="font-size: 7.8pt; color: #475569; margin-top: 3px;">
+            <li>1. Armbrust et al., "A view of cloud computing," CACM, 2010.</li>
+            <li>2. D. Bernstein, "Containers and Cloud: From LXC to Kubernetes," IEEE, 2014.</li>
+            <li>3. CNCF, "OpenTelemetry Telemetry Specification," 2024.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div><strong>Project Code:</strong> C2C-94 / CLOUD-223 | <strong>Curriculum:</strong> Capstone Project (Class Y23 CSE-2, Team P-16, Semester S-4)</div>
+    <div><strong>K L Deemed to be University</strong> &bull; SAMYAK-2026 Poster Presentation</div>
+  </footer>
+
+</body>
+</html>

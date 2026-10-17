@@ -1,0 +1,87 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-10-17T10-27-04-231Z-ad6afb11",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-10-17T10:27:04.231Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1792232820629-3ed39f72",
+    "applicationId": "app-1792232820627-d414755c",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 3588,
+    "endpointUrl": "https://audit-static-aws-amplify-taticudit-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-aws-amplify/providers/Microsoft.Web/sites/audit-static-aws-amplify-taticudit-demo",
+    "resourceGroup": "rg-cloudops-taticudit-audit-static-aws-amplify",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1792232820629-3ed39f72",
+      "operationId": "485dd7b1-5f7f-43e6-85f0-3bf544897942",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-taticudit-audit-static-aws-amplify/providers/Microsoft.Web/sites/audit-static-aws-amplify-taticudit-demo",
+      "fqdn": "https://audit-static-aws-amplify-taticudit-demo.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 4,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing AWS Amplify deployment workflow for 'Audit Static AWS Amplify'",
+          "timestamp": "2026-10-17T10:27:01.307Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-10-17T10:27:01.310Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-taticudit-audit-static-aws-amplify' in region 'southeastasia'...",
+          "timestamp": "2026-10-17T10:27:01.310Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-taticudit-audit-static-aws-amplify' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-10-17T10:27:01.310Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'audit-static-aws-amplify-taticudit-demo'...",
+          "timestamp": "2026-10-17T10:27:01.310Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'audit-static-aws-amplify-taticudit-demo' created: https://audit-static-aws-amplify-taticudit-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-10-17T10:27:01.310Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-10-17T10:27:01.311Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

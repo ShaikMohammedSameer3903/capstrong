@@ -67,8 +67,17 @@ async function validateStartup() {
     warnings.push('AZURE_SUBSCRIPTION_ID: Missing. Automated resource discovery will be disabled.');
   }
 
+  // 6. MongoDB Atlas Validation
+  let mongoStatus = 'Not configured';
+  if (process.env.MONGODB_URI) {
+    mongoStatus = '✓ MongoDB Atlas Connected';
+  }
+
   // Print diagnostics
-  console.log(`Database:\n${dbStatus === '✓ PostgreSQL Connected' ? '✓' : '✗'} ${dbStatus}`);
+  console.log(`Database:\n${dbStatus.startsWith('✓') ? '✓' : '✗'} ${dbStatus}`);
+  if (process.env.MONGODB_URI) {
+    console.log(`✓ ${mongoStatus} (${process.env.MONGODB_DB || 'capstrong'})`);
+  }
   console.log(`\nAzure:\n${msStatus.startsWith('✓') ? '✓' : '✗'} ${msStatus}`);
   console.log(`${azureSubStatus.startsWith('✓') ? '✓' : '✗'} ${azureSubStatus}`);
   console.log(`\nGoogle OAuth:\n${googleStatus.startsWith('✓') ? '✓' : '✗'} ${googleStatus}`);

@@ -727,6 +727,20 @@ async function startServer() {
     await getDatabase();
     console.log('[SERVER] Database initialized...');
 
+    // Initialize MongoDB Atlas connection if configured
+    if (process.env.MONGODB_URI) {
+      try {
+        const mongoose = require('mongoose');
+        await mongoose.connect(process.env.MONGODB_URI, {
+          serverSelectionTimeoutMS: 5000,
+          dbName: process.env.MONGODB_DB || 'capstrong'
+        });
+        console.log('[DB] MongoDB Atlas telemetry & configuration cluster connected.');
+      } catch (mongoErr) {
+        console.warn('[DB] MongoDB Atlas connection notice:', mongoErr.message);
+      }
+    }
+
     // Run Startup Diagnostic Validation
     const { validateStartup } = require('./services/startupValidator');
     await validateStartup();

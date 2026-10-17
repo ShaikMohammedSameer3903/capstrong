@@ -140,8 +140,15 @@ CREATE TABLE IF NOT EXISTS resources (
     owner TEXT,
     last_modified TEXT,
     cost_impact REAL DEFAULT 0,
+    cost_monthly REAL DEFAULT 0,
     risk_score REAL DEFAULT 0,
-    health_status TEXT DEFAULT 'Healthy'
+    health_status TEXT DEFAULT 'Healthy',
+    cloud_account_id TEXT,
+    account_id TEXT,
+    region TEXT,
+    organization_id TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 5. Incidents Table
