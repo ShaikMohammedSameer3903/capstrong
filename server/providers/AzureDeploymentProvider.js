@@ -192,7 +192,7 @@ class AzureDeploymentProvider extends IDeploymentProvider {
         const staticSiteEnvelope = {
           location: swaLocation,
           sku: { name: 'Free', tier: 'Free' },
-          repositoryUrl: appSpec.repository_url || 'https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git',
+          repositoryUrl: appSpec.repository_url || undefined,
           branch: appSpec.branch || 'main',
           buildProperties: {
             appLocation: '/',
@@ -1178,42 +1178,7 @@ class AzureDeploymentProvider extends IDeploymentProvider {
     const repoUrl = cleanGitUrl(appSpec.repository_url || '');
     const branch = appSpec.branch || 'main';
 
-    const isPortfolio = appName.toLowerCase().includes('portfolio') || 
-                        repoUrl.includes('ShaikMohammedSameer3903/PORTFOLIO') || 
-                        repoUrl.toLowerCase().includes('portfolio');
-
-    // CASE 1: Real Shaik Mohammed Sameer Portfolio Application
-    if (isPortfolio) {
-      addLog('SOURCE_VALIDATION', `[Azure ARM] Resolving verified source for '${appName}' (${repoUrl || 'Enterprise Portfolio'})...`);
-      const portfolioDir = path.join(__dirname, '..', 'data', 'portfolio_repo');
-      
-      // Ensure portfolio repository is cloned or synced from GitHub if not present
-      if (!fs.existsSync(path.join(portfolioDir, 'index.html'))) {
-        try {
-          addLog('SOURCE_DOWNLOAD', `[Azure ARM] Cloning source repository from https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git...`);
-          execSync(`git clone --depth 1 "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git" "${portfolioDir}"`, { timeout: 45000, stdio: 'pipe' });
-        } catch (cloneErr) {
-          addLog('SOURCE_NOTE', `[Azure ARM] Git sync note: ${cloneErr.message}. Using cached production artifacts.`);
-        }
-      }
-
-      let indexHtml;
-      if (fs.existsSync(path.join(portfolioDir, 'index.html'))) {
-        indexHtml = fs.readFileSync(path.join(portfolioDir, 'index.html'), 'utf8');
-      } else {
-        indexHtml = this._getPortfolioHtml(appName, repoUrl, deploymentType, targetReg);
-        fs.writeFileSync(path.join(portfolioDir, 'index.html'), indexHtml, 'utf8');
-      }
-
-      return {
-        isPortfolio: true,
-        deployDir: portfolioDir,
-        indexHtml,
-        imagesDir: path.join(portfolioDir, 'image')
-      };
-    }
-
-    // CASE 2: Real External Git Repository
+    // ZERO-MOCK REAL GIT DEPLOYMENT: Always clone and deploy the actual repository code.
     if (repoUrl && (repoUrl.startsWith('http://') || repoUrl.startsWith('https://') || repoUrl.startsWith('git@'))) {
       const crypto = require('crypto');
       // Use URL hash + slug so each unique repo URL gets its own isolated cache dir
@@ -1259,13 +1224,18 @@ class AzureDeploymentProvider extends IDeploymentProvider {
             addLog('FRAMEWORK_DETECTION', `[Azure ARM] Framework identified: ${fw}`);
 
             if (pkg.scripts && pkg.scripts.build) {
-              addLog('DEPENDENCY_INSTALLATION', `[Azure ARM] Running npm install...`);
-              execSync('npm install --prefer-offline --no-audit --no-fund --legacy-peer-deps', { cwd: repoDir, timeout: 180000, stdio: 'pipe' });
+              const nodeModulesDir = path.join(repoDir, 'node_modules');
+              if (!fs.existsSync(nodeModulesDir)) {
+                addLog('DEPENDENCY_INSTALLATION', `[Azure ARM] Running fast npm install for ${fw}...`);
+                execSync('npm install --prefer-offline --no-audit --no-fund --legacy-peer-deps', { cwd: repoDir, timeout: 120000, stdio: 'pipe' });
+              } else {
+                addLog('DEPENDENCY_CACHE', `[Azure ARM] Dependencies cached. Proceeding directly to production build.`);
+              }
               addLog('PRODUCTION_BUILD', `[Azure ARM] Running npm run build...`);
-              execSync('npm run build', { cwd: repoDir, timeout: 180000, stdio: 'pipe' });
+              execSync('npm run build', { cwd: repoDir, timeout: 120000, stdio: 'pipe' });
               addLog('BUILD_SUCCESS', `[Azure ARM] Production build succeeded.`);
             } else {
-              addLog('BUILD_NOTE', `[Azure ARM] No build script found — serving source files directly.`);
+              addLog('BUILD_NOTE', `[Azure ARM] No build script required — serving application files directly.`);
             }
           } catch (buildErr) {
             addLog('BUILD_NOTE', `[Azure ARM] Build notice: ${buildErr.message.split('\n')[0]}. Serving existing artifacts.`);
