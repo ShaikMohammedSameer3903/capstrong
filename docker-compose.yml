@@ -37,6 +37,7 @@ services:
     environment:
       PORT: 3001
       NODE_ENV: production
+      DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: "1"
       # SQLite path inside the container - persisted via volume below
       DATABASE_PATH: /app/server/data/cloudops.db
       # MongoDB Atlas or local container fallback

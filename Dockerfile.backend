@@ -4,7 +4,7 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 # Install native compilation dependencies for sqlite3 and git
-RUN apk add --no-cache python3 make g++ git
+RUN apk add --no-cache python3 make g++ git gcompat icu-libs
 
 # Copy package descriptors and install dependencies
 COPY server/package*.json ./server/
@@ -22,8 +22,9 @@ ENV NODE_ENV=production
 ENV PORT=3001
 ENV DATABASE_PATH=/app/server/data/cloudops.db
 
-# Install git, curl, and wget for runtime git operations and health checks
-RUN apk add --no-cache git curl wget
+# Install git, curl, wget, gcompat (glibc compatibility for SWA CLI), and icu-libs (.NET globalization)
+RUN apk add --no-cache git curl wget gcompat icu-libs
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # Create persistent data directory and ensure proper permissions
 RUN mkdir -p /app/server/data && chown -R node:node /app
