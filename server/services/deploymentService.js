@@ -529,13 +529,13 @@ class DeploymentService {
       const userSlug = (userEmail || 'devops').split('@')[0].replace(/[^a-z0-9]/g, '');
       const targetLocation = providerResult.location || (isAws ? 'us-east-1' : isGcp ? 'us-central1' : 'southeastasia');
 
-      if (isAzure) {
+      if (isAzure && !providerResult.isSandbox) {
         activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || 'sub-azure-live';
         rgName = `rg-cloudops-${userSlug}-${cleanName}`;
         rgResId = `/subscriptions/${activeSubId}/resourceGroups/${rgName}`;
         workResId = providerResult.resourceId || `${rgResId}/providers/${isStatic ? 'Microsoft.Web/staticSites' : 'Microsoft.App/containerApps'}/${cleanName}`;
 
-        // Sync Resource Group to DB only for Azure (Azure-specific construct)
+        // Sync Resource Group to DB only for Azure (Azure-specific construct) and only for real deployments
         await db.run(`
           INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
@@ -564,25 +564,32 @@ class DeploymentService {
         workResId = providerResult.resourceId || `projects/${activeSubId}/services/${cleanName}`;
       }
 
-      // Sync Workload Resource to DB with accurate provider-specific type
-      const monthlyCost = isStatic ? 12.00 : 28.50;
-      const resourceType = isStatic ? (isAws ? 'S3 Static Website / CloudFront' : 'Static Web App')
-        : isVm ? 'Virtual Machine'
-        : (isAws ? 'ECS Fargate Service' : 'Container App');
+      // Sync Workload Resource to DB ONLY if real deployment occurred (never for sandbox/local preview)
+      if (!providerResult.isSandbox) {
+        const monthlyCost = isStatic ? 12.00 : 28.50;
+        const resourceType = isStatic ? (isAws ? 'S3 Static Website / CloudFront' : 'Static Web App')
+          : isVm ? 'Virtual Machine'
+          : (isAws ? 'ECS Fargate Service' : 'Container App');
 
-      await db.run(`
-        INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-      `, [
-        workResId,
-        activeSubId,
-        tenantId,
-        userId,
-        appSpec.name,
-        resourceType,
-        targetCloud.toUpperCase(),
-        targetLocation,
-        rgName,
+        await db.run(`
+          INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        `, [
+          workResId,
+          activeSubId,
+          tenantId,
+          userId,
+          appSpec.name,
+          resourceType,
+          targetCloud.toUpperCase(),
+          targetLocation,
+          rgName,
+          JSON.stringify({ environment: 'production', owner: userEmail, application: appSpec.name }),
+          monthlyCost,
+          monthlyCost,
+          'Running'
+        ]);
+      }
         JSON.stringify({ environment: 'production', owner: userEmail, application: appSpec.name }),
         monthlyCost,
         monthlyCost,

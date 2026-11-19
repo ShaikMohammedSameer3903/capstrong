@@ -31,24 +31,29 @@ function resolveAppDirectory(appName) {
   candidates.push(path.join(baseData, 'apps', cleanApp));
 
   // 2. Cached repos in data/cached_repos matching cleanApp
-  const cachedReposDir = path.join(baseData, 'cached_repos');
-  if (fs.existsSync(cachedReposDir)) {
-    try {
-      const entries = fs.readdirSync(cachedReposDir);
-      // Priority 2a: exact prefix match (e.g. portfolio_537de6c2b4 or portfolio-3_537de6c2b4)
-      for (const entry of entries) {
-        if (entry.toLowerCase().startsWith(cleanApp + '_') || entry.toLowerCase() === cleanApp) {
-          candidates.push(path.join(cachedReposDir, entry));
+  const searchDirs = [
+    path.join(baseData, 'cached_repos'),
+    path.join(require('os').tmpdir(), 'cloudops_cached_repos')
+  ];
+  for (const cachedReposDir of searchDirs) {
+    if (fs.existsSync(cachedReposDir)) {
+      try {
+        const entries = fs.readdirSync(cachedReposDir);
+        // Priority 2a: exact prefix match
+        for (const entry of entries) {
+          if (entry.toLowerCase().startsWith(cleanApp + '_') || entry.toLowerCase() === cleanApp) {
+            candidates.push(path.join(cachedReposDir, entry));
+          }
         }
-      }
-      // Priority 2b: base prefix match (e.g. portfolio)
-      const baseWord = cleanApp.split('-')[0].split('_')[0];
-      for (const entry of entries) {
-        if (entry.toLowerCase().startsWith(baseWord + '_') || entry.toLowerCase().startsWith(baseWord + '-')) {
-          candidates.push(path.join(cachedReposDir, entry));
+        // Priority 2b: base prefix match
+        const baseWord = cleanApp.split('-')[0].split('_')[0];
+        for (const entry of entries) {
+          if (entry.toLowerCase().startsWith(baseWord + '_') || entry.toLowerCase().startsWith(baseWord + '-')) {
+            candidates.push(path.join(cachedReposDir, entry));
+          }
         }
-      }
-    } catch (_) {}
+      } catch (_) {}
+    }
   }
 
   // 3. Fallback for portfolio

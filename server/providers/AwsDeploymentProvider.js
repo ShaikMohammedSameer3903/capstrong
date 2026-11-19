@@ -591,8 +591,14 @@ class AwsDeploymentProvider extends IDeploymentProvider {
       const crypto = require('crypto');
       const urlHash = crypto.createHash('sha1').update(repoUrl).digest('hex').slice(0, 10);
       const slug = appName.toLowerCase().replace(/[^a-z0-9_-]/g, '_');
-      const cacheBase = path.join(__dirname, '..', 'data', 'cached_repos');
-      if (!fs.existsSync(cacheBase)) fs.mkdirSync(cacheBase, { recursive: true });
+      let cacheBase = path.join(__dirname, '..', 'data', 'cached_repos');
+      try {
+        if (!fs.existsSync(cacheBase)) fs.mkdirSync(cacheBase, { recursive: true });
+        fs.accessSync(cacheBase, fs.constants.W_OK);
+      } catch (_) {
+        cacheBase = path.join(require('os').tmpdir(), 'cloudops_cached_repos');
+        if (!fs.existsSync(cacheBase)) fs.mkdirSync(cacheBase, { recursive: true });
+      }
       const repoDir = path.join(cacheBase, `${slug}_${urlHash}`);
 
       try {
