@@ -216,7 +216,7 @@ class AzureDeploymentProvider extends IDeploymentProvider {
               revision = 'v1.0.0';
               deploySucceeded = true;
               addLog('STATIC_SITE_EXISTS', `[Azure ARM] Found active Azure Static Web App '${uniqueSiteName}' in '${azureLocation}'. Instance verified: ${fqdn}`);
-              await this._deploySwaContent(uniqueSiteName, rgName, webClient, appSpec, addLog);
+              await this._deploySwaContent(uniqueSiteName, rgName, webClient, appSpec, addLog, existingSwa.defaultHostname || fqdn);
               break;
             }
           } catch (_) {}
@@ -245,7 +245,7 @@ class AzureDeploymentProvider extends IDeploymentProvider {
               revision = 'v1.0.0';
               deploySucceeded = true;
               addLog('STATIC_SITE_SUCCESS', `[Azure ARM Engine] Azure Static Web App '${uniqueSiteName}' successfully deployed: ${fqdn}`);
-              await this._deploySwaContent(uniqueSiteName, rgName, webClient, appSpec, addLog);
+              await this._deploySwaContent(uniqueSiteName, rgName, webClient, appSpec, addLog, finalSwa.defaultHostname || fqdn);
             }
           } catch (swaErr) {
             addLog('STATIC_SITE_SWA_NOTICE', `[Azure ARM] Static Web App provision notice: ${swaErr.message}. Checking App Service Web App fallback...`);
@@ -1330,7 +1330,7 @@ class AzureDeploymentProvider extends IDeploymentProvider {
     };
   }
 
-  async _deploySwaContent(uniqueSiteName, rgName, webClient, appSpec, addLog) {
+  async _deploySwaContent(uniqueSiteName, rgName, webClient, appSpec, addLog, defaultHostname = null) {
     addLog('STATIC_SITE_DEPLOY_START', `[Azure ARM] Pushing real application website to Azure Static Web App '${uniqueSiteName}'...`);
     try {
       const { execSync } = require('child_process');
@@ -1405,7 +1405,9 @@ class AzureDeploymentProvider extends IDeploymentProvider {
       }
 
       // 4. Live Health Check
-      const probeUrl = `https://${uniqueSiteName}.azurestaticapps.net`;
+      const probeUrl = defaultHostname 
+        ? (defaultHostname.startsWith('http') ? defaultHostname : `https://${defaultHostname}`) 
+        : `https://${uniqueSiteName}.azurestaticapps.net`;
       addLog('STATIC_SITE_PROBE', `[Azure ARM] Probing live endpoint: ${probeUrl}...`);
       try {
         await new Promise(r => setTimeout(r, 3000));
