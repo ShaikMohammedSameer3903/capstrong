@@ -1,0 +1,82 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T05-10-01-851Z-532d888f",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T05:10:01.853Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795064993470-2a0ad6d9",
+    "applicationId": "app-1795064378279-5688b4aa",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 8364,
+    "endpointUrl": "https://kk-2300031607-d10b.azurewebsites.net",
+    "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-kk/providers/Microsoft.Web/sites/kk-2300031607-d10b",
+    "resourceGroup": "rg-cloudops-2300031607-kk",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1795064993470-2a0ad6d9",
+      "operationId": "4e7ae992-65f2-4c4c-85f0-5ffc27032a89",
+      "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-kk/providers/Microsoft.Web/sites/kk-2300031607-d10b",
+      "fqdn": "https://kk-2300031607-d10b.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 7053,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Container Apps deployment workflow for 'kk'",
+          "timestamp": "2026-11-19T05:09:54.309Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T05:09:54.317Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-kk' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:09:54.317Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-kk' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T05:09:57.061Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://kk-2300031607-d10b.azurewebsites.net",
+          "timestamp": "2026-11-19T05:10:01.362Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 7s.",
+          "timestamp": "2026-11-19T05:10:01.362Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "SUCCEEDED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

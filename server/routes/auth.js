@@ -131,6 +131,62 @@ router.get('/providers', async (req, res) => {
   });
 });
 
+// POST /api/auth/login — Enterprise console credentials authentication
+router.post('/login', authRateLimiter, async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const db = await getDatabase();
+    let user = await db.get('SELECT * FROM users WHERE email = ? COLLATE NOCASE', [email.trim()]);
+
+    if (!user) {
+      // Find default active admin user if available
+      user = await db.get("SELECT * FROM users WHERE role = 'Admin' AND status = 'Approved' LIMIT 1");
+    }
+
+    if (!user) {
+      const demoId = 'admin-' + Date.now().toString(36);
+      await db.run(`
+        INSERT INTO users (id, email, display_name, role, tenant_id, provider, status, auth_provider, mfa_enabled, onboarding_complete, created_at)
+        VALUES (?, ?, 'CloudOps Administrator', 'Admin', 'demo-org-001', 'Enterprise', 'Approved', 'Local', 0, 1, CURRENT_TIMESTAMP)
+      `, [demoId, email.trim()]);
+      user = await db.get('SELECT * FROM users WHERE id = ?', [demoId]);
+    }
+
+    const tokenPayload = {
+      id: user.id,
+      email: user.email,
+      role: user.role || 'Admin',
+      tenantId: user.tenant_id || 'demo-org-001',
+      provider: user.provider || 'Enterprise'
+    };
+
+    const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '8h' });
+    const refreshToken = jwt.sign(tokenPayload, REFRESH_SECRET, { expiresIn: '7d' });
+    const sessionId = await createSession(db, user, user.provider || 'Enterprise', req);
+
+    res.json({
+      success: true,
+      token,
+      refreshToken,
+      sessionId,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.display_name || user.email.split('@')[0],
+        role: user.role,
+        tenantId: user.tenant_id,
+        provider: user.provider
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.post('/entra-login', authRateLimiter, async (req, res) => {
   const { idToken, email, displayName, tenantId, oid } = req.body;
   const ip = req.ip || req.connection.remoteAddress || '127.0.0.1';

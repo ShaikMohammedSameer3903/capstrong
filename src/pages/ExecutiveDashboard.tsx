@@ -22,7 +22,7 @@ import { AnimatedCounter } from '../components/common/AnimatedCounter';
 import { fmtNumber, fmtCurrency } from '../utils/formatters';
 
 const PROVIDER_COLORS: Record<string, string> = {
-  azure: '#0078d4',
+  azure: '#2563EB',
   aws: '#FF9900',
   gcp: '#4285F4',
 };

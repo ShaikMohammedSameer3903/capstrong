@@ -136,13 +136,14 @@ router.post('/', requireAuth, async (req, res) => {
     const tenantId = req.tenantId;
     const userId = req.userId;
     const userDisplayName = req.userEmail || 'Platform Admin';
-    const { applicationId, targetCloud, region, environment } = req.body;
+    const { applicationId, targetCloud, region, environment, deploymentType } = req.body;
 
     if (!applicationId || !targetCloud) {
       return res.status(400).json({ success: false, error: 'applicationId and targetCloud are required.' });
     }
 
-    const deployment = await deploymentService.deployApplication(tenantId, userId, applicationId, targetCloud, userDisplayName, { region, environment });
+    const userAzureToken = req.headers['x-azure-token'] || req.azureAccessToken || req.body?.accessToken || null;
+    const deployment = await deploymentService.deployApplication(tenantId, userId, applicationId, targetCloud, userDisplayName, { region, environment, deploymentType, userAzureToken });
     
     if (deployment.status === 'Failed') {
       return res.status(500).json({ success: false, error: deployment.error_message || 'Deployment execution failed.', data: deployment });

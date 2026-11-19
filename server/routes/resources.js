@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
       FROM resources r
       LEFT JOIN cloud_accounts c ON r.cloud_account_id = c.id
       LEFT JOIN azure_subscriptions a ON (r.subscription_id = a.id OR r.subscription_id = a.subscription_id)
-      WHERE 1=1`;
+      WHERE (r.status IS NULL OR LOWER(r.status) NOT IN ('terminated', 'shutting-down', 'deleted', 'deleting'))`;
 
     let params = [];
 

@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MultCloud | Direct Cloud to Cloud File Transfer and Sync</title>
+  <meta name="description" content="Transfer, sync, and back up files across 40+ cloud services directly server to server. No downloads, zero local bandwidth usage, and 5 GB free every month.">
+  <link rel="canonical" href="https://www.multcloud.com/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Geist', 'sans-serif'],
+            mono: ['"Geist Mono"', 'monospace'],
+          },
+          colors: {
+            surface: {
+              black: '#000000',
+              primary: '#181818',
+              secondary: '#1F1F1F',
+              tertiary: '#272727',
+              subtle: '#313131',
+              tint: '#131209',
+            },
+            brand: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            neutral: {
+              50: '#f9fafb',
+              200: '#e5e7eb',
+              400: '#9ca3af',
+              500: '#6b7280',
+              600: '#4b5563',
+              700: '#374151',
+              750: '#313131',
+              800: '#272727',
+              850: '#1f1f1f',
+              870: '#181818',
+            }
+          },
+          transitionTimingFunction: {
+            'custom': 'cubic-bezier(0.22, 1, 0.36, 1)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Geist', sans-serif;
+      background-color: #000000;
+      color: #f9fafb;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .heading-balance {
+      text-wrap: balance;
+    }
+    .body-pretty {
+      text-wrap: pretty;
+    }
+    .hero-heading-gradient {
+      background: linear-gradient(90deg, #FFFFFF 0%, #9B9B9B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .reveal-word {
+      transition: color 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal-word {
+        opacity: 1 !important;
+        color: #f9fafb !important;
+      }
+      * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-black text-neutral-50 min-h-screen selection:bg-brand-500 selection:text-white">
+
+  <!-- Skip to Content for Accessibility -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-surface-secondary text-neutral-50 px-3 py-2 rounded-md border border-neutral-700 text-sm">
+    Skip to main content
+  </a>
+
+  <!-- Floating Navigation Bar -->
+  <header class="fixed top-4 inset-x-0 z-40 flex justify-center px-4">
+    <nav aria-label="Primary" class="w-full max-w-5xl bg-surface-primary/80 backdrop-blur-md border border-surface-tertiary rounded-2xl px-4 py-2 flex items-center justify-between shadow-2xl transition-all duration-300">
+      <div class="flex items-center space-x-3">
+        <a href="/" class="flex items-center space-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-md">
+          <div class="w-8 h-8 rounded-lg bg-surface-secondary border border-surface-subtle flex items-center justify-center">
+            <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+          <span class="text-base font-semibold tracking-tight text-neutral-50">MultCloud</span>
+        </a>
+      </div>
+
+      <div class="hidden md:flex items-center space-x-6 text-sm text-neutral-400">
+        <a href="#features" class="hover:text-neutral-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded px-1">Features</a>
+        <a href="#how-it-works" class="hover:text-neutral-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded px-1">How it works</a>
+        <a href="#benchmarks" class="hover:text-neutral-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded px-1">Benchmarks</a>
+        <a href="#supported-clouds" class="hover:text-neutral-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded px-1">Clouds</a>
+        <a href="#pricing" class="hover:text-neutral-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded px-1">Pricing</a>
+        <a href="#faq" class="hover:text-neutral-50 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded px-1">FAQ</a>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://app.multcloud.com/mc_project/cloud_transfer?tool" class="text-sm font-medium text-neutral-400 hover:text-neutral-50 transition-colors duration-300 px-2 py-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded">
+          Sign in
+        </a>
+        <a href="https://www.multcloud.com/sign.html" class="inline-flex items-center justify-center text-sm font-semibold text-white bg-brand-600 hover:bg-brand-500 active:scale-[0.98] py-2 px-3 rounded-lg border border-brand-400/30 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400">
+          Start transferring free
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content" class="pt-28 md:pt-36">
+
+    <!-- Hero Section (Above the fold) -->
+    <section class="max-w-5xl mx-auto px-4 pt-12 pb-16 text-center flex flex-col items-center">
+      
+      <!-- Headline: max width 680px, no periods, meaningful break, gradient text -->
+      <h1 class="hero-heading-gradient text-4xl md:text-6xl font-semibold tracking-tight heading-balance max-w-[680px] leading-tight md:leading-none">
+        Move files across forty clouds<br>without downloading a single byte
+      </h1>
+
+      <!-- Subheadline: max width 680px, no hyphens, specific -->
+      <p class="mt-6 text-base md:text-lg text-neutral-400 max-w-[680px] body-pretty leading-relaxed">
+        Connect your storage accounts and let high speed background servers handle your migrations while your computer stays off.
+      </p>
+
+      <!-- Primary CTA with Risk Reversal (One primary CTA above the fold) -->
+      <div class="mt-8 flex flex-col items-center space-y-3">
+        <a href="https://www.multcloud.com/sign.html" class="inline-flex items-center justify-center text-base font-semibold text-white bg-brand-600 hover:bg-brand-500 active:scale-[0.98] py-2 px-4 rounded-xl border border-brand-400/30 transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 shadow-lg">
+          Start transferring free
+        </a>
+        <p class="text-xs text-neutral-500 caption-4">
+          5 GB free monthly transfer quota • No credit card required
+        </p>
+      </div>
+
+      <!-- Trust Signal Metric -->
+      <div class="mt-8 flex items-center space-x-2 text-xs text-neutral-400 bg-surface-secondary border border-surface-tertiary rounded-full px-4 py-1.5">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span>Trusted by over 2,000,000 registered users worldwide</span>
+      </div>
+
+      <!-- Hero Visual: Cloud Transfer Interactive Matrix Card -->
+      <div class="mt-12 w-full max-w-4xl bg-surface-primary border border-surface-secondary rounded-2xl p-4 md:p-6 shadow-2xl">
+        <div class="flex items-center justify-between border-b border-surface-tertiary pb-4">
+          <div class="flex items-center space-x-2">
+            <span class="w-3 h-3 rounded-full bg-surface-subtle"></span>
+            <span class="w-3 h-3 rounded-full bg-surface-subtle"></span>
+            <span class="w-3 h-3 rounded-full bg-surface-subtle"></span>
+            <span class="ml-2 text-xs text-neutral-400 font-mono">multcloud://pipeline/transfer</span>
+          </div>
+          <div class="flex items-center space-x-2 text-xs font-mono text-emerald-400 bg-surface-secondary px-2.5 py-1 rounded-md border border-surface-tertiary">
+            <span>Server status: active</span>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+          
+          <!-- Source Node -->
+          <div class="bg-surface-secondary border border-surface-tertiary rounded-xl p-4 text-left">
+            <div class="text-xs font-medium text-neutral-400">Source directory</div>
+            <div class="mt-2 flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-lg bg-surface-tertiary border border-surface-subtle flex items-center justify-center font-bold text-blue-400">
+                DB
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-neutral-50">Dropbox Business</div>
+                <div class="text-xs text-neutral-400">Work archive / 2026 deliverables</div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-surface-tertiary flex justify-between text-xs font-mono text-neutral-400">
+              <span>Files: 65 items</span>
+              <span>Size: 1.48 GB</span>
+            </div>
+          </div>
+
+          <!-- Cloud Pipeline Transfer Animation Indicator -->
+          <div class="flex flex-col items-center justify-center py-2 px-3">
+            <div class="text-xs font-mono text-brand-400 mb-2">10 parallel threads</div>
+            <div class="w-full bg-surface-tertiary h-2 rounded-full overflow-hidden border border-surface-subtle">
+              <div class="bg-brand-500 h-full rounded-full w-full"></div>
+            </div>
+            <div class="mt-2 flex items-center justify-between w-full text-xs font-mono text-neutral-400">
+              <span>52 seconds elapsed</span>
+              <span class="text-emerald-400 font-semibold">100% complete</span>
+            </div>
+            <div class="mt-1 text-xs text-neutral-500 font-mono">Speed: 29.14 MB/s (227.69 Mbps)</div>
+          </div>
+
+          <!-- Target Node -->
+          <div class="bg-surface-secondary border border-surface-tertiary rounded-xl p-4 text-left">
+            <div class="text-xs font-medium text-neutral-400">Target destination</div>
+            <div class="mt-2 flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-lg bg-surface-tertiary border border-surface-subtle flex items-center justify-center font-bold text-amber-400">
+                GD
+              </div>
+              <div>
+                <div class="text-sm font-semibold text-neutral-50">Google Drive</div>
+                <div class="text-xs text-neutral-400">Corporate shared drive / archive</div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-surface-tertiary flex justify-between text-xs font-mono text-neutral-400">
+              <span>Format: native retained</span>
+              <span class="text-emerald-400 font-medium">Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-4 border-t border-surface-tertiary flex flex-wrap items-center justify-between gap-3 text-xs text-neutral-400">
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            <span>0% local RAM consumed</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            <span>0% local internet bandwidth consumed</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            <span>Computer can be shut down safely</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof Logos Strip -->
+    <section class="max-w-5xl mx-auto px-4 py-8 border-y border-surface-secondary">
+      <div class="text-center text-xs text-neutral-500 uppercase tracking-wider mb-6">
+        Recommended by technology editors and trusted by cloud professionals
+      </div>
+      <div class="flex flex-wrap items-center justify-center gap-8 md:gap-16 opacity-75 grayscale hover:grayscale-0 transition-all duration-300">
+        <span class="text-base font-semibold tracking-wide text-neutral-400">TECHRADAR</span>
+        <span class="text-base font-semibold tracking-wide text-neutral-400">LIFEHACKER</span>
+        <span class="text-base font-semibold tracking-wide text-neutral-400">TOM'S GUIDE</span>
+        <span class="text-base font-semibold tracking-wide text-neutral-400">PC ADVISOR</span>
+        <span class="text-base font-semibold tracking-wide text-neutral-400">THE WINDOWS CLUB</span>
+      </div>
+    </section>
+
+    <!-- Mandatory B11 Tagline Reveal Section -->
+    <section id="tagline-reveal" class="max-w-5xl mx-auto px-4 py-28 text-center flex flex-col items-center">
+      <div class="max-w-[680px]">
+        <h2 id="reveal-text" class="text-3xl md:text-5xl font-semibold tracking-tight heading-balance leading-tight text-neutral-600">
+          <!-- Each word is wrapped in a span for scroll-activated reveal -->
+          <span class="reveal-word">Cloud</span>
+          <span class="reveal-word">data</span>
+          <span class="reveal-word">migration</span>
+          <span class="reveal-word">should</span>
+          <span class="reveal-word">run</span>
+          <span class="reveal-word">directly</span>
+          <span class="reveal-word">in</span>
+          <span class="reveal-word">the</span>
+          <span class="reveal-word">cloud,</span>
+          <br class="hidden md:inline">
+          <span class="reveal-word">not</span>
+          <span class="reveal-word">choke</span>
+          <span class="reveal-word">your</span>
+          <span class="reveal-word">laptop</span>
+          <span class="reveal-word">or</span>
+          <span class="reveal-word">hog</span>
+          <span class="reveal-word">your</span>
+          <span class="reveal-word">office</span>
+          <span class="reveal-word">connection.</span>
+        </h2>
+        <p class="mt-6 text-base text-neutral-400 body-pretty">
+          MultCloud connects your cloud providers through direct server pipelines, liberating your personal devices from endless sync queues.
+        </p>
+      </div>
+    </section>
+
+    <!-- Problem to Solution: The Migration Friction -->
+    <section class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-12">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          The download and reupload cycle is broken
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          Moving datasets between clouds using your local machine wastes time and introduces silent file corruption.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- The Broken Traditional Approach -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6">
+          <div class="flex items-center space-x-2 text-rose-400 text-sm font-semibold mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <span>The manual workstation loop</span>
+          </div>
+          <ul class="space-y-4 text-sm text-neutral-300">
+            <li class="flex items-start space-x-3">
+              <span class="text-rose-400 font-bold">•</span>
+              <span><strong>Double disk consumption:</strong> Downloading massive zip archives fills local drive caches before files even upload.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-rose-400 font-bold">•</span>
+              <span><strong>Sleep interruption:</strong> If your Wi Fi drops or your laptop goes to sleep, the browser upload crashes and restarts from zero.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-rose-400 font-bold">•</span>
+              <span><strong>Fractured document layouts:</strong> Downloading Google Docs forces them into foreign formats, breaking margins and comment histories.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- The MultCloud Solution -->
+        <div class="bg-surface-primary border border-brand-500/30 rounded-2xl p-6">
+          <div class="flex items-center space-x-2 text-emerald-400 text-sm font-semibold mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+            <span>The direct server pipeline</span>
+          </div>
+          <ul class="space-y-4 text-sm text-neutral-300">
+            <li class="flex items-start space-x-3">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Zero local space used:</strong> Data moves directly from cloud host to cloud host across isolated high capacity backbones.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Autonomous background execution:</strong> Shut down your PC, close your browser, or travel; our servers finish the job independently.</span>
+            </li>
+            <li class="flex items-start space-x-3">
+              <span class="text-emerald-400 font-bold">•</span>
+              <span><strong>Original format retention:</strong> Cloud docs, permissions, and media EXIF details remain intact without messy zip extractions.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Outcome Driven Benefits Section -->
+    <section id="features" class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-16">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Engineered for direct cloud mobility
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          Four foundational capabilities that eliminate manual migration headaches.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Benefit 1 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 hover:border-surface-subtle transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-surface-secondary border border-surface-tertiary flex items-center justify-center text-brand-400 mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-50">Zero local bandwidth consumption</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Run multi terabyte migrations directly between cloud servers without filling your laptop storage or slowing your household internet connection.
+          </p>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 hover:border-surface-subtle transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-surface-secondary border border-surface-tertiary flex items-center justify-center text-brand-400 mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-50">True background execution</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Initiate heavy transfers and shut down your computer; our dedicated cloud pipelines finish the transfer and email you when complete.
+          </p>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 hover:border-surface-subtle transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-surface-secondary border border-surface-tertiary flex items-center justify-center text-brand-400 mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-50">Native format preservation</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Move Google Docs, Sheets, and photo libraries with intact hierarchies and EXIF camera metadata instead of broken archive files.
+          </p>
+        </div>
+
+        <!-- Benefit 4 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 hover:border-surface-subtle transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-surface-secondary border border-surface-tertiary flex items-center justify-center text-brand-400 mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-xl font-semibold text-neutral-50">Ten thread parallel speed</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Complete large transfers up to twenty times faster than browser uploads through multi thread cloud channels.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Speed Benchmark Table (Empirical Proof from Real Test Logs) -->
+    <section id="benchmarks" class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-12">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Empirical transfer speed benchmarks
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          Measured in real world operational tests comparing workstation uploads to MultCloud server pipelines.
+        </p>
+      </div>
+
+      <div class="bg-surface-primary border border-surface-secondary rounded-2xl overflow-hidden shadow-xl">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-surface-secondary bg-surface-secondary/50 text-xs font-mono text-neutral-400 uppercase">
+                <th class="p-4">Transfer method</th>
+                <th class="p-4">Dataset tested</th>
+                <th class="p-4">Actual transfer time</th>
+                <th class="p-4">Average speed</th>
+                <th class="p-4">Local resource load</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-surface-secondary text-sm">
+              <tr class="hover:bg-surface-secondary/30 transition-colors">
+                <td class="p-4 font-medium text-neutral-300">Manual download and upload</td>
+                <td class="p-4 text-neutral-400">1.48 GB archive</td>
+                <td class="p-4 text-neutral-400 font-mono">1 hour 5 minutes</td>
+                <td class="p-4 text-neutral-400 font-mono">0.39 MB/s</td>
+                <td class="p-4 text-rose-400">Heavy disk and RAM usage</td>
+              </tr>
+              <tr class="hover:bg-surface-secondary/30 transition-colors">
+                <td class="p-4 font-medium text-neutral-300">Desktop client drag and drop</td>
+                <td class="p-4 text-neutral-400">1.48 GB archive</td>
+                <td class="p-4 text-neutral-400 font-mono">6 minutes 26 seconds</td>
+                <td class="p-4 text-neutral-400 font-mono">3.93 MB/s</td>
+                <td class="p-4 text-rose-400">Prone to sync queue lock</td>
+              </tr>
+              <tr class="bg-brand-950/20 font-semibold text-neutral-50 border-2 border-brand-500/40">
+                <td class="p-4 text-brand-400 flex items-center space-x-2">
+                  <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+                  <span>MultCloud cloud pipeline</span>
+                </td>
+                <td class="p-4 text-neutral-200">1.48 GB archive</td>
+                <td class="p-4 font-mono text-emerald-400">52 seconds</td>
+                <td class="p-4 font-mono text-emerald-400">29.14 MB/s</td>
+                <td class="p-4 text-emerald-400">Zero local dependency</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="p-4 bg-surface-secondary/30 border-t border-surface-secondary text-xs text-neutral-400 flex flex-wrap justify-between gap-2">
+          <span>Test spec: Conducted on live cloud clusters • Sustained 227.69 Mbps throughput</span>
+          <span>100% completion rate with verified checksums</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works (Three Clear Steps) -->
+    <section id="how-it-works" class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-16">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Start transferring in three simple steps
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          No desktop installation required. Manage your clouds directly through any modern web browser.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Step 1 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 relative">
+          <div class="text-xs font-mono font-semibold text-brand-400 mb-2">STEP 01</div>
+          <h3 class="text-lg font-semibold text-neutral-50">Connect your cloud accounts</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Authorize your storage services securely using standard OAuth credentials without sharing passwords.
+          </p>
+          <div class="mt-6 p-3 bg-surface-secondary rounded-xl border border-surface-tertiary text-xs text-neutral-400">
+            OAuth 2.0 authorization • Zero credential storage
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 relative">
+          <div class="text-xs font-mono font-semibold text-brand-400 mb-2">STEP 02</div>
+          <h3 class="text-lg font-semibold text-neutral-50">Choose your source and destination</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Select individual folders, entire drives, or filter specific file extensions in one visual dashboard.
+          </p>
+          <div class="mt-6 p-3 bg-surface-secondary rounded-xl border border-surface-tertiary text-xs text-neutral-400">
+            Granular filters • Exclude temporary cache clutter
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 relative">
+          <div class="text-xs font-mono font-semibold text-brand-400 mb-2">STEP 03</div>
+          <h3 class="text-lg font-semibold text-neutral-50">Transfer runs in the cloud</h3>
+          <p class="mt-2 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Click transfer and disconnect; dedicated server pipelines execute the migration with zero local resource drain.
+          </p>
+          <div class="mt-6 p-3 bg-surface-secondary rounded-xl border border-surface-tertiary text-xs text-neutral-400">
+            Turn off your computer • Receive email on finish
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Supported Cloud Ecosystem Grid -->
+    <section id="supported-clouds" class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-12">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Connect over forty cloud providers
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          One interface to bridge all major personal and business cloud storage services.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">Google Drive</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">OneDrive</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">Dropbox</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">Google Photos</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">iCloud Photos</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">SharePoint</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">Box</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">MEGA</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">Amazon S3</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">Wasabi</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">FTP / SFTP</div>
+        </div>
+        <div class="bg-surface-primary border border-surface-secondary rounded-xl p-3 text-center hover:border-surface-subtle transition-all">
+          <div class="text-sm font-medium text-neutral-200">30+ More Clouds</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof Testimonials -->
+    <section class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-12">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Trusted by over two million users
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          Real feedback from individuals and teams migrating heavy datasets across clouds.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Review 1 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 flex flex-col justify-between">
+          <p class="text-sm text-neutral-300 body-pretty leading-relaxed">
+            "If you need to migrate from one cloud solution to another, check out MultCloud. I moved over 5TB of data from Dropbox to Google Drive. It was insanely easy. I set the task and let it run. A few hours later all my files were in the new location."
+          </p>
+          <div class="mt-6 pt-4 border-t border-surface-tertiary flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-surface-tertiary flex items-center justify-center font-bold text-xs text-neutral-300">
+              RR
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-neutral-50">RJ Ruggles</div>
+              <div class="text-xs text-neutral-400">Verified migration review</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 flex flex-col justify-between">
+          <p class="text-sm text-neutral-300 body-pretty leading-relaxed">
+            "In recent years I found that MultCloud is a really useful tool to transfer files between clouds directly without the hassle of downloading and reuploading a bunch of files, which took lots of time and bandwidth."
+          </p>
+          <div class="mt-6 pt-4 border-t border-surface-tertiary flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-surface-tertiary flex items-center justify-center font-bold text-xs text-neutral-300">
+              OL
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-neutral-50">Olivia Lam</div>
+              <div class="text-xs text-neutral-400">Cloud photo organizer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 flex flex-col justify-between">
+          <p class="text-sm text-neutral-300 body-pretty leading-relaxed">
+            "Great product that allowed me to move all my photos from OneDrive over to Google Photos! I had 90GB of data and just left it running in the background without tying up my machine."
+          </p>
+          <div class="mt-6 pt-4 border-t border-surface-tertiary flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-surface-tertiary flex items-center justify-center font-bold text-xs text-neutral-300">
+              JP
+            </div>
+            <div>
+              <div class="text-sm font-semibold text-neutral-50">James Porter</div>
+              <div class="text-xs text-neutral-400">Media migration user</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pricing Section with Risk Reversal -->
+    <section id="pricing" class="max-w-5xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-16">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Transparent plans for every migration scale
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          Start with our free monthly allowance or unlock high throughput threads for heavier libraries.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        
+        <!-- Free Plan -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-sm font-semibold text-neutral-400">Free forever</div>
+            <div class="mt-4 flex items-baseline space-x-1">
+              <span class="text-4xl font-bold text-neutral-50">$0</span>
+              <span class="text-sm text-neutral-400">/ month</span>
+            </div>
+            <p class="mt-3 text-xs text-neutral-400 body-pretty">
+              Ideal for small file migrations and trying cloud transfers.
+            </p>
+            <ul class="mt-6 space-y-3 text-sm text-neutral-300">
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>5 GB free traffic every month</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>2 parallel transfer threads</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Direct server to server execution</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Connect unlimited cloud drives</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8">
+            <a href="https://www.multcloud.com/sign.html" class="w-full inline-flex items-center justify-center text-sm font-semibold text-neutral-200 bg-surface-secondary hover:bg-surface-tertiary py-2 px-3 rounded-xl border border-surface-tertiary transition-all">
+              Get started for free
+            </a>
+          </div>
+        </div>
+
+        <!-- Annual Plan (Recommended) -->
+        <div class="bg-surface-primary border-2 border-brand-500 rounded-2xl p-6 flex flex-col justify-between relative shadow-2xl">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-xs font-semibold px-3 py-0.5 rounded-full uppercase tracking-wider">
+            Most popular
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-brand-400">Annual high capacity</div>
+            <div class="mt-4 flex items-baseline space-x-1">
+              <span class="text-4xl font-bold text-neutral-50">$59.99</span>
+              <span class="text-sm text-neutral-400">/ year</span>
+            </div>
+            <p class="mt-3 text-xs text-neutral-400 body-pretty">
+              Discounted from $119.88. Ideal for ongoing sync and large archives.
+            </p>
+            <ul class="mt-6 space-y-3 text-sm text-neutral-300">
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>1200 GB high speed traffic per year</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>10 parallel transfer threads</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Scheduled automated backups</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>All 10 real time and two way sync modes</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Round the clock priority support</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8">
+            <a href="https://www.multcloud.com/sign.html" class="w-full inline-flex items-center justify-center text-sm font-semibold text-white bg-brand-600 hover:bg-brand-500 py-2 px-3 rounded-xl border border-brand-400/30 transition-all">
+              Start annual plan
+            </a>
+          </div>
+        </div>
+
+        <!-- Lifetime Plan -->
+        <div class="bg-surface-primary border border-surface-secondary rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-sm font-semibold text-neutral-400">Lifetime unlimited</div>
+            <div class="mt-4 flex items-baseline space-x-1">
+              <span class="text-4xl font-bold text-neutral-50">$249</span>
+              <span class="text-sm text-neutral-400">one time</span>
+            </div>
+            <p class="mt-3 text-xs text-neutral-400 body-pretty">
+              One single payment for permanent unlimited cloud migration traffic.
+            </p>
+            <ul class="mt-6 space-y-3 text-sm text-neutral-300">
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Unlimited data traffic forever</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>10 parallel transfer threads</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Lifetime product updates</span>
+              </li>
+              <li class="flex items-center space-x-2">
+                <span class="text-emerald-400">✓</span>
+                <span>Multi account team migration features</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8">
+            <a href="https://www.multcloud.com/sign.html" class="w-full inline-flex items-center justify-center text-sm font-semibold text-neutral-200 bg-surface-secondary hover:bg-surface-tertiary py-2 px-3 rounded-xl border border-surface-tertiary transition-all">
+              Get lifetime access
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ Section (Objection Handling) -->
+    <section id="faq" class="max-w-4xl mx-auto px-4 py-16">
+      <div class="text-center max-w-[680px] mx-auto mb-12">
+        <h2 class="text-3xl font-semibold tracking-tight text-neutral-50 heading-balance">
+          Frequently asked questions
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 body-pretty">
+          Everything you need to know about cloud to cloud migration, safety, and speeds.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>Can I turn off my computer after starting a transfer?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Yes. All file transfers run entirely on isolated server side pipelines. Once you start a transfer task, you can close your browser or turn off your machine, and the transfer continues until finished.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>Is my cloud storage account secure with MultCloud?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Yes. Account authorization uses standard OAuth protocols, meaning MultCloud never sees or stores your passwords. All data transit is encrypted using 256 bit AES SSL channels, and files are never permanently saved on our servers.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>How much data can I transfer on the free plan?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Every free account receives 5 GB of data transfer traffic every single month at zero charge, with no credit card required to sign up.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>Will Google Docs and Sheets convert into broken files?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            No. Unlike standard archive downloads that convert Google files into Office files and scramble layouts, MultCloud retains native cloud file structures and formats.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>Does MultCloud support scheduled and recurring migrations?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Yes. You can schedule transfers to run daily, weekly, or monthly during off peak hours so your files stay updated on a predictable schedule.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>What cloud storage providers can I connect?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            MultCloud connects more than forty cloud providers, including Google Drive, Google Workspace, Microsoft OneDrive, SharePoint, Dropbox, iCloud Photos, Box, MEGA, Amazon S3, and standard FTP servers.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>Can I transfer only specific file formats?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Yes. The built in file filter allows you to include or exclude specific extensions such as video or image files, helping you migrate exactly what you need.
+          </p>
+        </details>
+
+        <details class="bg-surface-primary border border-surface-secondary rounded-xl p-5 group transition-colors">
+          <summary class="font-semibold text-neutral-200 cursor-pointer list-none flex justify-between items-center focus:outline-none">
+            <span>What happens if a network interruption occurs?</span>
+            <span class="text-neutral-500 group-open:rotate-180 transition-transform duration-300">▼</span>
+          </summary>
+          <p class="mt-4 text-sm text-neutral-400 body-pretty leading-relaxed">
+            Because migrations execute server to server rather than through your local internet, local network drops do not affect the task. The system automatically retries interrupted blocks to guarantee full file integrity.
+          </p>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Final Action Section (Mirroring Hero CTA) -->
+    <section class="max-w-5xl mx-auto px-4 py-20 text-center">
+      <div class="bg-surface-primary border border-surface-secondary rounded-3xl p-8 md:p-14 shadow-2xl flex flex-col items-center">
+        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-neutral-50 heading-balance max-w-[680px]">
+          Transfer your cloud files directly online
+        </h2>
+        <p class="mt-4 text-base text-neutral-400 max-w-[680px] body-pretty">
+          Join over two million users moving files between clouds with zero local storage and zero bandwidth strain.
+        </p>
+        <div class="mt-8 flex flex-col items-center space-y-3">
+          <a href="https://www.multcloud.com/sign.html" class="inline-flex items-center justify-center text-base font-semibold text-white bg-brand-600 hover:bg-brand-500 active:scale-[0.98] py-2 px-6 rounded-xl border border-brand-400/30 transition-all duration-300 shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400">
+            Start transferring free
+          </a>
+          <p class="text-xs text-neutral-500">
+            5 GB free data traffic every month • No credit card required
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Semantic Footer with Legal & Company Info -->
+  <footer class="border-t border-surface-secondary bg-surface-primary/40 py-12 text-sm text-neutral-400">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div>
+          <div class="text-sm font-semibold text-neutral-200 mb-3">Product</div>
+          <ul class="space-y-2 text-xs">
+            <li><a href="https://www.multcloud.com/product.html" class="hover:text-neutral-50">Cloud Transfer</a></li>
+            <li><a href="https://www.multcloud.com/product.html#sync" class="hover:text-neutral-50">Cloud Sync</a></li>
+            <li><a href="https://www.multcloud.com/product.html#backup" class="hover:text-neutral-50">Cloud Backup</a></li>
+            <li><a href="https://www.multcloud.com/price.html" class="hover:text-neutral-50">Pricing Plans</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-sm font-semibold text-neutral-200 mb-3">Top Solutions</div>
+          <ul class="space-y-2 text-xs">
+            <li><a href="https://www.multcloud.com/online-tools/transfer-dropbox-to-google-drive.html" class="hover:text-neutral-50">Dropbox to Google Drive</a></li>
+            <li><a href="https://www.multcloud.com/online-tools/transfer-google-photos-to-icloud.html" class="hover:text-neutral-50">Google Photos to iCloud</a></li>
+            <li><a href="https://www.multcloud.com/online-tools/transfer-google-photos-to-onedrive.html" class="hover:text-neutral-50">Google Photos to OneDrive</a></li>
+            <li><a href="https://www.multcloud.com/online-tools/transfer-google-drive-to-another-account.html" class="hover:text-neutral-50">Google Drive to Drive</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-sm font-semibold text-neutral-200 mb-3">Help Center</div>
+          <ul class="space-y-2 text-xs">
+            <li><a href="https://www.multcloud.com/help/" class="hover:text-neutral-50">Help Guides</a></li>
+            <li><a href="https://www.multcloud.com/tutorials/" class="hover:text-neutral-50">Tutorials</a></li>
+            <li><a href="https://www.multcloud.com/support-clouds/" class="hover:text-neutral-50">Supported Clouds</a></li>
+            <li><a href="mailto:support@multcloud.com" class="hover:text-neutral-50">Customer Support</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-sm font-semibold text-neutral-200 mb-3">Company</div>
+          <ul class="space-y-2 text-xs">
+            <li><a href="https://www.multcloud.com/about.html" class="hover:text-neutral-50">About MultCloud</a></li>
+            <li><a href="https://www.multcloud.com/security.html" class="hover:text-neutral-50">Security Standards</a></li>
+            <li><a href="https://www.multcloud.com/policy.html" class="hover:text-neutral-50">Privacy Policy</a></li>
+            <li><a href="https://www.multcloud.com/terms.html" class="hover:text-neutral-50">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-surface-secondary flex flex-col md:flex-row items-center justify-between text-xs text-neutral-500 gap-4">
+        <div>
+          © 2012–2026 MultCloud. All rights reserved. 60 Paya Lebar Road, Suite 08 55, Singapore 409051.
+        </div>
+        <div class="flex space-x-4">
+          <a href="https://www.multcloud.com/policy.html" class="hover:text-neutral-400">Privacy</a>
+          <a href="https://www.multcloud.com/terms.html" class="hover:text-neutral-400">Terms</a>
+          <a href="https://www.multcloud.com/security.html" class="hover:text-neutral-400">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script for Scroll Reveal and Tagline Word by Word Activation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Word-by-word reveal for B11 tagline
+      const revealSection = document.getElementById('tagline-reveal');
+      const words = document.querySelectorAll('.reveal-word');
+      
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        words.forEach(word => {
+          word.style.opacity = '1';
+          word.style.color = '#f9fafb';
+        });
+        return;
+      }
+
+      // Initialize words at 30% muted opacity
+      words.forEach(word => {
+        word.style.opacity = '0.3';
+        word.style.color = '#737373';
+      });
+
+      // Throttled scroll observer for staggered word activation
+      let ticking = false;
+      const updateWords = () => {
+        const rect = revealSection.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Progress through the section
+        const startOffset = windowHeight * 0.85;
+        const endOffset = windowHeight * 0.25;
+        const totalDistance = startOffset - endOffset;
+        const currentProgress = (startOffset - rect.top) / totalDistance;
+        const clampedProgress = Math.min(Math.max(currentProgress, 0), 1);
+        
+        const activeCount = Math.floor(clampedProgress * words.length);
+        
+        words.forEach((word, index) => {
+          if (index <= activeCount) {
+            word.style.opacity = '1';
+            word.style.color = '#f9fafb';
+          } else {
+            word.style.opacity = '0.3';
+            word.style.color = '#737373';
+          }
+        });
+
+        ticking = false;
+      };
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateWords);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      updateWords();
+    });
+  </script>
+</body>
+</html>

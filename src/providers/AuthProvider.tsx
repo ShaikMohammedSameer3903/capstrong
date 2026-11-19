@@ -552,6 +552,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     logoutRef.current = logout;
     api.setOnUnauthorized(() => {
+      if (window.location.pathname === '/login') return; // Prevent reload loops on login page
       console.warn('[AuthProvider] Received 401/403 session authorization failure. Purging stale credentials and redirecting to login...');
       logout();
     });

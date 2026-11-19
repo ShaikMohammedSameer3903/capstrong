@@ -16,7 +16,7 @@ import { useAppStore } from '../store/appStore';
 import { useCloudStore } from '../store/cloudStore';
 import { api } from '../services/api';
 
-const CHART_COLORS = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8b5cf6', '#0078d4'];
+const CHART_COLORS = ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#8b5cf6', '#2563EB'];
 
 import { fmtNumber, fmtCurrency } from '../utils/formatters';
 

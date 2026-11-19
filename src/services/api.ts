@@ -87,10 +87,17 @@ class ApiService {
 
     if (!response.ok) {
       const errorBody = await response.json().catch(() => ({ error: 'Unknown error' }));
-      const isAuthError = response.status === 401 || 
-                          (response.status === 403 && typeof errorBody.error === 'string' && errorBody.error.includes('Access Denied'));
+      const isSessionExpired = response.status === 401 && (
+        errorBody.code === 'TOKEN_EXPIRED' ||
+        errorBody.code === 'SESSION_REVOKED' ||
+        errorBody.code === 'SESSION_TIMEOUT' ||
+        path.startsWith('/api/auth/status') ||
+        path.startsWith('/api/auth/verify')
+      );
 
-      if (isAuthError && this.onUnauthorized) {
+      // Only trigger global logout for genuine, terminal session revocation — not transient 401/403 provider errors
+      if (isSessionExpired && this.onUnauthorized && window.location.pathname !== '/login') {
+        console.warn('[API] Terminal session expiration detected. Invoking unauth handler.');
         this.onUnauthorized();
       }
       throw new ApiError(

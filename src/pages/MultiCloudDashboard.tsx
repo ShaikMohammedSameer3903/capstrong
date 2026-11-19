@@ -17,8 +17,8 @@ import { useCloudStore } from '../store/cloudStore';
 import { useAppStore } from '../store/appStore';
 import { api } from '../services/api';
 
-const PROVIDER_COLORS: Record<string, string> = { azure: '#0078d4', aws: '#FF9900', gcp: '#4285F4' };
-const CHART_COLORS = ['#0078d4', '#FF9900', '#4285F4', '#107C10', '#8b5cf6', '#D13438'];
+const PROVIDER_COLORS: Record<string, string> = { azure: '#2563EB', aws: '#FF9900', gcp: '#4285F4' };
+const CHART_COLORS = ['#2563EB', '#FF9900', '#4285F4', '#0D9488', '#8B5CF6', '#DC2626'];
 
 import {fmtNumber, fmtCurrency} from '../utils/formatters';
 

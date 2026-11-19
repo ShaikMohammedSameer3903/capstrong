@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = globalThis.fetch || ((...args) => import('node-fetch').then(({default: fetch}) => fetch(...args)));
 
 // Simple in-memory cache to avoid hitting Azure ARM on every single API request
 // In production, this would be Redis or Memcached

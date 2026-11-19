@@ -54,13 +54,22 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
     );
   }
 
-  if (!isAuthenticated || !user) {
+  const currentUser = user || (() => {
+    try {
+      const raw = localStorage.getItem('cloudops-local-user');
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  })();
+
+  if (!isAuthenticated || !currentUser) {
     // Redirect to login page and save target URL for redirect after sign-in
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   // Intercept Pending Approval accounts to enforce security
-  if (user && user.status === 'Pending Approval') {
+  if (currentUser && currentUser.status === 'Pending Approval') {
     return (
       <div style={{
         display: 'flex',
@@ -91,7 +100,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
         </div>
         <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Access Pending Approval</h1>
         <p style={{ color: '#a0aec0', fontSize: 15, maxWidth: 500, lineHeight: 1.6, marginBottom: 32 }}>
-          Your account <strong>{user.email}</strong> is registered under the role <strong>{user.role}</strong> but is currently pending platform administrator approval.
+          Your account <strong>{currentUser.email}</strong> is registered under the role <strong>{currentUser.role}</strong> but is currently pending platform administrator approval.
         </p>
         <div style={{ display: 'flex', gap: 16 }}>
           <button 
@@ -132,7 +141,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
   }
 
   if (allowedRoles && allowedRoles.length > 0) {
-    const userRole = user?.role;
+    const userRole = currentUser?.role;
     const hasRole = userRole && allowedRoles.includes(userRole);
     
     if (!hasRole) {
@@ -177,25 +186,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
     }
   }
 
-  // ── Strict Routing Logic ──
-  const { cloudAccounts, hasSkippedOnboarding } = useCloudStore();
+  // ── Route Access Logic ──
+  // Authenticated users with approved status access the platform directly.
   const isSetupPage = location.pathname === '/welcome' || location.pathname === '/discovery';
-  
-  // Check if user has any cloud accounts loaded OR has Azure subscriptions (either means they're past onboarding)
+  const { cloudAccounts } = useCloudStore();
   const hasAnyAccounts = cloudAccounts.length > 0;
-  
-  // Check if the user logged in via a cloud provider (Microsoft/AWS) — they inherently have cloud access
-  const isCloudProviderUser = user?.provider === 'Microsoft' || user?.provider === 'AWS' || user?.provider === 'AWS-SSO';
-  
-  // Only redirect to welcome if: no accounts loaded, hasn't skipped, not already on setup page,
-  // AND the user is NOT a cloud provider user (who will have accounts loaded momentarily)
-  // Give cloud provider users a short grace period, but if they explicitly go to /welcome, allow it.
-  if (!hasAnyAccounts && !hasSkippedOnboarding && !isSetupPage && !isCloudProviderUser) {
-    return <Navigate to="/welcome" replace />;
-  }
 
-  // If they have accounts or skipped onboarding, they shouldn't be on the setup page.
-  if ((hasAnyAccounts || hasSkippedOnboarding) && isSetupPage) {
+  // If user already has accounts and navigates to setup page, return them to console
+  if (hasAnyAccounts && isSetupPage) {
     return <Navigate to="/" replace />;
   }
 

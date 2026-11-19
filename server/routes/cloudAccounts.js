@@ -698,6 +698,39 @@ router.put('/:id', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────
+// POST /api/cloud-accounts/sync — Sync all accounts or by provider
+// ─────────────────────────────────────────────────────────
+router.post('/sync', async (req, res) => {
+  const { provider } = req.body || {};
+  try {
+    const db = await getDatabase();
+    let query = "SELECT * FROM cloud_accounts WHERE status = 'Active'";
+    let params = [];
+    if (provider) {
+      query += " AND LOWER(provider) = LOWER(?)";
+      params.push(provider);
+    }
+    const accounts = await db.all(query, params);
+    const { discoverCloudAccount } = require('../services/discoveryEngine');
+    
+    // Trigger immediate discovery for matching accounts
+    for (const acc of accounts) {
+      discoverCloudAccount(acc.tenant_id, acc.id).catch(e => 
+        console.error(`[DISCOVERY] Sync failed for ${acc.id}:`, e.message)
+      );
+    }
+
+    res.json({
+      success: true,
+      message: `Triggered synchronization for ${accounts.length} ${provider || 'all'} cloud account(s).`,
+      count: accounts.length
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ─────────────────────────────────────────────────────────
 // POST /api/cloud-accounts/:id/sync — Sync resources
 // ─────────────────────────────────────────────────────────
 router.post('/:id/sync', async (req, res) => {

@@ -1,0 +1,80 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T04-49-52-252Z-89687d9e",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T04:49:52.252Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795063789086-347713be",
+    "applicationId": "app-1795060669435-70a735d9",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 3154,
+    "endpointUrl": "",
+    "resourceId": "/subscriptions/sub-test-discovery-001/resourceGroups/rg-cloudops-erificationestuite-checkout-microservice/providers/Microsoft.App/containerApps/checkout-microservice",
+    "resourceGroup": "rg-cloudops-erificationestuite-checkout-microservice",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": false,
+      "deploymentId": "dep-1795063789086-347713be",
+      "operationId": "e8306ee3-be0a-4af6-a610-28928cd8de44",
+      "resourceId": null,
+      "fqdn": null,
+      "provisioningState": "Failed",
+      "sku": null,
+      "location": "southindia",
+      "repositoryUrl": "https://github.com/cloudops/checkout",
+      "branch": "main",
+      "revision": null,
+      "durationMs": 2850,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Docker deployment workflow for 'Checkout Microservice'",
+          "timestamp": "2026-11-19T04:49:49.385Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: sub-test-discovery-001",
+          "timestamp": "2026-11-19T04:49:49.401Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-erificationestuite-checkout-microservice' in region 'southindia'...",
+          "timestamp": "2026-11-19T04:49:49.401Z"
+        },
+        {
+          "step": "RESOURCE_GROUP_FAILED",
+          "message": "[Azure ARM] Real Resource Group creation failed: ChainedTokenCredential authentication failed.\nCredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.\nCredentialUnavailableError: ManagedIdentityCredential: Authentication failed. Message Attempted to use the IMDS endpoint, but it is not available.\nCredentialUnavailableError: Visual Studio Code Authentication is not available. Ensure you have have Azure Resources Extension installed in VS Code, signed into Azure via VS Code, installed the @azure/identity-vscode package, and properly configured the extension.\nCredentialUnavailableError: Traceback (most recent call last):\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 37, in load\r\nPermissionError: [Errno 13] Permission denied: 'C:\\\\Users\\\\shaik\\\\.azure\\\\azureProfile.json'\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\r\n  File \"<frozen runpy>\", line 88, in _run_code\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/__main__.py\", line 30, in <module>\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/__init__.py\", line 1575, in get_default_cli\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/__init__.py\", line 101, in __init__\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 50, in load\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 54, in save\r\nPermissionError: [Errno 13] Permission denied: 'C:\\\\Users\\\\shaik\\\\.azure\\\\azureProfile.json'\r\n\nCredentialUnavailableError: Error: Import-Module : The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file \r\nwas found in any module directory.\r\nAt line:3 char:16\r\n+ ...        $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ResourceUnavailable: (Az.Accounts:String) [Import-Module], FileNotFoundException\r\n    + FullyQualifiedErrorId : Modules_ModuleWithVersionNotFound,Microsoft.PowerShell.Commands.ImportModuleCommand\r\n \r\nGet-AzAccessToken : The term 'Get-AzAccessToken' is not recognized as the name of a cmdlet, function, script file, or \r\noperable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try \r\nagain.\r\nAt line:18 char:20\r\n+           $token = Get-AzAccessToken @params\r\n+                    ~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (Get-AzAccessToken:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.\nCredentialUnavailableError: Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+          "timestamp": "2026-11-19T04:49:52.235Z"
+        },
+        {
+          "step": "REAL_DEPLOYMENT_FAILED",
+          "message": "[Azure ARM Engine] Real Azure deployment failed after 3s (RESOURCE_GROUP): ChainedTokenCredential authentication failed.\nCredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.\nCredentialUnavailableError: ManagedIdentityCredential: Authentication failed. Message Attempted to use the IMDS endpoint, but it is not available.\nCredentialUnavailableError: Visual Studio Code Authentication is not available. Ensure you have have Azure Resources Extension installed in VS Code, signed into Azure via VS Code, installed the @azure/identity-vscode package, and properly configured the extension.\nCredentialUnavailableError: Traceback (most recent call last):\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 37, in load\r\nPermissionError: [Errno 13] Permission denied: 'C:\\\\Users\\\\shaik\\\\.azure\\\\azureProfile.json'\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\r\n  File \"<frozen runpy>\", line 88, in _run_code\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/__main__.py\", line 30, in <module>\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/__init__.py\", line 1575, in get_default_cli\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/__init__.py\", line 101, in __init__\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 50, in load\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 54, in save\r\nPermissionError: [Errno 13] Permission denied: 'C:\\\\Users\\\\shaik\\\\.azure\\\\azureProfile.json'\r\n\nCredentialUnavailableError: Error: Import-Module : The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file \r\nwas found in any module directory.\r\nAt line:3 char:16\r\n+ ...        $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ResourceUnavailable: (Az.Accounts:String) [Import-Module], FileNotFoundException\r\n    + FullyQualifiedErrorId : Modules_ModuleWithVersionNotFound,Microsoft.PowerShell.Commands.ImportModuleCommand\r\n \r\nGet-AzAccessToken : The term 'Get-AzAccessToken' is not recognized as the name of a cmdlet, function, script file, or \r\noperable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try \r\nagain.\r\nAt line:18 char:20\r\n+           $token = Get-AzAccessToken @params\r\n+                    ~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (Get-AzAccessToken:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.\nCredentialUnavailableError: Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+          "timestamp": "2026-11-19T04:49:52.236Z"
+        }
+      ],
+      "metrics": null,
+      "error": "ChainedTokenCredential authentication failed.\nCredentialUnavailableError: EnvironmentCredential is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.\nCredentialUnavailableError: ManagedIdentityCredential: Authentication failed. Message Attempted to use the IMDS endpoint, but it is not available.\nCredentialUnavailableError: Visual Studio Code Authentication is not available. Ensure you have have Azure Resources Extension installed in VS Code, signed into Azure via VS Code, installed the @azure/identity-vscode package, and properly configured the extension.\nCredentialUnavailableError: Traceback (most recent call last):\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 37, in load\r\nPermissionError: [Errno 13] Permission denied: 'C:\\\\Users\\\\shaik\\\\.azure\\\\azureProfile.json'\r\n\r\nDuring handling of the above exception, another exception occurred:\r\n\r\nTraceback (most recent call last):\r\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\r\n  File \"<frozen runpy>\", line 88, in _run_code\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/__main__.py\", line 30, in <module>\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/__init__.py\", line 1575, in get_default_cli\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/__init__.py\", line 101, in __init__\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 50, in load\r\n  File \"D:\\a\\_work\\1\\s\\build_scripts\\windows\\artifacts\\cli\\Lib\\site-packages\\azure/cli/core/_session.py\", line 54, in save\r\nPermissionError: [Errno 13] Permission denied: 'C:\\\\Users\\\\shaik\\\\.azure\\\\azureProfile.json'\r\n\nCredentialUnavailableError: Error: Import-Module : The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file \r\nwas found in any module directory.\r\nAt line:3 char:16\r\n+ ...        $m = Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ResourceUnavailable: (Az.Accounts:String) [Import-Module], FileNotFoundException\r\n    + FullyQualifiedErrorId : Modules_ModuleWithVersionNotFound,Microsoft.PowerShell.Commands.ImportModuleCommand\r\n \r\nGet-AzAccessToken : The term 'Get-AzAccessToken' is not recognized as the name of a cmdlet, function, script file, or \r\noperable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try \r\nagain.\r\nAt line:18 char:20\r\n+           $token = Get-AzAccessToken @params\r\n+                    ~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : ObjectNotFound: (Get-AzAccessToken:String) [], CommandNotFoundException\r\n    + FullyQualifiedErrorId : CommandNotFoundException\r\n \r\n. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.\nCredentialUnavailableError: Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
+      "failureKind": "UNEXPECTED",
+      "failureStep": "RESOURCE_GROUP",
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "FAILED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T05-15-49-007Z-cc8de698",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T05:15:49.007Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795065314982-7212f352",
+    "applicationId": "app-1795065312733-dc2595d2",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 34014,
+    "endpointUrl": "",
+    "resourceId": "/subscriptions/sub-test-discovery-001/resourceGroups/rg-cloudops-2300031607-portfolio/providers/Microsoft.Web/staticSites/portfolio",
+    "resourceGroup": "rg-cloudops-2300031607-portfolio",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": false,
+      "deploymentId": "dep-1795065314982-7212f352",
+      "operationId": "004542b0-4e7d-47a1-b651-e878b659d897",
+      "resourceId": null,
+      "fqdn": null,
+      "provisioningState": "Failed",
+      "sku": null,
+      "location": "southeastasia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.githttps://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": null,
+      "durationMs": 33233,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'PORTFOLIO'",
+          "timestamp": "2026-11-19T05:15:15.755Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T05:15:15.758Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-portfolio' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:15:15.758Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-portfolio' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T05:15:18.440Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'portfolio-2300031607-d10b'...",
+          "timestamp": "2026-11-19T05:15:18.440Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-portfolio-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:15:18.454Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'portfolio-2300031607-d10b' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:15:22.668Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Azure ARM Web App creation timed out in region 'southeastasia'.",
+          "timestamp": "2026-11-19T05:15:42.677Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-portfolio-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:15:42.680Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Unexpected status code: 409",
+          "timestamp": "2026-11-19T05:15:44.537Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-portfolio-centralindia' in region 'centralindia'...",
+          "timestamp": "2026-11-19T05:15:44.540Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'centralindia' failed: Resource 'asp-portfolio-centralindia' was disallowed by Azure: This policy maintains a set of best available regions where your subscription can deploy resources. The objective of this policy is to ensure that your subscription has full access to Azure services with optimal performance. Should you need additional or different regions, contact support..",
+          "timestamp": "2026-11-19T05:15:44.880Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-portfolio-eastasia' in region 'eastasia'...",
+          "timestamp": "2026-11-19T05:15:44.883Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'portfolio-2300031607-d10b' in region 'eastasia'...",
+          "timestamp": "2026-11-19T05:15:48.865Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'eastasia' failed: The resource 'portfolio-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-portfolio'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:15:48.987Z"
+        },
+        {
+          "step": "WEB_APP_FAILED",
+          "message": "[Azure ARM] Real Web App provisioning failed in all attempted regions: The resource 'portfolio-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-portfolio'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:15:48.988Z"
+        },
+        {
+          "step": "REAL_DEPLOYMENT_FAILED",
+          "message": "[Azure ARM Engine] Real Azure deployment failed after 33s (WEB_APP): The resource 'portfolio-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-portfolio'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:15:48.988Z"
+        }
+      ],
+      "metrics": null,
+      "error": "The resource 'portfolio-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-portfolio'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+      "failureKind": "UNEXPECTED",
+      "failureStep": "WEB_APP",
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "FAILED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

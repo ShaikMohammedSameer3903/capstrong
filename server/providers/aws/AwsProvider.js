@@ -148,6 +148,11 @@ class AwsProvider extends CloudProvider {
         const ec2Result = await ec2.send(new DescribeInstancesCommand({ MaxResults: 100 }));
         for (const reservation of (ec2Result.Reservations || [])) {
           for (const inst of (reservation.Instances || [])) {
+            // Ignore terminated and shutting-down instances so they are pruned from the platform
+            const state = (inst.State?.Name || '').toLowerCase();
+            if (state === 'terminated' || state === 'shutting-down') {
+              continue;
+            }
             const nameTag = (inst.Tags || []).find(t => t.Key === 'Name');
             resources.push({
               id: inst.InstanceId,
@@ -167,7 +172,7 @@ class AwsProvider extends CloudProvider {
             });
           }
         }
-        
+
         // Networking - VPCs
         const vpcRes = await ec2.send(new DescribeVpcsCommand({}));
         for (const vpc of (vpcRes.Vpcs || [])) {
@@ -245,6 +250,8 @@ class AwsProvider extends CloudProvider {
         const rds = new RDSClient(config);
         const rdsResult = await rds.send(new DescribeDBInstancesCommand({ MaxRecords: 100 }));
         for (const db of (rdsResult.DBInstances || [])) {
+          const dbStatus = (db.DBInstanceStatus || '').toLowerCase();
+          if (dbStatus === 'deleted' || dbStatus === 'deleting' || dbStatus === 'failed') continue;
           resources.push({
             id: db.DBInstanceArn,
             provider: 'aws',
@@ -287,6 +294,7 @@ class AwsProvider extends CloudProvider {
         if (ecsListResult.clusterArns?.length > 0) {
           const ecsDescResult = await ecs.send(new DescribeClustersCommand({ clusters: ecsListResult.clusterArns }));
           for (const cluster of (ecsDescResult.clusters || [])) {
+            if ((cluster.status || '').toUpperCase() === 'INACTIVE') continue;
             resources.push({
               id: cluster.clusterArn,
               provider: 'aws',
@@ -321,7 +329,7 @@ class AwsProvider extends CloudProvider {
           });
         }
       } catch (err) { console.warn(`[AWS] ${region} EKS discovery failed:`, err.message); }
-      
+
       // Load Balancers (ALB/NLB)
       try {
         const { ElasticLoadBalancingV2Client, DescribeLoadBalancersCommand } = require('@aws-sdk/client-elastic-load-balancing-v2');
@@ -348,9 +356,11 @@ class AwsProvider extends CloudProvider {
         const ec2 = new EC2Client(config);
         const vRes = await ec2.send(new DescribeVolumesCommand({}));
         for (const v of (vRes.Volumes || [])) {
+          const vState = (v.State || '').toLowerCase();
+          if (vState === 'deleted' || vState === 'deleting') continue;
           resources.push({
             id: v.VolumeId, provider: 'aws', type: 'AWS::EC2::Volume',
-            name: (v.Tags||[]).find(t=>t.Key==='Name')?.Value || v.VolumeId,
+            name: (v.Tags || []).find(t => t.Key === 'Name')?.Value || v.VolumeId,
             region, status: v.State, resourceGroup: 'Storage', tags: this._tagsToMap(v.Tags),
             properties: { size: v.Size, volumeType: v.VolumeType }
           });
@@ -393,9 +403,9 @@ class AwsProvider extends CloudProvider {
         for (const igw of (igwRes.InternetGateways || [])) {
           resources.push({
             id: igw.InternetGatewayId, provider: 'aws', type: 'AWS::EC2::InternetGateway',
-            name: (igw.Tags||[]).find(t=>t.Key==='Name')?.Value || igw.InternetGatewayId,
+            name: (igw.Tags || []).find(t => t.Key === 'Name')?.Value || igw.InternetGatewayId,
             region, status: 'available', resourceGroup: 'Networking', tags: this._tagsToMap(igw.Tags),
-            properties: { attachments: (igw.Attachments||[]).map(a => ({ vpcId: a.VpcId, state: a.State })) }
+            properties: { attachments: (igw.Attachments || []).map(a => ({ vpcId: a.VpcId, state: a.State })) }
           });
         }
       } catch (err) { console.warn(`[AWS] ${region} IGW failed:`, err.message); }
@@ -408,7 +418,7 @@ class AwsProvider extends CloudProvider {
         for (const nat of (natRes.NatGateways || [])) {
           resources.push({
             id: nat.NatGatewayId, provider: 'aws', type: 'AWS::EC2::NatGateway',
-            name: (nat.Tags||[]).find(t=>t.Key==='Name')?.Value || nat.NatGatewayId,
+            name: (nat.Tags || []).find(t => t.Key === 'Name')?.Value || nat.NatGatewayId,
             region, status: nat.State || 'available', resourceGroup: 'Networking', tags: this._tagsToMap(nat.Tags),
             properties: { subnetId: nat.SubnetId, vpcId: nat.VpcId, connectivityType: nat.ConnectivityType }
           });
@@ -423,9 +433,9 @@ class AwsProvider extends CloudProvider {
         for (const nacl of (naclRes.NetworkAcls || [])) {
           resources.push({
             id: nacl.NetworkAclId, provider: 'aws', type: 'AWS::EC2::NetworkAcl',
-            name: (nacl.Tags||[]).find(t=>t.Key==='Name')?.Value || nacl.NetworkAclId,
+            name: (nacl.Tags || []).find(t => t.Key === 'Name')?.Value || nacl.NetworkAclId,
             region, status: 'available', resourceGroup: 'Networking', tags: this._tagsToMap(nacl.Tags),
-            properties: { vpcId: nacl.VpcId, isDefault: nacl.IsDefault, entriesCount: (nacl.Entries||[]).length }
+            properties: { vpcId: nacl.VpcId, isDefault: nacl.IsDefault, entriesCount: (nacl.Entries || []).length }
           });
         }
       } catch (err) { console.warn(`[AWS] ${region} NACLs failed:`, err.message); }
@@ -438,9 +448,9 @@ class AwsProvider extends CloudProvider {
         for (const rt of (rtRes.RouteTables || [])) {
           resources.push({
             id: rt.RouteTableId, provider: 'aws', type: 'AWS::EC2::RouteTable',
-            name: (rt.Tags||[]).find(t=>t.Key==='Name')?.Value || rt.RouteTableId,
+            name: (rt.Tags || []).find(t => t.Key === 'Name')?.Value || rt.RouteTableId,
             region, status: 'available', resourceGroup: 'Networking', tags: this._tagsToMap(rt.Tags),
-            properties: { vpcId: rt.VpcId, routeCount: (rt.Routes||[]).length }
+            properties: { vpcId: rt.VpcId, routeCount: (rt.Routes || []).length }
           });
         }
       } catch (err) { console.warn(`[AWS] ${region} Route Tables failed:`, err.message); }
@@ -461,7 +471,7 @@ class AwsProvider extends CloudProvider {
         }
       } catch (err) { console.warn(`[AWS] ${region} ElastiCache failed:`, err.message); }
 
-      // Database - Redshift Clusters
+      // Database - Redshift Clusters (paid service — silently skip if not subscribed)
       try {
         const { RedshiftClient, DescribeClustersCommand: RSDescribeClustersCommand } = require('@aws-sdk/client-redshift');
         const rs = new RedshiftClient(config);
@@ -475,7 +485,13 @@ class AwsProvider extends CloudProvider {
             properties: { nodeType: cluster.NodeType, numberOfNodes: cluster.NumberOfNodes, dbName: cluster.DBName }
           });
         }
-      } catch (err) { console.warn(`[AWS] ${region} Redshift failed:`, err.message); }
+      } catch (err) {
+        const msg = (err.message || '').toLowerCase();
+        // Silently skip: Redshift is a paid service not available on free-tier/student accounts
+        if (!msg.includes('subscription') && !msg.includes('not subscribed') && !msg.includes('needs a subscription')) {
+          console.warn(`[AWS] ${region} Redshift failed:`, err.message);
+        }
+      }
 
       // Storage - EFS
       try {
@@ -503,9 +519,10 @@ class AwsProvider extends CloudProvider {
         const sm = new SecretsManagerClient(config);
         const smRes = await sm.send(new ListSecretsCommand({ MaxResults: 100 }));
         for (const secret of (smRes.SecretList || [])) {
+          if (secret.DeletedDate) continue; // Skip deleted secrets
           resources.push({
             id: secret.ARN, provider: 'aws', type: 'AWS::SecretsManager::Secret',
-            name: secret.Name, region, status: secret.DeletedDate ? 'Deleted' : 'Active',
+            name: secret.Name, region, status: 'Active',
             resourceGroup: 'Security', tags: this._tagsToMap(secret.Tags),
             properties: { lastChangedDate: secret.LastChangedDate, lastRotatedDate: secret.LastRotatedDate, rotationEnabled: secret.RotationEnabled }
           });
@@ -738,7 +755,7 @@ class AwsProvider extends CloudProvider {
     const { CostExplorerClient, GetCostAndUsageCommand, GetCostForecastCommand } = require('@aws-sdk/client-cost-explorer');
     const ceClient = new CostExplorerClient({ ...config, region: 'us-east-1' });
     const now = new Date();
-    
+
     // Start of the PREVIOUS month to capture trailing costs reliably
     const startOfPrevMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1));
     const endDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));

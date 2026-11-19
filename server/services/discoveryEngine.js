@@ -15,7 +15,7 @@ let schedulerInterval = null;
 function startDiscoveryScheduler() {
   if (schedulerInterval) return;
 
-  console.log('[DISCOVERY-SCHEDULER] Started (10m interval). Credential-based subs only.');
+  console.log('[DISCOVERY-SCHEDULER] Started (30s real-time interval). Multi-cloud discovery active.');
   schedulerInterval = setInterval(async () => {
     try {
       const db = await getDatabase();
@@ -43,9 +43,15 @@ function startDiscoveryScheduler() {
         }
       }
 
-      // AWS Account Sync
+      // AWS Account Sync — skip accounts with no credentials at all
       const awsAccounts = await db.all("SELECT * FROM cloud_accounts WHERE provider = 'aws' AND status = 'Active'");
       for (const account of awsAccounts) {
+        // Skip completely uncredentialed accounts — they cannot be scanned and
+        // only produce noisy authentication errors from every AWS region.
+        if (!account.access_key_id && !account.secret_access_key && !account.role_arn) {
+          console.log(`[DISCOVERY-SCHEDULER] Skipping AWS account "${account.account_name}" — no credentials configured.`);
+          continue;
+        }
         try {
           await discoverAwsAccount(account.id);
         } catch (awsErr) {
@@ -66,7 +72,7 @@ function startDiscoveryScheduler() {
     } catch (err) {
       console.error('[DISCOVERY-SCHEDULER] Fatal error:', err.message);
     }
-  }, 600000); // 10 minutes interval
+  }, 30000); // 30 seconds real-time interval
 }
 
 /**
@@ -78,6 +84,12 @@ async function discoverAwsAccount(accountId) {
   const account = await db.get("SELECT * FROM cloud_accounts WHERE id = ?", [accountId]);
   if (!account) {
     console.warn(`[DISCOVERY] AWS account ${accountId} not found.`);
+    return [];
+  }
+
+  // Guard: skip accounts with no credentials at all
+  if (!account.access_key_id && !account.secret_access_key && !account.role_arn) {
+    console.log(`[DISCOVERY] Skipping AWS account "${account.account_name}" (${accountId}) — no credentials configured.`);
     return [];
   }
 
@@ -126,6 +138,58 @@ async function discoverAwsAccount(accountId) {
     }
     
     const { broadcastToUser } = require('../websockets/gateway');
+
+    // ── RECONCILE: prune stale AWS resources no longer returned by the API ──
+    let resourcesDeleted = 0;
+
+    // First: Purge any resources that are marked terminated or deleted in the database
+    try {
+      const termResult = await db.run(
+        `DELETE FROM resources WHERE LOWER(provider) = 'aws' AND LOWER(status) IN ('terminated', 'shutting-down', 'deleted', 'deleting')`
+      );
+      if (termResult.changes > 0) {
+        console.log(`[DISCOVERY] Pruned ${termResult.changes} terminated/deleted AWS resources for "${account.account_name}"`);
+        resourcesDeleted += termResult.changes;
+      }
+    } catch (termErr) {
+      console.warn('[DISCOVERY] Terminated resource purge notice:', termErr.message);
+    }
+
+    if (resources.length > 0) {
+      const discoveredIds = resources.map(r => r.id);
+      const placeholders = discoveredIds.map(() => '?').join(',');
+      const deleteResult = await db.run(
+        `DELETE FROM resources 
+         WHERE (cloud_account_id = ? OR cloud_account_id = ? OR cloud_account_id = ? OR subscription_id = ? OR subscription_id = ? OR subscription_id = ? OR (cloud_account_id IS NULL AND LOWER(provider) = 'aws')) 
+           AND LOWER(provider) = 'aws' 
+           AND id NOT IN (${placeholders})`,
+        [account.id, account.account_id || account.id, account.subscription_id || account.id, account.id, account.account_id || account.id, account.subscription_id || account.id, ...discoveredIds]
+      );
+      resourcesDeleted += (deleteResult.changes || 0);
+    } else {
+      const deleteResult = await db.run(
+        `DELETE FROM resources 
+         WHERE (cloud_account_id = ? OR cloud_account_id = ? OR cloud_account_id = ? OR subscription_id = ? OR subscription_id = ? OR subscription_id = ? OR (cloud_account_id IS NULL AND LOWER(provider) = 'aws')) 
+           AND LOWER(provider) = 'aws'`,
+        [account.id, account.account_id || account.id, account.subscription_id || account.id, account.id, account.account_id || account.id, account.subscription_id || account.id]
+      );
+      resourcesDeleted += (deleteResult.changes || 0);
+    }
+
+    if (resourcesDeleted > 0) {
+      console.log(`[DISCOVERY] Pruned ${resourcesDeleted} stale/deleted AWS resources for account "${account.account_name}"`);
+      broadcastToUser(account.user_id, 'RESOURCE_DELETED', { accountId: account.account_id, provider: 'aws', count: resourcesDeleted });
+    }
+
+    // ── MONGODB REAL-TIME SYNC & PRUNING ──
+    try {
+      const mongoService = require('./mongoService');
+      await mongoService.syncDiscoveredResources(resources, 'aws', account.id, account.tenant_id, account.user_id);
+      await mongoService.pruneStaleResources('aws', account.id, resources.map(r => r.id));
+    } catch (mongoSyncErr) {
+      console.warn('[MONGODB-SYNC] AWS sync notice:', mongoSyncErr.message);
+    }
+
     broadcastToUser(account.user_id, 'RESOURCE_DISCOVERED', { accountId: account.account_id, provider: 'aws' });
 
     const durationMs = Date.now() - startMs;
@@ -147,7 +211,7 @@ async function discoverAwsAccount(accountId) {
       status: 'completed',
       resourcesFound: resources.length,
       resourcesUpdated: resources.length,
-      resourcesDeleted: 0,
+      resourcesDeleted,
       durationMs
     });
 
@@ -257,6 +321,58 @@ async function discoverGcpAccount(accountId) {
     }
     
     const { broadcastToUser } = require('../websockets/gateway');
+
+    // ── RECONCILE: prune stale GCP resources no longer returned by the API ──
+    let resourcesDeleted = 0;
+
+    // Purge any resources explicitly marked terminated or deleted
+    try {
+      const termResult = await db.run(
+        `DELETE FROM resources WHERE LOWER(provider) = 'gcp' AND LOWER(status) IN ('terminated', 'shutting-down', 'deleted', 'deleting', 'stopping')`
+      );
+      if (termResult.changes > 0) {
+        console.log(`[DISCOVERY] Pruned ${termResult.changes} terminated/deleted GCP resources for "${account.account_name}"`);
+        resourcesDeleted += termResult.changes;
+      }
+    } catch (termErr) {
+      console.warn('[DISCOVERY] Terminated GCP resource purge notice:', termErr.message);
+    }
+
+    if (resources.length > 0) {
+      const discoveredIds = resources.map(r => r.id);
+      const placeholders = discoveredIds.map(() => '?').join(',');
+      const deleteResult = await db.run(
+        `DELETE FROM resources 
+         WHERE (cloud_account_id = ? OR cloud_account_id = ? OR subscription_id = ? OR subscription_id = ?) 
+           AND LOWER(provider) = 'gcp' 
+           AND id NOT IN (${placeholders})`,
+        [account.id, account.account_id || account.id, account.id, account.account_id || account.id, ...discoveredIds]
+      );
+      resourcesDeleted += (deleteResult.changes || 0);
+    } else {
+      const deleteResult = await db.run(
+        `DELETE FROM resources 
+         WHERE (cloud_account_id = ? OR cloud_account_id = ? OR subscription_id = ? OR subscription_id = ?) 
+           AND LOWER(provider) = 'gcp'`,
+        [account.id, account.account_id || account.id, account.id, account.account_id || account.id]
+      );
+      resourcesDeleted += (deleteResult.changes || 0);
+    }
+
+    if (resourcesDeleted > 0) {
+      console.log(`[DISCOVERY] Pruned ${resourcesDeleted} stale/deleted GCP resources for account "${account.account_name}"`);
+      broadcastToUser(account.user_id, 'RESOURCE_DELETED', { accountId: account.account_id, provider: 'gcp', count: resourcesDeleted });
+    }
+
+    // ── MONGODB REAL-TIME SYNC & PRUNING ──
+    try {
+      const mongoService = require('./mongoService');
+      await mongoService.syncDiscoveredResources(resources, 'gcp', account.id, account.tenant_id, account.user_id);
+      await mongoService.pruneStaleResources('gcp', account.id, resources.map(r => r.id));
+    } catch (mongoSyncErr) {
+      console.warn('[MONGODB-SYNC] GCP sync notice:', mongoSyncErr.message);
+    }
+
     broadcastToUser(account.user_id, 'RESOURCE_DISCOVERED', { accountId: account.account_id, provider: 'gcp' });
 
     const durationMs = Date.now() - startMs;
@@ -278,7 +394,7 @@ async function discoverGcpAccount(accountId) {
       status: 'completed',
       resourcesFound: resources.length,
       resourcesUpdated: resources.length,
-      resourcesDeleted: 0,
+      resourcesDeleted,
       durationMs
     });
 
@@ -660,20 +776,31 @@ async function discoverAllResources(tenantId, subscriptionId, userAccessToken = 
     }
 
     // Remove stale resources no longer in Azure
+    const azureSubGuid = sub.subscription_id || sub.id;
     if (discoveredIds.length > 0) {
       const placeholders = discoveredIds.map(() => '?').join(',');
       const deleteResult = await db.run(`
         DELETE FROM resources
-        WHERE subscription_id = ? AND id NOT IN (${placeholders})
-      `, [sub.id, ...discoveredIds]);
+        WHERE (subscription_id = ? OR subscription_id = ? OR cloud_account_id = ? OR cloud_account_id = ?)
+          AND id NOT IN (${placeholders})
+      `, [sub.id, azureSubGuid, sub.id, azureSubGuid, ...discoveredIds]);
       if (deleteResult.changes > 0) {
         console.log(`[DISCOVERY] Pruned ${deleteResult.changes} stale resources from DB for "${sub.name}"`);
       }
     } else {
-      await db.run('DELETE FROM resources WHERE subscription_id = ?', [sub.id]);
+      await db.run('DELETE FROM resources WHERE (subscription_id = ? OR subscription_id = ? OR cloud_account_id = ? OR cloud_account_id = ?)', [sub.id, azureSubGuid, sub.id, azureSubGuid]);
     }
     
     await db.run('COMMIT');
+
+    // ── MONGODB REAL-TIME SYNC & PRUNING ──
+    try {
+      const mongoService = require('./mongoService');
+      await mongoService.syncDiscoveredResources(discoveredList, 'azure', sub.id, sub.tenant_id, sub.user_id);
+      await mongoService.pruneStaleResources('azure', sub.id, discoveredIds);
+    } catch (mongoSyncErr) {
+      console.warn('[MONGODB-SYNC] Azure sync notice:', mongoSyncErr.message);
+    }
 
     // Audit log - rate limit successful discovery logs (max once every 30 minutes per account)
     const thirtyMinutesAgo = new Date(Date.now() - 30 * 60000).toISOString();

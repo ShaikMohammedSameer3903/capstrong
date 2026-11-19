@@ -305,29 +305,47 @@ export default function App() {
     }
   }, [isAuthenticated, user?.id]);
 
-  // Smart background sync — every 30s, silently passes the Azure token
+  // Smart real-time background sync — polls every 12s across multi-cloud (Azure, AWS, Docker)
   useEffect(() => {
-    if (!isAuthenticated || !activeSubscriptionId || cloudAccounts.length === 0) return;
+    if (!isAuthenticated) return;
 
     const interval = setInterval(async () => {
       try {
-        const azureToken = await getAzureToken();
-        const result = await api.post<any>(`/api/subscriptions/${activeSubscriptionId}/sync`, {
-          azureToken: azureToken || undefined
-        });
-        // Only re-fetch if we actually hit Azure (not a cached fallback)
-        if (!result?.cached) {
-          const res = await api.get<any[]>('/api/resources', { params: { subscriptionId: activeSubscriptionId } });
+        const currentActive = useAppStore.getState().activeSubscriptionId;
+        const currentProvider = useCloudStore.getState().selectedProvider;
+        
+        // 1. If an Azure subscription is active, silently pass the token for incremental sync
+        if (currentActive && currentActive !== 'all') {
+          const isAzureSub = subscriptions.some(s => s.id === currentActive);
+          if (isAzureSub) {
+            const azureToken = await getAzureToken();
+            await api.post<any>(`/api/subscriptions/${currentActive}/sync`, {
+              azureToken: azureToken || undefined
+            }).catch(() => {});
+          }
+        }
+
+        // 2. Refresh resources across active accounts in real time
+        const params: any = {};
+        if (currentActive && currentActive !== 'all') {
+          params.subscriptionId = currentActive;
+        }
+        if (currentProvider && currentProvider !== 'all') {
+          params.provider = currentProvider;
+        }
+
+        const res = await api.get<any[]>('/api/resources', { params });
+        if (Array.isArray(res)) {
           setResources(res);
           useAppStore.setState({ lastResourceSync: new Date().toISOString() });
         }
       } catch {
-        // Suppress — SSE keeps things updated; poll errors are non-critical
+        // Suppress — SSE/WebSocket keeps things updated; poll errors are non-critical
       }
-    }, 60000); // 60 seconds
+    }, 12000); // 12 seconds fast real-time poll
 
     return () => clearInterval(interval);
-  }, [isAuthenticated, activeSubscriptionId, setResources, getAzureToken]);
+  }, [isAuthenticated, subscriptions, setResources, getAzureToken]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -397,18 +415,40 @@ export default function App() {
         });
 
         socket.on('RESOURCE_CREATED', (data) => {
-          const currentProvider = useCloudStore.getState().selectedProvider;
-          if (currentProvider !== 'all' && data.provider && data.provider.toLowerCase() !== currentProvider.toLowerCase()) return;
-          const activeSub = useAppStore.getState().activeSubscriptionId;
-          const ts = new Date().toISOString();
-          console.log(`[WebSocket] 📡 RESOURCE_CREATED at ${ts} | activeSub=${activeSub} | data=`, data);
-          if (activeSub || currentProvider !== 'all') {
-            api.get<any[]>('/api/resources', { params: { subscriptionId: activeSub || '', provider: currentProvider !== 'all' ? currentProvider : '' } })
-              .then((res: any) => {
+          console.log('[WebSocket] 📡 RESOURCE_CREATED:', data);
+          api.get<any[]>('/api/resources')
+            .then((res: any) => {
+              if (Array.isArray(res)) {
                 useAppStore.getState().setResources(res);
                 useAppStore.setState({ lastResourceSync: new Date().toISOString() });
-              })
-              .catch((err: any) => console.error('[WebSocket] ❌ Resource refresh failed:', err));
+              }
+            })
+            .catch((err: any) => console.error('[WebSocket] Resource refresh failed:', err));
+        });
+
+        socket.on('RESOURCE_DISCOVERED', (data) => {
+          console.log('[WebSocket] 📡 RESOURCE_DISCOVERED (AWS/Azure/Docker):', data);
+          api.get<any[]>('/api/resources')
+            .then((res: any) => {
+              if (Array.isArray(res)) {
+                useAppStore.getState().setResources(res);
+                useAppStore.setState({ lastResourceSync: new Date().toISOString() });
+              }
+            })
+            .catch((err: any) => console.error('[WebSocket] Resource refresh failed:', err));
+        });
+
+        socket.on('RESOURCE_DELETED', (data) => {
+          console.log('[WebSocket] 📡 RESOURCE_DELETED:', data);
+          const { resourceId } = data || {};
+          if (resourceId) {
+            useAppStore.setState(state => ({
+              resources: state.resources.filter(r => r.id !== resourceId)
+            }));
+          } else {
+            api.get<any[]>('/api/resources').then(res => {
+              if (Array.isArray(res)) useAppStore.getState().setResources(res);
+            }).catch(() => {});
           }
         });
 
@@ -492,9 +532,15 @@ export default function App() {
 
   // Helper: determine the correct home route based on user's auth provider
   const getProviderHome = () => {
-    if (!user) return '/';
-    if (user.provider === 'AWS' || user.provider === 'AWS-SSO') return '/aws';
-    if (user.provider === 'Microsoft') return '/azure';
+    const activeUser = user || (() => {
+      try {
+        const raw = localStorage.getItem('cloudops-local-user');
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    })();
+    if (!activeUser) return '/';
+    if (activeUser.provider === 'AWS' || activeUser.provider === 'AWS-SSO') return '/aws';
+    if (activeUser.provider === 'Microsoft') return '/azure';
     return '/'; // Local/Google → multi-cloud home
   };
 

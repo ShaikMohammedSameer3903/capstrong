@@ -78,25 +78,18 @@ export default function ActivityPanel() {
       id: activeCloudAccount.id,
       provider: activeCloudAccount.provider,
       accountId: activeCloudAccount.account_id || activeCloudAccount.subscription_id || activeCloudAccount.id,
-      accountName: activeCloudAccount.account_name,
+      accountName: activeCloudAccount.account_name || activeCloudAccount.name,
       status: activeCloudAccount.status
     };
   }
 
   const getProviderLabel = () => {
-    if (!activeCloudAccount) {
-       if (selectedProvider === 'aws') return 'AWS Account Required';
-       if (selectedProvider === 'gcp') return 'GCP Project Required';
-       return 'Azure Account Required';
-    }
-    if (activeCloudAccount.provider === 'aws') return 'AWS Account Connected';
-    if (activeCloudAccount.provider === 'gcp') return 'GCP Project Connected';
-    return 'Azure Subscription Connected';
+    if (!activeCloudAccount) return 'Standby';
+    return `${activeCloudAccount.provider.toUpperCase()} Ready`;
   };
 
   const getActionTitle = (action: string) => {
-    if (!action) return 'Operational Activity';
-    // Friendly formatting for action strings (e.g. USER_LOGIN -> User Login)
+    if (!action) return 'System Action';
     return action
       .toLowerCase()
       .split('_')
@@ -107,12 +100,12 @@ export default function ActivityPanel() {
   const getStatusColor = (action: string) => {
     const act = action.toLowerCase();
     if (act.includes('fail') || act.includes('critical') || act.includes('threat') || act.includes('deny') || act.includes('block')) {
-      return '#D13438'; // Error red
+      return '#DC2626'; // Error red
     }
     if (act.includes('success') || act.includes('login') || act.includes('complete') || act.includes('remediat') || act.includes('provision')) {
-      return '#107C10'; // Success green
+      return '#0D9488'; // Success teal
     }
-    return '#0078D4'; // Info blue
+    return '#2563EB'; // Primary blue
   };
 
   // Perform categorized filtering
@@ -153,36 +146,37 @@ export default function ActivityPanel() {
       opacity: activityPanelCollapsed ? 0 : 1,
       pointerEvents: activityPanelCollapsed ? 'none' : 'auto',
       visibility: activityPanelCollapsed ? 'hidden' : 'visible',
-      transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, visibility 0.3s ease',
-      background: 'var(--sidebar-bg, #0B1F3A)',
-      borderLeft: activityPanelCollapsed ? 'none' : '1px solid rgba(255, 255, 255, 0.08)',
+      transition: 'width 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, visibility 0.3s ease',
+      background: 'var(--bg-surface, #FFFFFF)',
+      borderLeft: activityPanelCollapsed ? 'none' : '1px solid var(--border-default, #E2E8F0)',
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
       overflowY: 'auto',
       flexShrink: 0,
-      fontFamily: 'DM Sans, sans-serif',
-      color: '#ffffff'
+      fontFamily: "'Manrope', system-ui, -apple-system, sans-serif",
+      color: 'var(--text-primary, #1E293B)'
     }}>
       {/* 1. Discovery Scan Status Panel */}
       {cloudAccounts.length > 0 && (
         <div style={{
           padding: 16,
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
-          background: 'rgba(0, 0, 0, 0.15)'
+          borderBottom: '1px solid var(--border-subtle, #E2E8F0)',
+          background: 'var(--bg-surface-secondary, #F8FAFC)'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <Sparkles size={14} color="#0078D4" />
-              <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <Sparkles size={14} color="#2563EB" />
+              <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#1E293B' }}>
                 Discovery Scan Status
               </span>
             </div>
             {isRefreshing && (
               <span style={{
                 fontSize: 9,
-                background: 'rgba(0, 120, 212, 0.15)',
-                color: '#60a5fa',
+                background: '#EFF6FF',
+                color: '#2563EB',
+                border: '1px solid #DBEAFE',
                 padding: '1px 6px',
                 borderRadius: 4,
                 fontWeight: 700
@@ -192,33 +186,33 @@ export default function ActivityPanel() {
             )}
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11.5, background: 'rgba(0,0,0,0.2)', padding: 10, borderRadius: 6 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, fontSize: 11.5, background: '#FFFFFF', border: '1px solid #E2E8F0', padding: 10, borderRadius: 8 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--sidebar-text-muted)' }}>Last Scan:</span>
-              <span style={{ fontWeight: 600 }}>
+              <span style={{ color: '#64748B' }}>Last Scan:</span>
+              <span style={{ fontWeight: 600, color: '#1E293B' }}>
                 {lastResourceSync ? new Date(lastResourceSync).toLocaleTimeString() : '17:23:12'}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--sidebar-text-muted)' }}>Duration:</span>
-              <span style={{ fontWeight: 600 }}>{isRefreshing ? 'Running...' : `${scanDuration}s`}</span>
+              <span style={{ color: '#64748B' }}>Duration:</span>
+              <span style={{ fontWeight: 600, color: '#1E293B' }}>{isRefreshing ? 'Running...' : `${scanDuration}s`}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--sidebar-text-muted)' }}>Resources:</span>
-              <span style={{ fontWeight: 600 }}>{activeCloudAccount ? resources.length : '—'}</span>
+              <span style={{ color: '#64748B' }}>Resources:</span>
+              <span style={{ fontWeight: 600, color: '#1E293B' }}>{activeCloudAccount ? resources.length : '—'}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--sidebar-text-muted)' }}>{activeCloudAccount?.provider === 'aws' ? 'Account:' : 'Subscription:'}</span>
-              <span style={{ fontWeight: 600, maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={activeCloudAccount ? activeCloudAccount.accountName : 'Not Connected'}>
+              <span style={{ color: '#64748B' }}>{activeCloudAccount?.provider === 'aws' ? 'Account:' : 'Subscription:'}</span>
+              <span style={{ fontWeight: 600, maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#1E293B' }} title={activeCloudAccount ? activeCloudAccount.accountName : 'Not Connected'}>
                 {activeCloudAccount ? activeCloudAccount.accountName : 'Not Connected'}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ color: 'var(--sidebar-text-muted)' }}>Status:</span>
+              <span style={{ color: '#64748B' }}>Status:</span>
               <span style={{
                 fontWeight: 700,
                 fontSize: 9.5,
-                color: isRefreshing ? '#FFB900' : (activeCloudAccount ? '#107C10' : '#D13438'),
+                color: isRefreshing ? '#D97706' : (activeCloudAccount ? '#0D9488' : '#DC2626'),
                 textTransform: 'uppercase'
               }}>
                 {isRefreshing ? 'Running' : getProviderLabel()}
@@ -231,15 +225,15 @@ export default function ActivityPanel() {
       {/* 2. Enterprise Activity Timeline */}
       <div style={{ padding: 16, flex: 1, display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12 }}>
-          <Clock size={14} color="#FFB900" />
-          <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <Clock size={14} color="#D97706" />
+          <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#1E293B' }}>
             Enterprise Activity Log
           </span>
         </div>
 
         {/* Search input */}
         <div style={{ position: 'relative', marginBottom: 12 }}>
-          <Search size={12} style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', color: 'var(--sidebar-text-muted)' }} />
+          <Search size={12} style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', color: '#94A3B8' }} />
           <input 
             type="text" 
             placeholder="Search logs..." 
@@ -247,12 +241,12 @@ export default function ActivityPanel() {
             onChange={(e) => setFilterQuery(e.target.value)}
             style={{
               width: '100%',
-              padding: '5px 10px 5px 24px',
+              padding: '6px 10px 6px 26px',
               fontSize: 11.5,
-              borderRadius: 4,
-              border: '1px solid rgba(255,255,255,0.08)',
-              background: 'rgba(0,0,0,0.25)',
-              color: 'white',
+              borderRadius: 6,
+              border: '1px solid #E2E8F0',
+              background: '#FFFFFF',
+              color: '#1E293B',
               outline: 'none'
             }}
           />
@@ -270,15 +264,15 @@ export default function ActivityPanel() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               style={{
-                fontSize: 9.5,
-                padding: '2px 6px',
-                borderRadius: 3,
-                background: activeTab === tab ? '#0078D4' : 'rgba(255,255,255,0.05)',
-                color: '#ffffff',
+                fontSize: 10,
+                padding: '3px 8px',
+                borderRadius: 4,
+                background: activeTab === tab ? '#2563EB' : '#F1F5F9',
+                color: activeTab === tab ? '#FFFFFF' : '#64748B',
                 fontWeight: 600,
-                border: 'none',
+                border: activeTab === tab ? '1px solid #2563EB' : '1px solid #E2E8F0',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.15s ease'
               }}
             >
               {tab}
@@ -296,7 +290,7 @@ export default function ActivityPanel() {
           paddingRight: 2
         }}>
           {cloudAccounts.length === 0 ? (
-            <div style={{ fontSize: 11.5, color: 'var(--sidebar-text-muted)', textAlign: 'center', marginTop: 20 }}>
+            <div style={{ fontSize: 11.5, color: '#64748B', textAlign: 'center', marginTop: 20 }}>
               No Activity Yet<br/><br/>
               Connect a cloud account to begin monitoring.
             </div>
@@ -319,19 +313,19 @@ export default function ActivityPanel() {
                     background: color
                   }} />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                    <span style={{ fontSize: 11.5, fontWeight: 600 }}>{getActionTitle(log.action)}</span>
-                    <span style={{ fontSize: 9, color: 'var(--sidebar-text-muted)' }}>
+                    <span style={{ fontSize: 11.5, fontWeight: 600, color: '#1E293B' }}>{getActionTitle(log.action)}</span>
+                    <span style={{ fontSize: 9, color: '#94A3B8' }}>
                       {log.created_at ? new Date(log.created_at).toLocaleTimeString() : ''}
                     </span>
                   </div>
-                  <div style={{ fontSize: 10, color: 'var(--sidebar-text-muted)', marginTop: 2 }}>
+                  <div style={{ fontSize: 10, color: '#64748B', marginTop: 2 }}>
                     {log.resource_type || 'System'} • User: {log.user_email}
                   </div>
                 </div>
               );
             })
           ) : (
-            <div style={{ fontSize: 11.5, color: 'var(--sidebar-text-muted)', textAlign: 'center', marginTop: 20 }}>
+            <div style={{ fontSize: 11.5, color: '#64748B', textAlign: 'center', marginTop: 20 }}>
               No matching activity recorded.
             </div>
           )}

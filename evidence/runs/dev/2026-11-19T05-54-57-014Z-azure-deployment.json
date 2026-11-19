@@ -1,0 +1,97 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T05-54-57-014Z-42fecf7b",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T05:54:57.014Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795067687537-a59d0049",
+    "applicationId": "app-1795066123844-eef82ccb",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 9470,
+    "endpointUrl": "https://portfolio-1-2300031607-d10b.azurewebsites.net",
+    "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-portfolio-1/providers/Microsoft.Web/sites/portfolio-1-2300031607-d10b",
+    "resourceGroup": "rg-cloudops-2300031607-portfolio-1",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1795067687537-a59d0049",
+      "operationId": "34c4391c-73a2-4ba2-bc7a-1c1eeeb92071",
+      "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-portfolio-1/providers/Microsoft.Web/sites/portfolio-1-2300031607-d10b",
+      "fqdn": "https://portfolio-1-2300031607-d10b.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 7647,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'PORTFOLIO-1'",
+          "timestamp": "2026-11-19T05:54:48.433Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T05:54:48.435Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-portfolio-1' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:54:48.435Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-portfolio-1' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T05:54:50.955Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'portfolio-1-2300031607-d10b'...",
+          "timestamp": "2026-11-19T05:54:50.955Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-portfolio-1-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:54:50.962Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'portfolio-1-2300031607-d10b' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:54:53.650Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'portfolio-1-2300031607-d10b' created: https://portfolio-1-2300031607-d10b.azurewebsites.net",
+          "timestamp": "2026-11-19T05:54:56.080Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 8s.",
+          "timestamp": "2026-11-19T05:54:56.080Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "SUCCEEDED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

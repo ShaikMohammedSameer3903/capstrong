@@ -55,6 +55,9 @@ export default function ApplicationMonitoring() {
 
   useEffect(() => {
     fetchMetrics();
+    // Fast 8-second real-time container and application telemetry poll
+    const interval = setInterval(fetchMetrics, 8000);
+    return () => clearInterval(interval);
   }, []);
 
   return (

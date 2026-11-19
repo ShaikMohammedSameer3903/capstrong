@@ -23,7 +23,7 @@ import { useCloudStore } from '../store/cloudStore';
 import { api } from '../services/api';
 import LiveBadge, { deriveStatus } from '../components/common/LiveBadge';
 
-const CHART_COLORS = ['#FF9900', '#FF6600', '#D13438', '#107C10', '#8b5cf6', '#0078d4', '#00B7C3', '#FFB900'];
+const CHART_COLORS = ['#FF9900', '#FF6600', '#DC2626', '#0D9488', '#8B5CF6', '#2563EB', '#0284C7', '#D97706'];
 
 import { fmtNumber, fmtCurrency } from '../utils/formatters';
 
@@ -31,6 +31,8 @@ import { fmtNumber, fmtCurrency } from '../utils/formatters';
 const SERVICE_ICONS: Record<string, any> = {
   'EC2': Cpu, 'S3': HardDrive, 'RDS': Database, 'Lambda': Zap,
   'ECS': Box, 'EKS': Layers, 'DynamoDB': Database, 'VPC': Network,
+  'Subnet': Network, 'Security Group': Shield, 'Route Table': MapPin,
+  'Gateway': Network, 'Network ACL': Lock, 'EBS': HardDrive, 'Key Pair': Key,
   'IAM': Key, 'CloudWatch': Activity, 'SecurityHub': ShieldCheck,
   'GuardDuty': Bug, 'ElastiCache': Database, 'Redshift': Database,
   'EFS': HardDrive, 'WAF': Shield, 'SecretsManager': Lock,
@@ -40,6 +42,8 @@ const SERVICE_ICONS: Record<string, any> = {
 const SERVICE_COLORS: Record<string, string> = {
   'EC2': '#FF9900', 'S3': '#569a31', 'RDS': '#3b48cc', 'Lambda': '#FF9900',
   'ECS': '#FF9900', 'EKS': '#FF9900', 'DynamoDB': '#3b48cc', 'VPC': '#8c4fff',
+  'Subnet': '#8c4fff', 'Security Group': '#dd344c', 'Route Table': '#8c4fff',
+  'Gateway': '#8c4fff', 'Network ACL': '#dd344c', 'EBS': '#569a31', 'Key Pair': '#FF9900',
   'IAM': '#dd344c', 'CloudWatch': '#FF4F8B', 'SecurityHub': '#dd344c',
   'GuardDuty': '#dd344c', 'ElastiCache': '#3b48cc', 'Redshift': '#8c4fff',
   'EFS': '#569a31', 'WAF': '#dd344c', 'SecretsManager': '#dd344c',
@@ -48,24 +52,45 @@ const SERVICE_COLORS: Record<string, string> = {
 
 function getServiceName(type: string): string {
   const t = (type || '').toLowerCase();
-  if (t.includes('ec2') || t.includes('virtualmachine') || t.includes('instance')) return 'EC2';
-  if (t.includes('s3') || t.includes('bucket') || t.includes('storage')) return 'S3';
-  if (t.includes('rds') || t.includes('database') || t.includes('sql')) return 'RDS';
-  if (t.includes('lambda') || t.includes('function')) return 'Lambda';
-  if (t.includes('ecs') || t.includes('container')) return 'ECS';
-  if (t.includes('eks') || t.includes('kubernetes')) return 'EKS';
+  
+  // 1. Networking services (must be checked BEFORE ec2 because AWS names them AWS::EC2::Subnet, AWS::EC2::VPC, etc.)
+  if (t.includes('subnet')) return 'Subnet';
+  if (t.includes('securitygroup')) return 'Security Group';
+  if (t.includes('internetgateway') || t.includes('natgateway')) return 'Gateway';
+  if (t.includes('routetable') || t.includes('route_table')) return 'Route Table';
+  if (t.includes('networkacl') || t.includes('nacl')) return 'Network ACL';
+  if (t.includes('vpc') && !t.includes('route')) return 'VPC';
+  
+  // 2. Storage & Database
+  if (t.includes('volume') || t.includes('ebs')) return 'EBS';
+  if (t.includes('s3') || t.includes('bucket')) return 'S3';
+  if (t.includes('rds') || t.includes('dbinstance')) return 'RDS';
   if (t.includes('dynamodb') || t.includes('dynamo')) return 'DynamoDB';
-  if (t.includes('vpc') || t.includes('network')) return 'VPC';
-  if (t.includes('iam') || t.includes('user') || t.includes('role')) return 'IAM';
   if (t.includes('elasticache') || t.includes('redis') || t.includes('memcached')) return 'ElastiCache';
   if (t.includes('redshift')) return 'Redshift';
   if (t.includes('efs')) return 'EFS';
-  if (t.includes('waf')) return 'WAF';
-  if (t.includes('secretsmanager') || t.includes('secret')) return 'SecretsManager';
-  if (t.includes('route53') || t.includes('dns')) return 'Route53';
-  if (t.includes('loadbalancing') || t.includes('elb') || t.includes('alb')) return 'ELB';
+
+  // 3. Compute - ONLY EC2 Instances & KeyPairs
+  if (t.includes('instance') && !t.includes('dbinstance')) return 'EC2';
+  if (t.includes('keypair')) return 'Key Pair';
+  if (t === 'aws::ec2::instance' || t === 'ec2') return 'EC2';
+
+  // 4. Containers & Serverless
+  if (t.includes('lambda') || t.includes('function')) return 'Lambda';
+  if (t.includes('ecs') || t.includes('container')) return 'ECS';
+  if (t.includes('eks') || t.includes('kubernetes')) return 'EKS';
   if (t.includes('autoscaling')) return 'AutoScaling';
-  if (t.includes('log') || t.includes('cloudwatch') || t.includes('monitor')) return 'CloudWatch';
+  if (t.includes('loadbalancing') || t.includes('elb') || t.includes('alb')) return 'ELB';
+
+  // 5. Security & Management
+  if (t.includes('iam') || t.includes('user') || t.includes('role')) return 'IAM';
+  if (t.includes('secretsmanager') || t.includes('secret')) return 'SecretsManager';
+  if (t.includes('waf')) return 'WAF';
+  if (t.includes('route53') || t.includes('dns')) return 'Route53';
+  if (t.includes('cloudwatch') || t.includes('loggroup') || t.includes('alarm')) return 'CloudWatch';
+  if (t.includes('securityhub')) return 'SecurityHub';
+  if (t.includes('guardduty')) return 'GuardDuty';
+
   return 'Other AWS Services';
 }
 
@@ -131,6 +156,9 @@ export default function AwsDashboard() {
 
   useEffect(() => {
     fetchAll();
+    // Fast 12-second real-time AWS tracking interval
+    const interval = setInterval(fetchAll, 12000);
+    return () => clearInterval(interval);
   }, [awsAccounts.length, fetchAll]);
 
   // ── Group resources by service ──

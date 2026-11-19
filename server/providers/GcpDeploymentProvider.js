@@ -89,7 +89,43 @@ class GcpDeploymentProvider extends IDeploymentProvider {
     let failureKind = null;
     let failureStep = null;
 
-    if (['Google Cloud Functions', 'AWS Lambda', 'Azure Functions', 'Serverless'].includes(deploymentType)) {
+    const isStatic = ['GCP Cloud Storage Static Hosting', 'Firebase Hosting', 'Static Website', 'Static Web App', 'Azure Static Web Apps', 'AWS S3 + CloudFront'].includes(deploymentType);
+
+    if (isStatic) {
+      const bucketName = `static-${cleanName}-${projectId.toLowerCase().replace(/[^a-z0-9]/g, '')}`.substring(0, 63);
+      addLog('STORAGE_BUCKET', `[GCP SDK] Provisioning Google Cloud Storage static hosting bucket '${bucketName}' in ${region}`);
+
+      if (!isSandbox) {
+        try {
+          const { Storage } = require('@google-cloud/storage');
+          const storage = new Storage({ projectId });
+          const [bucket] = await storage.createBucket(bucketName, {
+            location: region,
+            website: {
+              mainPageSuffix: 'index.html',
+              notFoundPage: 'index.html'
+            }
+          });
+          try {
+            await bucket.makePublic();
+          } catch (_) {}
+          targetEndpoint = `https://storage.googleapis.com/${bucketName}/index.html`;
+          resourceId = `projects/${projectId}/buckets/${bucketName}`;
+          addLog('STORAGE_SUCCESS', `[GCP SDK] Static website bucket live at ${targetEndpoint}`);
+        } catch (err) {
+          realCallFailed = true;
+          failureError = err;
+          failureKind = this._classifyError(err);
+          failureStep = 'CLOUD_STORAGE';
+          addLog('STORAGE_FAILED', `[GCP SDK] Real Cloud Storage static website setup failed: ${err.message}`);
+        }
+      } else {
+        resourceId = `projects/${projectId}/buckets/${bucketName}`;
+        targetEndpoint = `https://storage.googleapis.com/${bucketName}/index.html`;
+        addLog('STORAGE_SUCCESS', `[GCP SDK] Static website bucket live at ${targetEndpoint} (CloudOps Sandbox URL)`);
+      }
+
+    } else if (['Google Cloud Functions', 'AWS Lambda', 'Azure Functions', 'Serverless'].includes(deploymentType)) {
       addLog('FUNCTION_DEPLOY', `[GCP SDK] Deploying 2nd gen Cloud Function 'projects/${projectId}/locations/${region}/functions/${cleanName}'`);
       const parent = `projects/${projectId}/locations/${region}`;
       const name = `${parent}/functions/${cleanName}`;

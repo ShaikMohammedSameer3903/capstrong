@@ -424,6 +424,55 @@ async function getDatabase() {
     console.error('[DB] Seeding roles/permissions failed:', err);
   }
 
+  // Purge bogus / test-only cloud_accounts that have no credentials and no real owner.
+  // These cause noisy authentication errors during every discovery cycle.
+  try {
+    const bogusResult = await db.run(`
+      DELETE FROM cloud_accounts 
+      WHERE provider = 'aws'
+        AND (access_key_id IS NULL OR access_key_id = '')
+        AND (secret_access_key IS NULL OR secret_access_key = '')
+        AND (role_arn IS NULL OR role_arn = '')
+        AND (user_id IS NULL OR user_id = '')
+    `);
+    if (bogusResult.changes > 0) {
+      console.log(`[DB] Purged ${bogusResult.changes} uncredentialed AWS cloud_account(s) with no owner — these only produce discovery noise.`);
+    }
+
+    const testAccountsResult = await db.run(`
+      DELETE FROM cloud_accounts 
+      WHERE (id LIKE '%test%' OR subscription_id LIKE '%test%' OR tenant_id = 'demo-org-001')
+    `);
+    if (testAccountsResult.changes > 0) {
+      console.log(`[DB] Purged ${testAccountsResult.changes} synthetic test cloud_account(s).`);
+    }
+
+    // Also purge test/synthetic entries from azure_subscriptions table
+    const testSubsResult = await db.run(`
+      DELETE FROM azure_subscriptions
+      WHERE (id LIKE '%test%' OR subscription_id LIKE '%test%' OR tenant_id = 'demo-org-001'
+             OR subscription_id NOT LIKE '%-%-%-%-%')
+    `);
+    if (testSubsResult.changes > 0) {
+      console.log(`[DB] Purged ${testSubsResult.changes} synthetic test azure_subscription(s).`);
+    }
+
+    // Ensure the real Azure subscription status is not 'Error' so it gets picked up by deployment queries
+    const realSubFix = await db.run(`
+      UPDATE azure_subscriptions
+      SET status = 'Active'
+      WHERE subscription_id LIKE '%-%-%-%-%'
+        AND tenant_id NOT LIKE '%test%'
+        AND tenant_id != 'demo-org-001'
+        AND status = 'Error'
+    `);
+    if (realSubFix.changes > 0) {
+      console.log(`[DB] Corrected status for ${realSubFix.changes} real Azure subscription(s) from 'Error' to 'Active'.`);
+    }
+  } catch (cleanupErr) {
+    console.warn('[DB] Bogus account cleanup notice:', cleanupErr.message);
+  }
+
   // Ensure default administrator is seeded
   await seedDefaultAdmin(db);
 

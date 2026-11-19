@@ -53,6 +53,7 @@ export default function AwsResources() {
     setDiscovering(true);
     try {
       await api.post(`/api/cloud-accounts/sync`, { provider: 'aws' });
+      await new Promise(r => setTimeout(r, 1200));
       await fetchResources();
     } catch (err) {
       console.error('[AwsResources] Discovery failed:', err);
@@ -63,7 +64,7 @@ export default function AwsResources() {
 
   useEffect(() => { fetchResources(); }, []);
 
-  const awsResources = useMemo(() => resources.filter(r => r.provider === 'aws'), [resources]);
+  const awsResources = useMemo(() => resources.filter(r => (r.provider || '').toLowerCase() === 'aws'), [resources]);
   const types = useMemo(() => [...new Set(awsResources.map(r => r.type))].sort(), [awsResources]);
 
   const filtered = useMemo(() => {

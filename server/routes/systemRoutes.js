@@ -40,4 +40,40 @@ router.post('/checklist', async (req, res) => {
   }
 });
 
+/**
+ * GET /api/system/mongodb
+ * Real-time diagnostic check and status of MongoDB cluster & collections
+ */
+router.get('/mongodb', async (req, res) => {
+  try {
+    const mongoService = require('../services/mongoService');
+    const diagnostics = mongoService.getMongoDiagnostics();
+    
+    let collections = {};
+    if (diagnostics.connected) {
+      const { ResourceModel, AuditLogModel, TelemetryModel, CloudAccountModel } = mongoService.getModels();
+      const [resourceCount, auditCount, telemetryCount, cloudAccountCount] = await Promise.all([
+        ResourceModel.countDocuments().catch(() => 0),
+        AuditLogModel.countDocuments().catch(() => 0),
+        TelemetryModel.countDocuments().catch(() => 0),
+        CloudAccountModel.countDocuments().catch(() => 0)
+      ]);
+      collections = {
+        resources: resourceCount,
+        auditLogs: auditCount,
+        telemetryMetrics: telemetryCount,
+        cloudAccounts: cloudAccountCount
+      };
+    }
+
+    res.json({
+      success: true,
+      diagnostics,
+      collections
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 module.exports = router;

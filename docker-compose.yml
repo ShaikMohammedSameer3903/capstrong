@@ -1,101 +1,101 @@
 services:
   # ─────────────────────────────────────────────────────────────
-  # 1. Database Tier: PostgreSQL (Port 5432)
+  # 1. MongoDB Database Tier (Port 27017)
   # ─────────────────────────────────────────────────────────────
-  postgres:
-    image: postgres:16-alpine
-    container_name: cloud223-postgres
+  mongo:
+    image: mongo:7-jammy
+    container_name: cloudops-mongo
     restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "27017:27017"
     environment:
-      POSTGRES_USER: ${DB_USER:-cloudops}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-cloudops_secure_pass}
-      POSTGRES_DB: ${DB_NAME:-cloudops}
+      MONGO_INITDB_DATABASE: ${MONGODB_DB:-capstrong}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./server/db/pg_schema.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - mongo_data:/data/db
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cloudops} -d ${DB_NAME:-cloudops}"]
-      interval: 5s
+      test: ["CMD-SHELL", "mongosh --eval 'db.adminCommand(\"ping\")' || exit 1"]
+      interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 5s
-    networks:
-      - cloud223-net
-
-  # ─────────────────────────────────────────────────────────────
-  # 2. Caching & Queue Tier: Redis (Port 6379)
-  # ─────────────────────────────────────────────────────────────
-  redis:
-    image: redis:7-alpine
-    container_name: cloud223-redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
       retries: 5
+      start_period: 10s
     networks:
-      - cloud223-net
+      - cloudops-net
 
   # ─────────────────────────────────────────────────────────────
-  # 3. Backend API Tier: Node.js Express (Port 5000)
+  # 2. Backend API – Node.js Express + SQLite + MongoDB (Port 3001)
   # ─────────────────────────────────────────────────────────────
   backend:
     build:
       context: .
       dockerfile: Dockerfile.backend
-    container_name: cloud223-backend
+    container_name: cloudops-backend
     restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "${BACKEND_PORT:-3002}:3001"
+    env_file:
+      - .env
     environment:
-      PORT: 5000
+      PORT: 3001
       NODE_ENV: production
-      DATABASE_URL: postgres://${DB_USER:-cloudops}:${DB_PASSWORD:-cloudops_secure_pass}@postgres:5432/${DB_NAME:-cloudops}
-      REDIS_URL: redis://redis:6379
+      # SQLite path inside the container – persisted via volume below
+      DATABASE_PATH: /app/server/data/cloudops.db
+      # MongoDB Atlas or local container fallback
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/capstrong}
+      MONGODB_DB: ${MONGODB_DB:-capstrong}
       JWT_SECRET: ${JWT_SECRET:-cloudops_super_secret_jwt_key_production_32chars}
-      SESSION_SECRET: ${SESSION_SECRET:-cloudops_super_secret_session_key_production_32chars}
-      REFRESH_SECRET: ${REFRESH_SECRET:-cloudops_super_secret_refresh_key_production_32chars}
+      SESSION_SECRET: ${SESSION_SECRET:-cloudops_super_secret_session_key_32chars}
+      REFRESH_SECRET: ${REFRESH_SECRET:-cloudops_super_secret_refresh_key_32chars}
+      # OAuth – set these in your .env or Compose override file
+      MICROSOFT_CLIENT_ID: ${MICROSOFT_CLIENT_ID:-}
+      MICROSOFT_CLIENT_SECRET: ${MICROSOFT_CLIENT_SECRET:-}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      # Azure credentials (optional – for credential-based subscription scanning)
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID:-}
       AZURE_TENANT_ID: ${AZURE_TENANT_ID:-}
       AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET:-}
       AZURE_SUBSCRIPTION_ID: ${AZURE_SUBSCRIPTION_ID:-}
+      # Set this to the public URL of your frontend container / CDN
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:8080}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080,http://localhost:5173,http://localhost:5174,http://127.0.0.1:8080,http://127.0.0.1:5173}
+    volumes:
+      # Persist SQLite database across container restarts
+      - sqlite_data:/app/server/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3001/api/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
+      mongo:
         condition: service_healthy
     networks:
-      - cloud223-net
+      - cloudops-net
 
   # ─────────────────────────────────────────────────────────────
-  # 4. Frontend Web Tier: React + NGINX SPA (Port 80 / Host 8080)
+  # 3. Frontend – React + NGINX SPA (Port 80 → Host 8080)
   # ─────────────────────────────────────────────────────────────
   frontend:
     build:
       context: .
       dockerfile: Dockerfile.frontend
-    container_name: cloud223-frontend
+    container_name: cloudops-frontend
     restart: unless-stopped
     ports:
       - "8080:80"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
     networks:
-      - cloud223-net
+      - cloudops-net
 
 volumes:
-  postgres_data:
+  sqlite_data:
     driver: local
-  redis_data:
+  mongo_data:
     driver: local
 
 networks:
-  cloud223-net:
+  cloudops-net:
     driver: bridge

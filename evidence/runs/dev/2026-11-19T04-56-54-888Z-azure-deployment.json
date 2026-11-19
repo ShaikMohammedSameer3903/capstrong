@@ -1,0 +1,112 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T04-56-54-888Z-20e24d20",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T04:56:54.888Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795064179976-b0a59d7e",
+    "applicationId": "app-1795061229303-a7dc13cc",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 34899,
+    "endpointUrl": "https://jj-2300031607-d10b.azurewebsites.net",
+    "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-jj/providers/Microsoft.Web/sites/jj-2300031607-d10b",
+    "resourceGroup": "rg-cloudops-2300031607-jj",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1795064179976-b0a59d7e",
+      "operationId": "71645118-405e-4b8d-a2e3-c9435061c89f",
+      "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-jj/providers/Microsoft.Web/sites/jj-2300031607-d10b",
+      "fqdn": "https://jj-2300031607-d10b.azurewebsites.net",
+      "provisioningState": "Running",
+      "sku": "Free (F1)",
+      "location": "southeastasia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 32159,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'jj'",
+          "timestamp": "2026-11-19T04:56:21.251Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T04:56:21.254Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-jj' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T04:56:21.254Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-jj' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T04:56:24.192Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'jj-2300031607-d10b'...",
+          "timestamp": "2026-11-19T04:56:24.192Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-jj-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T04:56:24.199Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'jj-2300031607-d10b' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T04:56:27.713Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Azure ARM Web App creation timed out in region 'southeastasia'.",
+          "timestamp": "2026-11-19T04:56:47.719Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-jj-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T04:56:47.727Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'jj-2300031607-d10b' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T04:56:51.148Z"
+        },
+        {
+          "step": "WEB_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Web App 'jj-2300031607-d10b' created: https://jj-2300031607-d10b.azurewebsites.net",
+          "timestamp": "2026-11-19T04:56:53.410Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 32s.",
+          "timestamp": "2026-11-19T04:56:53.410Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "SUCCEEDED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

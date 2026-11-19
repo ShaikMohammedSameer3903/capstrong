@@ -19,7 +19,7 @@ import { useAppStore } from '../store/appStore';
 import { useCloudStore } from '../store/cloudStore';
 import { api } from '../services/api';
 
-const CHART_COLORS = ['#0078d4', '#00B7C3', '#107C10', '#FFB900', '#8b5cf6', '#f97316'];
+const CHART_COLORS = ['#2563EB', '#0D9488', '#D97706', '#4F46E5', '#0284C7', '#DC2626'];
 
 import {fmtNumber, fmtCurrency} from '../utils/formatters';
 
@@ -117,7 +117,8 @@ export default function AzureDashboard() {
 
   useEffect(() => {
     fetchAll(activeSubscriptionId || undefined);
-    const interval = setInterval(() => fetchAll(activeSubscriptionId || undefined), 60000);
+    // Real-time 12s polling interval for Azure infrastructure
+    const interval = setInterval(() => fetchAll(activeSubscriptionId || undefined), 12000);
     return () => clearInterval(interval);
   }, [activeSubscriptionId]);
 

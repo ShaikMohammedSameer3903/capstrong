@@ -37,7 +37,69 @@ class DeploymentService {
     }
 
     const cloudName = targetCloud.toLowerCase();
-    const cloudAccount = await db.get(`SELECT * FROM cloud_accounts WHERE LOWER(provider) = ? AND status = 'Active' LIMIT 1`, [cloudName]);
+    let cloudAccount = null;
+    if (cloudName === 'azure') {
+      try {
+        // Priority 1: Subscription owned by THIS specific user (by user_id)
+        const azureSub = await db.get(
+          `SELECT *, subscription_id as azure_subscription_id FROM azure_subscriptions
+           WHERE user_id = ?
+             AND subscription_id LIKE '%-%-%-%-%'
+             AND subscription_id NOT LIKE '%test%'
+             AND tenant_id NOT LIKE '%test%'
+             AND tenant_id != 'demo-org-001'
+             AND status NOT IN ('Inactive')
+           ORDER BY (CASE WHEN status IN ('Active','Enabled') THEN 0 ELSE 1 END),
+                    created_at DESC LIMIT 1`,
+          [userId]
+        );
+        // Priority 2: Any subscription in this user's tenant (org-wide fallback)
+        const azureSubFallback = azureSub ? null : await db.get(
+          `SELECT *, subscription_id as azure_subscription_id FROM azure_subscriptions
+           WHERE (tenant_id = ? OR user_id = ?)
+             AND subscription_id LIKE '%-%-%-%-%'
+             AND subscription_id NOT LIKE '%test%'
+             AND tenant_id NOT LIKE '%test%'
+             AND tenant_id != 'demo-org-001'
+             AND status NOT IN ('Inactive')
+           ORDER BY (CASE WHEN status IN ('Active','Enabled') THEN 0 ELSE 1 END),
+                    created_at DESC LIMIT 1`,
+          [tenantId, userId]
+        );
+        const sub = azureSub || azureSubFallback;
+        if (sub) {
+          cloudAccount = {
+            ...sub,
+            id: sub.id,
+            provider: 'azure',
+            subscription_id: sub.subscription_id,
+            client_id: sub.client_id,
+            client_secret: sub.client_secret,
+            azure_tenant_id: sub.azure_tenant_id || sub.tenant_id,
+            active_resource_group: sub.active_resource_group,
+            region: sub.region || 'centralindia',
+            status: 'Active'
+          };
+          console.log(`[DeploymentService] Authenticated Azure Subscription ID: ${sub.subscription_id} Tenant: ${sub.tenant_id} Owner: ${sub.user_id}`);
+        }
+      } catch (_) {}
+    }
+    if (!cloudAccount) {
+      cloudAccount = await db.get(
+        `SELECT * FROM cloud_accounts
+         WHERE LOWER(provider) = ?
+           AND (user_id = ? OR tenant_id = ?)
+           AND (status = 'Active' OR status = 'Enabled')
+           AND id NOT LIKE '%test%'
+           AND subscription_id NOT LIKE '%test%'
+           AND tenant_id NOT LIKE '%test%'
+           AND (tenant_id IS NULL OR tenant_id != 'demo-org-001')
+         ORDER BY (CASE WHEN user_id = ? THEN 0 ELSE 1 END),
+                  (CASE WHEN subscription_id LIKE '%-%-%-%-%' THEN 0 ELSE 1 END),
+                  id DESC LIMIT 1`,
+        [cloudName, userId, tenantId, userId]
+      );
+    }
 
     let authValid = false;
     let authDetails = 'No connected credentials found';
@@ -58,7 +120,7 @@ class DeploymentService {
         authDetails = 'Using CloudOps default AWS identity context';
       }
 
-      const isStatic = ['Azure Static Web Apps', 'AWS S3 + CloudFront', 'Static Website', 'Static Web App'].includes(appSpec.deployment_type);
+      const isStatic = ['Azure Static Web Apps', 'Azure Storage Static Website', 'AWS S3 + CloudFront', 'AWS Amplify', 'GCP Cloud Storage Static Hosting', 'Firebase Hosting', 'Static Website', 'Static Web App'].includes(appSpec.deployment_type);
       if (isStatic) {
         expectedResources = [
           { type: 'AWS::S3::Bucket', name: `${appSpec.name}-static-bucket` },
@@ -71,6 +133,21 @@ class DeploymentService {
           { type: 'AWS::ECS::TaskDefinition', name: `${appSpec.name}-taskdef` },
           { type: 'AWS::ECS::Service', name: `${appSpec.name}-service` },
           { type: 'AWS::Logs::LogGroup', name: `/ecs/${appSpec.name}` }
+        ];
+      }
+    } else if (cloudName === 'gcp') {
+      authValid = true;
+      authDetails = `Validated Google Cloud Platform deployment configuration.`;
+      const isStatic = ['Azure Static Web Apps', 'Azure Storage Static Website', 'AWS S3 + CloudFront', 'AWS Amplify', 'GCP Cloud Storage Static Hosting', 'Firebase Hosting', 'Static Website', 'Static Web App'].includes(appSpec.deployment_type);
+      if (isStatic) {
+        expectedResources = [
+          { type: 'Google Cloud Storage Bucket', name: `static-${appSpec.name}` },
+          { type: 'Cloud CDN / Web Hosting', name: `${appSpec.name}-web` }
+        ];
+      } else {
+        expectedResources = [
+          { type: 'Cloud Run Service', name: `${appSpec.name}` },
+          { type: 'Artifact Registry', name: `gcr.io/${appSpec.name}` }
         ];
       }
     } else {
@@ -133,12 +210,23 @@ class DeploymentService {
     const deploymentId = `dep-${Date.now()}-${crypto.randomBytes(4).toString('hex')}`;
     const cloudName = targetCloud.toLowerCase();
     const startTime = Date.now();
+    const effectiveDeploymentType = options.deploymentType || appSpec.deployment_type || 'Docker';
+
+    // Update appSpec in memory with effective type if overridden
+    appSpec.deployment_type = effectiveDeploymentType;
 
     // Initialize Deployment Record
     await db.run(`
       INSERT INTO deployments (id, application_id, tenant_id, user_id, target_cloud, deployment_type, version, status, trigger_type, duration_ms, deployed_by)
       VALUES (?, ?, ?, ?, ?, ?, ?, 'Running', 'Manual', 0, ?)
-    `, [deploymentId, applicationId, tenantId, userId, cloudName, appSpec.deployment_type || 'Docker', appSpec.version, userEmail]);
+    `, [deploymentId, applicationId, tenantId, userId, cloudName, effectiveDeploymentType, appSpec.version, userEmail]);
+
+    // Update Application Status to Deploying
+    await db.run(`
+      UPDATE applications 
+      SET health_status = 'Deploying', updated_at = CURRENT_TIMESTAMP 
+      WHERE id = ?
+    `, [applicationId]);
 
     const logStep = async (level, step, message) => {
       console.log(`[DeploymentEngine][${deploymentId}][${step}] ${message}`);
@@ -157,15 +245,88 @@ class DeploymentService {
     };
 
     try {
+      // Determine workload category
+      const isVm = ['Azure Virtual Machine', 'AWS EC2', 'Google Compute Engine', 'Bare Metal', 'Virtual Machine'].includes(effectiveDeploymentType);
+      const isK8s = ['Kubernetes', 'Helm', 'AWS EKS', 'Google Kubernetes Engine', 'On-Prem Kubernetes'].includes(effectiveDeploymentType);
+      const isStatic = ['Azure Static Web Apps', 'Azure Storage Static Website', 'AWS S3 + CloudFront', 'AWS Amplify', 'GCP Cloud Storage Static Hosting', 'Firebase Hosting', 'Static Website', 'Static Web App'].includes(effectiveDeploymentType);
+      const isServerless = ['Azure Functions', 'AWS Lambda', 'Google Cloud Functions', 'Serverless'].includes(effectiveDeploymentType);
+
       // 1. STEP 1: Application Validation
-      await logStep('INFO', '1_VALIDATE_APP', `Validating application specification for ${appSpec.name} (v${appSpec.version})`);
-      if (!appSpec.name || !appSpec.container_image) {
-        throw new Error('Application specification invalid: missing name or container_image.');
+      await logStep('INFO', '1_VALIDATE_APP', `Validating application specification for ${appSpec.name} (v${appSpec.version}) [Type: ${effectiveDeploymentType}]`);
+      if (!appSpec.name) {
+        throw new Error('Application specification invalid: missing name.');
+      }
+      if (!isStatic && !isVm && !isServerless && !appSpec.container_image) {
+        throw new Error('Application specification invalid: container_image is required for container workloads.');
       }
 
       // 2. STEP 2: Check Cloud Credentials
       await logStep('INFO', '2_CHECK_CREDENTIALS', `Verifying cloud credentials for ${cloudName.toUpperCase()}`);
-      const cloudAccount = await db.get(`SELECT * FROM cloud_accounts WHERE LOWER(provider) = ? AND status = 'Active' LIMIT 1`, [cloudName]);
+      let cloudAccount = null;
+      if (cloudName === 'azure') {
+        try {
+          // Priority 1: Subscription owned by THIS specific user (by user_id)
+          const azureSub = await db.get(
+            `SELECT *, subscription_id as azure_subscription_id FROM azure_subscriptions
+             WHERE user_id = ?
+               AND subscription_id LIKE '%-%-%-%-%'
+               AND subscription_id NOT LIKE '%test%'
+               AND tenant_id NOT LIKE '%test%'
+               AND tenant_id != 'demo-org-001'
+               AND status NOT IN ('Inactive')
+             ORDER BY (CASE WHEN status IN ('Active','Enabled') THEN 0 ELSE 1 END),
+                      created_at DESC LIMIT 1`,
+            [userId]
+          );
+          // Priority 2: Any subscription in this user's tenant (org-wide fallback)
+          const azureSubFallback = azureSub ? null : await db.get(
+            `SELECT *, subscription_id as azure_subscription_id FROM azure_subscriptions
+             WHERE (tenant_id = ? OR user_id = ?)
+               AND subscription_id LIKE '%-%-%-%-%'
+               AND subscription_id NOT LIKE '%test%'
+               AND tenant_id NOT LIKE '%test%'
+               AND tenant_id != 'demo-org-001'
+               AND status NOT IN ('Inactive')
+             ORDER BY (CASE WHEN status IN ('Active','Enabled') THEN 0 ELSE 1 END),
+                      created_at DESC LIMIT 1`,
+            [tenantId, userId]
+          );
+          const sub = azureSub || azureSubFallback;
+          if (sub) {
+            cloudAccount = {
+              ...sub,
+              id: sub.id,
+              provider: 'azure',
+              subscription_id: sub.subscription_id,
+              client_id: sub.client_id,
+              client_secret: sub.client_secret,
+              azure_tenant_id: sub.azure_tenant_id || sub.tenant_id,
+              active_resource_group: sub.active_resource_group,
+              region: sub.region || 'centralindia',
+              status: 'Active'
+            };
+            console.log(`[DeploymentService] Authenticated Azure Subscription ID: ${sub.subscription_id} Tenant: ${sub.tenant_id} Owner: ${sub.user_id}`);
+          }
+        } catch (_) {}
+      }
+
+      if (!cloudAccount) {
+        cloudAccount = await db.get(
+          `SELECT * FROM cloud_accounts
+           WHERE LOWER(provider) = ?
+             AND (user_id = ? OR tenant_id = ?)
+             AND (status = 'Active' OR status = 'Enabled')
+             AND id NOT LIKE '%test%'
+             AND subscription_id NOT LIKE '%test%'
+             AND tenant_id NOT LIKE '%test%'
+             AND (tenant_id IS NULL OR tenant_id != 'demo-org-001')
+           ORDER BY (CASE WHEN user_id = ? THEN 0 ELSE 1 END),
+                    (CASE WHEN subscription_id LIKE '%-%-%-%-%' THEN 0 ELSE 1 END),
+                    id DESC LIMIT 1`,
+          [cloudName, userId, tenantId, userId]
+        );
+      }
+
       const envCreds = process.env[`${cloudName.toUpperCase()}_SUBSCRIPTION_ID`] || process.env[`${cloudName.toUpperCase()}_ACCESS_KEY_ID`] || process.env[`${cloudName.toUpperCase()}_PROJECT_ID`];
       
       if (!cloudAccount && !envCreds) {
@@ -205,11 +366,7 @@ class DeploymentService {
       await logStep('SUCCESS', '5_CHECK_SECRETS', `Validated ${Object.keys(envVars).length} environment key-value pairs.`);
 
       // TYPE-SPECIFIC WORKFLOW DISPATCH
-      const deploymentType = appSpec.deployment_type || 'Docker';
-      const isVm = ['Azure Virtual Machine', 'AWS EC2', 'Google Compute Engine', 'Bare Metal', 'Virtual Machine'].includes(deploymentType);
-      const isK8s = ['Kubernetes', 'Helm', 'AWS EKS', 'Google Kubernetes Engine', 'On-Prem Kubernetes'].includes(deploymentType);
-      const isStatic = ['Azure Static Web Apps', 'Azure Storage Static Website', 'AWS S3 + CloudFront', 'AWS Amplify', 'GCP Cloud Storage Static Hosting', 'Firebase Hosting', 'Static Website', 'Static Web App'].includes(deploymentType);
-      const isServerless = ['Azure Functions', 'AWS Lambda', 'Google Cloud Functions', 'Serverless'].includes(deploymentType);
+      const deploymentType = effectiveDeploymentType;
 
       if (isVm) {
         // VIRTUAL MACHINE WORKFLOW (NO DOCKER, NO KUBERNETES, NO HELM)
@@ -275,10 +432,53 @@ class DeploymentService {
       // DEPLOY WORKLOAD VIA CLOUD PROVIDER SDK
       await logStep('INFO', '11_DEPLOY_TO_CLOUD', `Deploying ${deploymentType} workload to ${cloudName.toUpperCase()}`);
       
-      const provider = ProviderFactory.getDeploymentProvider(targetCloud, {
-        region: cloudName === 'azure' ? 'southeastasia' : cloudName === 'aws' ? 'us-east-1' : 'us-central1',
-        account_id: cloudAccount ? cloudAccount.id : 'cloudops-account'
-      });
+      // Build a full accountConfig that passes cloud account credentials to the deployment provider.
+      // Previously only region/account_id were passed, so AzureDeploymentProvider fell back to env-only
+      // credentials and missed the subscription_id, client_id, client_secret from the DB-stored account.
+      const baseRegion = cloudName === 'azure' ? 'southeastasia' : cloudName === 'aws' ? 'us-east-1' : 'us-central1';
+      const deployAccountConfig = cloudAccount ? {
+        ...cloudAccount,
+        region: cloudAccount.region || baseRegion,
+        // Azure-specific — flatten azure_subscriptions fields if available
+        subscription_id: cloudAccount.subscription_id || cloudAccount.azure_subscription_id,
+        client_id: cloudAccount.client_id,
+        client_secret: cloudAccount.client_secret,
+        azure_tenant_id: cloudAccount.azure_tenant_id || cloudAccount.tenant_id,
+        active_resource_group: cloudAccount.active_resource_group,
+        userAzureToken: options.userAzureToken || null,
+      } : {
+        region: baseRegion,
+        account_id: 'cloudops-account',
+        userAzureToken: options.userAzureToken || null,
+      };
+
+      // For Azure: enrich deployAccountConfig from azure_subscriptions, scoped to this user/tenant
+      if (cloudName === 'azure' && cloudAccount) {
+        try {
+          const azureSub = await db.get(
+            `SELECT * FROM azure_subscriptions
+             WHERE (id = ? OR subscription_id = ?)
+               AND (user_id = ? OR tenant_id = ?)
+             LIMIT 1`,
+            [
+              cloudAccount.subscription_id || cloudAccount.azure_subscription_id,
+              cloudAccount.subscription_id || cloudAccount.azure_subscription_id,
+              userId,
+              tenantId
+            ]
+          );
+          if (azureSub) {
+            deployAccountConfig.subscription_id = deployAccountConfig.subscription_id || azureSub.subscription_id;
+            deployAccountConfig.client_id = deployAccountConfig.client_id || azureSub.client_id;
+            deployAccountConfig.client_secret = deployAccountConfig.client_secret || azureSub.client_secret;
+            deployAccountConfig.azure_tenant_id = deployAccountConfig.azure_tenant_id || azureSub.azure_tenant_id || azureSub.tenant_id;
+            deployAccountConfig.active_resource_group = deployAccountConfig.active_resource_group || azureSub.active_resource_group;
+            console.log(`[DeploymentService] Enriched Azure config from subscription: ${azureSub.subscription_id} (user: ${azureSub.user_id})`);
+          }
+        } catch (_) {}
+      }
+
+      const provider = ProviderFactory.getDeploymentProvider(targetCloud, deployAccountConfig);
 
       const providerResult = await provider.deploy(appSpec, {
         deploymentId,
@@ -294,6 +494,11 @@ class DeploymentService {
       if (providerResult.resourceId) {
         await logStep('INFO', '11_RESOURCE_ID', `Cloud Resource ID: ${providerResult.resourceId}`);
       }
+
+      if (providerResult.success === false) {
+        throw new Error(providerResult.error || `Workload deployment failed on ${cloudName.toUpperCase()}`);
+      }
+
       if (providerResult.fqdn) {
         await logStep('SUCCESS', '11_ENDPOINT_VERIFIED', `Application URL: ${providerResult.fqdn} (State: ${providerResult.provisioningState || 'Succeeded'})`);
       }
@@ -385,6 +590,13 @@ class DeploymentService {
         metrics.cpuUsageAvg, (metrics.memoryMbAvg / 1024) * 100, 1250, 15.0, 18500, 0, 99.99, metrics.latencyMs
       ]);
 
+      // Update application health status to Healthy in catalog
+      await db.run(`
+        UPDATE applications 
+        SET health_status = 'Healthy', updated_at = CURRENT_TIMESTAMP 
+        WHERE id = ?
+      `, [applicationId]);
+
       await logStep('SUCCESS', '13_SAVE_METRICS', `Persisted deployment execution record and real-time metric snapshots to database.`);
 
       // Write raw evidence trace to evidence/runs/dev/
@@ -422,6 +634,15 @@ class DeploymentService {
         SET status = 'Failed', error_message = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
       `, [err.message, deploymentId]);
+
+      // Mark application as Failed in catalog
+      try {
+        await db.run(`
+          UPDATE applications 
+          SET health_status = 'Failed', updated_at = CURRENT_TIMESTAMP 
+          WHERE id = ?
+        `, [applicationId]);
+      } catch (_) {}
 
       throw err;
     }

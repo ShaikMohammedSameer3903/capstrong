@@ -1,0 +1,41 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-11-19T09-44-48-642Z-711f3285",
+    "runType": "chaos",
+    "partition": "dev",
+    "provider": null,
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-11-19T09:44:48.642Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-1795081488449-727",
+    "tenantId": "demo-org-001",
+    "targetResource": "api-pod-001",
+    "experimentType": "KILL_POD",
+    "status": "Completed",
+    "rtoSeconds": 0.192,
+    "rpoSeconds": 0,
+    "realPerturbation": false,
+    "simulationMethod": "process-level simulation (SIGTERM to child)",
+    "fidelityLevel": "low — no Docker daemon or k8s cluster available; simulated via timed delay",
+    "durationMs": 192,
+    "startedAt": "2026-11-19T09:44:48.449Z",
+    "completedAt": "2026-11-19T09:44:48.641Z",
+    "details": {
+      "experiment": "KILL_POD",
+      "method": "process-level simulation (SIGTERM to child)",
+      "fidelity": "low — no Docker daemon or k8s cluster available; simulated via timed delay",
+      "realExecution": false,
+      "parameters": {
+        "targetResource": "api-pod-001",
+        "signal": "SIGKILL"
+      },
+      "measurements": {
+        "simulatedKillDelayMs": 50,
+        "containerKilled": false,
+        "note": "No Docker daemon or Kubernetes cluster reachable. See docs/o4-fault-simulation-method.md for fidelity analysis."
+      }
+    }
+  }
+}

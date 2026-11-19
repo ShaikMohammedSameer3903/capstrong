@@ -7,10 +7,10 @@ interface Props {
 }
 
 const COLORS = {
-  CRITICAL: '#D13438',
-  HIGH: '#FFB900',
-  MEDIUM: '#0078D4',
-  LOW: '#107C10'
+  CRITICAL: '#DC2626',
+  HIGH: '#D97706',
+  MEDIUM: '#2563EB',
+  LOW: '#0D9488'
 };
 
 export default React.memo(function SeverityChart({ events }: Props) {

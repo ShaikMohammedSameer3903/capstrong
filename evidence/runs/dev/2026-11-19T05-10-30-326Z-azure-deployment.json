@@ -1,0 +1,140 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T05-10-30-326Z-2b09b1c0",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T05:10:30.326Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795064996503-dc943216",
+    "applicationId": "app-1795062577731-50cbc47b",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 33814,
+    "endpointUrl": "",
+    "resourceId": "/subscriptions/sub-test-discovery-001/resourceGroups/rg-cloudops-2300031607-static/providers/Microsoft.Web/staticSites/static",
+    "resourceGroup": "rg-cloudops-2300031607-static",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": false,
+      "deploymentId": "dep-1795064996503-dc943216",
+      "operationId": "89d5796a-dd35-4b32-9dfb-a80c3fa28e70",
+      "resourceId": null,
+      "fqdn": null,
+      "provisioningState": "Failed",
+      "sku": null,
+      "location": "southeastasia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": null,
+      "durationMs": 32992,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'static'",
+          "timestamp": "2026-11-19T05:09:57.313Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T05:09:57.314Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-static' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:09:57.314Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-static' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T05:10:00.330Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'static-2300031607-d10b'...",
+          "timestamp": "2026-11-19T05:10:00.330Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-static-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:10:00.337Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'static-2300031607-d10b' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:10:04.228Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Azure ARM Web App creation timed out in region 'southeastasia'.",
+          "timestamp": "2026-11-19T05:10:24.239Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-static-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:10:24.242Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Unexpected status code: 409",
+          "timestamp": "2026-11-19T05:10:26.243Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-static-centralindia' in region 'centralindia'...",
+          "timestamp": "2026-11-19T05:10:26.246Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'centralindia' failed: Resource 'asp-static-centralindia' was disallowed by Azure: This policy maintains a set of best available regions where your subscription can deploy resources. The objective of this policy is to ensure that your subscription has full access to Azure services with optimal performance. Should you need additional or different regions, contact support..",
+          "timestamp": "2026-11-19T05:10:26.367Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-static-eastasia' in region 'eastasia'...",
+          "timestamp": "2026-11-19T05:10:26.370Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'static-2300031607-d10b' in region 'eastasia'...",
+          "timestamp": "2026-11-19T05:10:29.991Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'eastasia' failed: The resource 'static-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-static'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:10:30.304Z"
+        },
+        {
+          "step": "WEB_APP_FAILED",
+          "message": "[Azure ARM] Real Web App provisioning failed in all attempted regions: The resource 'static-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-static'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:10:30.305Z"
+        },
+        {
+          "step": "REAL_DEPLOYMENT_FAILED",
+          "message": "[Azure ARM Engine] Real Azure deployment failed after 33s (WEB_APP): The resource 'static-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-static'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:10:30.305Z"
+        }
+      ],
+      "metrics": null,
+      "error": "The resource 'static-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-static'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+      "failureKind": "UNEXPECTED",
+      "failureStep": "WEB_APP",
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "FAILED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

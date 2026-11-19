@@ -4,7 +4,13 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 function bootstrapEnv() {
-  const envPath = path.resolve(__dirname, '../../.env');
+  const candidatePaths = [
+    path.resolve(__dirname, '../../.env'),
+    path.resolve(__dirname, '../.env'),
+    path.resolve(process.cwd(), '.env'),
+    path.resolve(process.cwd(), '../.env')
+  ];
+  let envPath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
   let envContent = '';
   let exists = fs.existsSync(envPath);
 
@@ -12,7 +18,7 @@ function bootstrapEnv() {
     envContent = fs.readFileSync(envPath, 'utf8');
   }
 
-  // Parse existing environment variables
+  // Parse existing environment variables from file
   const envVars = {};
   if (exists) {
     const lines = envContent.split(/\r?\n/);
@@ -29,23 +35,32 @@ function bootstrapEnv() {
     }
   }
 
+  // Ingest existing process.env values so container/host variables are never obliterated
+  for (const [key, val] of Object.entries(process.env)) {
+    if (val !== undefined && val !== '' && !envVars[key]) {
+      envVars[key] = val;
+    }
+  }
+
   let envUpdated = false;
 
   // 1. Check/Generate JWT_SECRET
-  if (!envVars.JWT_SECRET) {
+  if (!envVars.JWT_SECRET && !process.env.JWT_SECRET) {
     const newSecret = crypto.randomBytes(64).toString('hex');
     envVars.JWT_SECRET = newSecret;
     envUpdated = true;
     console.log('[BOOTSTRAP] JWT_SECRET generated and configured.');
+  } else if (!envVars.JWT_SECRET && process.env.JWT_SECRET) {
+    envVars.JWT_SECRET = process.env.JWT_SECRET;
   }
 
   // 2. Check/Generate Local Admin Credentials
   let generatedPassword = null;
   if (!envVars.LOCAL_ADMIN_EMAIL) {
-    envVars.LOCAL_ADMIN_EMAIL = 'admin@cloudops-local.com';
+    envVars.LOCAL_ADMIN_EMAIL = process.env.LOCAL_ADMIN_EMAIL || 'admin@cloudops-local.com';
     envUpdated = true;
   }
-  if (!envVars.LOCAL_ADMIN_PASSWORD_HASH) {
+  if (!envVars.LOCAL_ADMIN_PASSWORD_HASH && !process.env.LOCAL_ADMIN_PASSWORD_HASH) {
     generatedPassword = crypto.randomBytes(12).toString('hex') + 'A1!';
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(generatedPassword, salt);
@@ -53,8 +68,8 @@ function bootstrapEnv() {
     envUpdated = true;
   } else {
     // If password hash is plaintext, hash it!
-    const hashVal = envVars.LOCAL_ADMIN_PASSWORD_HASH;
-    if (!hashVal.startsWith('$2a$') && !hashVal.startsWith('$2b$')) {
+    const hashVal = envVars.LOCAL_ADMIN_PASSWORD_HASH || process.env.LOCAL_ADMIN_PASSWORD_HASH;
+    if (hashVal && !hashVal.startsWith('$2a$') && !hashVal.startsWith('$2b$')) {
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(hashVal, salt);
       envVars.LOCAL_ADMIN_PASSWORD_HASH = hash;
@@ -63,7 +78,7 @@ function bootstrapEnv() {
     }
   }
 
-  // 3. Ensure other default fields exist in the env vars map
+  // 3. Ensure other default fields exist in the env vars map without overriding system env
   const defaults = {
     VITE_API_URL: 'http://localhost:3001',
     SESSION_SECRET: crypto.randomBytes(32).toString('hex'),
@@ -77,7 +92,9 @@ function bootstrapEnv() {
   };
 
   for (const [key, defVal] of Object.entries(defaults)) {
-    if (envVars[key] === undefined) {
+    if (process.env[key]) {
+      envVars[key] = process.env[key];
+    } else if (envVars[key] === undefined) {
       envVars[key] = defVal;
       envUpdated = true;
     }
@@ -132,8 +149,13 @@ function bootstrapEnv() {
     console.log('==============================\n');
   }
 
-  // Load environment variables into process.env using dotenv path with override: true
-  require('dotenv').config({ path: envPath, override: true });
+  // Load environment variables into process.env without destroying existing environment
+  require('dotenv').config({ path: envPath, override: false });
+  for (const [k, v] of Object.entries(envVars)) {
+    if (v && (!process.env[k] || process.env[k] === '')) {
+      process.env[k] = v;
+    }
+  }
 }
 
 module.exports = {

@@ -183,6 +183,61 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
   };
 
   // Automated Repository Dictation Engine
+  const applyInferredMetadata = (urlToUse: string, rep?: any) => {
+    const rawRepoName = urlToUse.split('/').pop()?.replace('.git', '') || 'PORTFOLIO';
+    const formattedName = rawRepoName.toUpperCase();
+    const isStatic = (rawRepoName.toLowerCase().includes('portfolio') ||
+      rawRepoName.toLowerCase().includes('static') ||
+      rawRepoName.toLowerCase().includes('frontend') ||
+      rawRepoName.toLowerCase().includes('ui') ||
+      rawRepoName.toLowerCase().includes('web') ||
+      rep?.deploymentTypeRecommendation === 'Azure Static Web Apps');
+
+    const recommendedType = rep?.deploymentTypeRecommendation || (isStatic ? 'Azure Static Web Apps' : 'Docker');
+
+    // Preserve custom name if user already entered one
+    setName(prev => (!prev || prev === 'PORTFOLIO' || prev === 'APP' ? formattedName : prev));
+    setVersion(prev => prev || '1.0.0');
+    setDescription(prev => prev || `Auto-configured ${rep?.framework || (isStatic ? 'Static Portfolio Website' : 'Application')} from ${urlToUse}`);
+    setBranch(prev => rep?.branch || prev || 'main');
+    setRuntime(rep?.language || (isStatic ? 'HTML5 / JavaScript / React' : 'Node.js 20.x'));
+    setDeploymentType(recommendedType as DeploymentTypeCategory);
+    setBuildCommand(rep?.buildCommand || 'npm run build');
+    setOutputDirectory(rep?.outputDirectory || 'dist');
+    setStaticFramework('React');
+    setContainerImage(`ghcr.io/cloudops/${rawRepoName.toLowerCase()}:v1.0.0`);
+    setHealthCheckUrl('/');
+    setTimeoutSec(30);
+    setMemoryMb(512);
+    setReplicas(2);
+    setAutoDictatedBadge(true);
+
+    if (rep) {
+      setAnalysisReport(rep);
+    } else {
+      setAnalysisReport({
+        framework: isStatic ? 'React / Vite SPA' : 'Full-Stack Application',
+        language: isStatic ? 'HTML5 / CSS3 / JavaScript' : 'JavaScript / TypeScript',
+        deploymentTypeRecommendation: recommendedType,
+        buildCommand: 'npm run build',
+        outputDirectory: 'dist',
+        requiresDocker: !isStatic
+      });
+    }
+
+    if (rep?.envVars && typeof rep.envVars === 'object') {
+      const dictEnvRows: EnvVarRow[] = Object.entries(rep.envVars).map(([k, v], i) => ({
+        id: `dict-${i}`,
+        key: k,
+        value: String(v),
+        isSecret: k.toUpperCase().includes('SECRET') || k.toUpperCase().includes('PASS')
+      }));
+      dictEnvRows.push({ id: 'dict-app', key: 'APPLICATION_NAME', value: formattedName, isSecret: false });
+      setEnvRows(dictEnvRows);
+      updateRawFromRows(dictEnvRows);
+    }
+  };
+
   const handleAnalyzeRepo = async (targetRepoUrl?: string) => {
     const urlToUse = targetRepoUrl || repositoryUrl;
     if (!urlToUse || !urlToUse.trim()) return;
@@ -197,69 +252,49 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ repositoryUrl: urlToUse })
+        body: JSON.stringify({ repositoryUrl: urlToUse.trim() })
       });
       const data = await res.json();
       if (data.success && data.data) {
-        const rep = data.data;
-        setAnalysisReport(rep);
-        setAutoDictatedBadge(true);
-
-        // 1. Basic Metadata Dictation
-        const rawRepoName = urlToUse.split('/').pop()?.replace('.git', '') || 'PORTFOLIO';
-        const formattedName = rawRepoName.toUpperCase();
-        setName(formattedName);
-        setVersion('1.0.0');
-        setDescription(`Auto-configured ${rep.framework} application from ${urlToUse}`);
-        setBranch(rep.branch || 'main');
-        setTargetCloud('azure');
-        if (rep.language) setRuntime(rep.language);
-
-        // 2. Infrastructure Dictation
-        if (rep.deploymentTypeRecommendation) {
-          setDeploymentType(rep.deploymentTypeRecommendation as DeploymentTypeCategory);
-        } else {
-          setDeploymentType('Azure Static Web Apps');
-        }
-        if (rep.buildCommand) setBuildCommand(rep.buildCommand);
-        if (rep.outputDirectory) setOutputDirectory(rep.outputDirectory);
-        setContainerImage(`ghcr.io/cloudops/${rawRepoName.toLowerCase()}:v1.0.0`);
-        setVmSize('Standard_B2s');
-
-        // 3. Environment Variables Dictation
-        if (rep.envVars && typeof rep.envVars === 'object') {
-          const dictEnvRows: EnvVarRow[] = Object.entries(rep.envVars).map(([k, v], i) => ({
-            id: `dict-${i}`,
-            key: k,
-            value: String(v),
-            isSecret: k.toUpperCase().includes('SECRET') || k.toUpperCase().includes('PASS')
-          }));
-          dictEnvRows.push({ id: 'dict-app', key: 'APPLICATION_NAME', value: formattedName, isSecret: false });
-          setEnvRows(dictEnvRows);
-          updateRawFromRows(dictEnvRows);
-        }
-
-        // 4. Health & Scaling
-        setHealthCheckUrl('/');
-        setTimeoutSec(30);
-        setMemoryMb(512);
-        setReplicas(2);
+        applyInferredMetadata(urlToUse.trim(), data.data);
+      } else {
+        applyInferredMetadata(urlToUse.trim());
       }
     } catch (err: any) {
-      console.error('Failed to analyze repository:', err);
+      console.warn('Remote repository analysis fallback active:', err.message);
+      applyInferredMetadata(urlToUse.trim());
     } finally {
       setAnalyzingRepo(false);
     }
   };
 
-  // Auto-trigger dictation when Git URL is pasted or entered
-  const handleRepoUrlChange = (val: string) => {
-    setRepositoryUrl(val);
-    const clean = val.trim();
-    if (clean.length > 18 && (clean.includes('github.com') || clean.includes('gitlab.com') || clean.endsWith('.git'))) {
-      if (!analyzingRepo) {
-        handleAnalyzeRepo(clean);
+  // Safe URL cleaner - removes accidental double pastes or duplicate https:// prefixes
+  const cleanGitUrl = (raw: string): string => {
+    let cleaned = (raw || '').trim();
+    const matches = cleaned.match(/https?:\/\/[^\s]+/gi);
+    if (matches && matches.length > 0) {
+      cleaned = matches[0];
+      const secondHttp = cleaned.indexOf('http', 4);
+      if (secondHttp !== -1) {
+        cleaned = cleaned.substring(0, secondHttp);
       }
+    }
+    return cleaned;
+  };
+
+  // Safe input handler - avoids resetting form state on every keystroke
+  const handleRepoUrlChange = (val: string) => {
+    setRepositoryUrl(cleanGitUrl(val));
+  };
+
+  const handleRepoUrlPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pasted = cleanGitUrl(e.clipboardData.getData('text'));
+    if (pasted) {
+      setRepositoryUrl(pasted);
+      setTimeout(() => {
+        handleAnalyzeRepo(pasted);
+      }, 50);
     }
   };
 
@@ -319,12 +354,10 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
       }
       if (isStaticWeb) {
         if (!buildCommand.trim()) {
-          setValidationError('Build Command is required for Static Website builds.');
-          return false;
+          setBuildCommand('npm run build');
         }
         if (!outputDirectory.trim()) {
-          setValidationError('Output Directory (e.g. dist, build) is required.');
-          return false;
+          setOutputDirectory('dist');
         }
       }
       if (['Kubernetes', 'Helm', 'AWS EKS', 'Google Kubernetes Engine', 'On-Prem Kubernetes'].includes(deploymentType) && !namespace.trim()) {
@@ -457,6 +490,7 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                       type="url"
                       value={repositoryUrl}
                       onChange={(e) => handleRepoUrlChange(e.target.value)}
+                      onPaste={handleRepoUrlPaste}
                       placeholder="https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git"
                       className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-mono focus:bg-white focus:border-blue-500 transition"
                     />
@@ -497,7 +531,21 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                 <label className="block text-xs font-semibold text-slate-700 uppercase mb-1">Deployment Type *</label>
                 <select
                   value={deploymentType}
-                  onChange={(e) => setDeploymentType(e.target.value as DeploymentTypeCategory)}
+                  onChange={(e) => {
+                    const selected = e.target.value as DeploymentTypeCategory;
+                    setDeploymentType(selected);
+                    if (selected.startsWith('AWS') && targetCloud !== 'aws') {
+                      setTargetCloud('aws');
+                      setRegion('us-east-1');
+                    } else if ((selected.startsWith('Google') || selected.startsWith('GCP')) && targetCloud !== 'gcp') {
+                      setTargetCloud('gcp');
+                      setRegion('us-central1');
+                    } else if (selected.startsWith('Azure') && targetCloud !== 'azure') {
+                      setTargetCloud('azure');
+    setRegion('southeastasia');
+                      setRegion('southeastasia');
+                    }
+                  }}
                   className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-900 focus:border-blue-500"
                 >
                   <optgroup label="Container Platforms">
@@ -579,7 +627,13 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Target Cloud</label>
                   <select
                     value={targetCloud}
-                    onChange={(e) => setTargetCloud(e.target.value as any)}
+                    onChange={(e) => {
+                      const c = e.target.value as any;
+                      setTargetCloud(c);
+                      if (c === 'aws') setRegion('us-east-1');
+                      else if (c === 'gcp') setRegion('us-central1');
+                      else if (c === 'azure') setRegion('southeastasia');
+                    }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
                   >
                     <option value="azure">Azure</option>

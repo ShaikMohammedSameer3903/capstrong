@@ -1,0 +1,140 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T05-19-47-394Z-5fc32cec",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T05:19:47.395Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795065552807-bdbbd1fc",
+    "applicationId": "app-1795065550851-71700771",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 34575,
+    "endpointUrl": "",
+    "resourceId": "/subscriptions/sub-test-discovery-001/resourceGroups/rg-cloudops-2300031607-sameer/providers/Microsoft.Web/staticSites/sameer",
+    "resourceGroup": "rg-cloudops-2300031607-sameer",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": false,
+      "deploymentId": "dep-1795065552807-bdbbd1fc",
+      "operationId": "8e55ae1b-8cab-4746-8c53-a7fd80efdef0",
+      "resourceId": null,
+      "fqdn": null,
+      "provisioningState": "Failed",
+      "sku": null,
+      "location": "southeastasia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": null,
+      "durationMs": 33825,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'sameer'",
+          "timestamp": "2026-11-19T05:19:13.534Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T05:19:13.539Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-sameer' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:19:13.540Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-sameer' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T05:19:15.547Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Web App & Static Hosting for 'sameer-2300031607-d10b'...",
+          "timestamp": "2026-11-19T05:19:15.547Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-sameer-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:19:15.553Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'sameer-2300031607-d10b' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:19:20.089Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Azure ARM Web App creation timed out in region 'southeastasia'.",
+          "timestamp": "2026-11-19T05:19:40.094Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-sameer-southeastasia' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T05:19:40.106Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'southeastasia' failed: Unexpected status code: 409",
+          "timestamp": "2026-11-19T05:19:42.047Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-sameer-centralindia' in region 'centralindia'...",
+          "timestamp": "2026-11-19T05:19:42.053Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'centralindia' failed: Resource 'asp-sameer-centralindia' was disallowed by Azure: This policy maintains a set of best available regions where your subscription can deploy resources. The objective of this policy is to ensure that your subscription has full access to Azure services with optimal performance. Should you need additional or different regions, contact support..",
+          "timestamp": "2026-11-19T05:19:43.521Z"
+        },
+        {
+          "step": "WEB_APP_PLAN",
+          "message": "[Azure ARM] Ensuring App Service Plan 'asp-sameer-eastasia' in region 'eastasia'...",
+          "timestamp": "2026-11-19T05:19:43.525Z"
+        },
+        {
+          "step": "WEB_APP_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Web App 'sameer-2300031607-d10b' in region 'eastasia'...",
+          "timestamp": "2026-11-19T05:19:47.247Z"
+        },
+        {
+          "step": "AZURE_DEPLOY_ATTEMPT_FAILED",
+          "message": "[Azure ARM] Web App attempt on 'eastasia' failed: The resource 'sameer-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-sameer'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:19:47.358Z"
+        },
+        {
+          "step": "WEB_APP_FAILED",
+          "message": "[Azure ARM] Real Web App provisioning failed in all attempted regions: The resource 'sameer-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-sameer'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:19:47.359Z"
+        },
+        {
+          "step": "REAL_DEPLOYMENT_FAILED",
+          "message": "[Azure ARM Engine] Real Azure deployment failed after 34s (WEB_APP): The resource 'sameer-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-sameer'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+          "timestamp": "2026-11-19T05:19:47.359Z"
+        }
+      ],
+      "metrics": null,
+      "error": "The resource 'sameer-2300031607-d10b' already exists in location 'southeastasia' in resource group 'rg-cloudops-2300031607-sameer'. A resource with the same name cannot be created in location 'eastasia'. Please select a new resource name.",
+      "failureKind": "UNEXPECTED",
+      "failureStep": "WEB_APP",
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "FAILED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

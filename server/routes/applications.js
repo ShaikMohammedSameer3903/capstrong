@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const applicationService = require('../services/applicationService');
+const projectAnalyzer = require('../services/projectAnalyzer');
 
 // Middleware to enforce authentication
 function requireAuth(req, res, next) {
@@ -9,6 +10,23 @@ function requireAuth(req, res, next) {
   }
   next();
 }
+
+// POST /api/applications/analyze-repo - Auto-dictate and inspect Git repository
+router.post('/analyze-repo', async (req, res) => {
+  try {
+    const { repositoryUrl } = req.body;
+    if (!repositoryUrl || !repositoryUrl.trim()) {
+      return res.status(400).json({ success: false, error: 'Repository URL is required.' });
+    }
+
+    console.log(`[Applications] Analyzing repository: ${repositoryUrl}`);
+    const analysis = await projectAnalyzer.analyzeGitRepository(repositoryUrl);
+    res.json({ success: true, data: analysis });
+  } catch (err) {
+    console.error('[Applications] Repo analysis error:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
 
 // GET /api/applications - List all applications in Application Catalog
 router.get('/', requireAuth, async (req, res) => {

@@ -1,0 +1,82 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T04-22-47-805Z-1b3204c8",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T04:22:47.806Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795062163192-8fab13cb",
+    "applicationId": "app-1795060669435-70a735d9",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 4581,
+    "endpointUrl": "https://checkout-microservice-erificatio-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-erificationestuite-checkout-microservice/providers/Microsoft.Web/sites/checkout-microservice-erificatio-demo",
+    "resourceGroup": "rg-cloudops-erificationestuite-checkout-microservice",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1795062163192-8fab13cb",
+      "operationId": "0ba2399f-3665-44b7-b3a7-12d6203c9c8f",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-erificationestuite-checkout-microservice/providers/Microsoft.Web/sites/checkout-microservice-erificatio-demo",
+      "fqdn": "https://checkout-microservice-erificatio-demo.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "https://github.com/cloudops/checkout",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 32,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Docker deployment workflow for 'Checkout Microservice'",
+          "timestamp": "2026-11-19T04:22:43.555Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-11-19T04:22:43.585Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-erificationestuite-checkout-microservice' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T04:22:43.585Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-erificationestuite-checkout-microservice' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-11-19T04:22:43.585Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://checkout-microservice-erificatio-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-11-19T04:22:43.586Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-11-19T04:22:43.586Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

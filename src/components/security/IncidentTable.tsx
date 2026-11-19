@@ -45,8 +45,8 @@ export default React.memo(function IncidentTable({ events, onRemediate }: Props)
                   <td>
                     <span style={{ 
                       padding: '2px 8px', borderRadius: 12, fontSize: 11, fontWeight: 600, textTransform: 'uppercase',
-                      background: event.provider === 'aws' ? 'rgba(255,153,0,0.1)' : 'rgba(0,120,212,0.1)',
-                      color: event.provider === 'aws' ? '#FF9900' : '#0078D4'
+                      background: event.provider === 'aws' ? 'rgba(255,153,0,0.1)' : 'rgba(37,99,235,0.1)',
+                      color: event.provider === 'aws' ? '#FF9900' : '#2563EB'
                     }}>
                       {event.provider}
                     </span>

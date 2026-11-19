@@ -73,21 +73,11 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     }
 
     return (
-      <div style={{
-        padding: '12px 16px',
-        borderRadius: 8,
-        background: 'rgba(239, 68, 68, 0.08)',
-        border: '1px solid rgba(239, 68, 68, 0.25)',
-        color: '#f87171',
-        fontSize: 13,
-        textAlign: 'center',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        ...style
-      }}>
-        <AlertCircle size={14} />
+      <div
+        className="w-full py-2.5 px-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-xs font-medium text-center flex items-center justify-center space-x-2"
+        style={style}
+      >
+        <AlertCircle size={14} className="shrink-0 text-red-600" />
         <span>{statusText}</span>
       </div>
     );
@@ -111,21 +101,11 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     }
 
     return (
-      <div style={{
-        padding: '12px 16px',
-        borderRadius: 8,
-        background: 'rgba(255, 185, 0, 0.05)',
-        border: '1px solid rgba(255, 185, 0, 0.2)',
-        color: '#ffb900',
-        fontSize: 13,
-        textAlign: 'center',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        ...style
-      }}>
-        <AlertCircle size={14} />
+      <div
+        className="w-full py-2.5 px-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs font-medium text-center flex items-center justify-center space-x-2"
+        style={style}
+      >
+        <AlertCircle size={14} className="shrink-0 text-amber-600" />
         <span>{errorText}</span>
       </div>
     );
@@ -135,65 +115,32 @@ export const LoginButton: React.FC<LoginButtonProps> = ({
     <button
       onClick={handleLogin}
       disabled={isPending}
-      style={{
-        width: '100%',
-        padding: '12px',
-        borderRadius: 8,
-        border: '1px solid rgba(255,255,255,0.1)',
-        background: '#1d2038',
-        color: 'white',
-        fontWeight: 600,
-        cursor: isPending ? 'not-allowed' : 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 10,
-        transition: 'all 0.2s ease-in-out',
-        opacity: isPending ? 0.7 : 1,
-        ...style
-      }}
-      onMouseOver={(e) => {
-        if (!isPending) {
-          e.currentTarget.style.background = '#25294a';
-          e.currentTarget.style.transform = 'translateY(-1px)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.25)';
-        }
-      }}
-      onMouseOut={(e) => {
-        e.currentTarget.style.background = '#1d2038';
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = 'none';
-      }}
+      className={`w-full py-2.5 px-4 rounded-xl border border-[#E2E8F0] hover:border-[#CBD5E1] bg-white hover:bg-[#F8FAFC] active:bg-[#F1F5F9] text-[#1E293B] text-sm font-semibold inline-flex items-center justify-center space-x-2.5 transition-all duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] shadow-sm hover:shadow ${isPending ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'}`}
+      style={style}
     >
       {isPending ? (
         <>
-          <div className="spinner-small" style={{
-            width: 14, height: 14,
-            border: '2px solid rgba(255,255,255,0.2)',
-            borderTopColor: 'white',
-            borderRadius: '50%',
-            animation: 'spin 0.8s linear infinite'
-          }} />
-          <span>Authenticating...</span>
+          <div className="w-3.5 h-3.5 border-2 border-[#2563EB]/20 border-t-[#2563EB] rounded-full animate-spin" />
+          <span className="text-[#64748B]">Authenticating...</span>
         </>
       ) : provider === 'microsoft' ? (
         <>
-          <div style={{ width: 16, height: 16, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1 }}>
-            <span style={{ background: '#f25022' }} />
-            <span style={{ background: '#7fba00' }} />
-            <span style={{ background: '#00a4ef' }} />
-            <span style={{ background: '#ffb900' }} />
+          <div className="w-4 h-4 grid grid-cols-2 gap-0.5 shrink-0" aria-hidden="true">
+            <span className="bg-[#f25022]" />
+            <span className="bg-[#7fba00]" />
+            <span className="bg-[#00a4ef]" />
+            <span className="bg-[#ffb900]" />
           </div>
           <span>Sign in with Microsoft</span>
         </>
       ) : provider === 'aws' ? (
         <>
-          <Cpu size={16} color="#FF9900" />
+          <Cpu size={16} className="text-[#FF9900] shrink-0" />
           <span>Sign in with AWS SSO</span>
         </>
       ) : (
         <>
-          <svg width="16" height="16" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
             <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />

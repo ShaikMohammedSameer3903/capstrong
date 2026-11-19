@@ -6,8 +6,12 @@ interface Application {
   id: string;
   name: string;
   version: string;
-  container_image: string;
-  cloudTargets: string[];
+  container_image?: string;
+  cloudTargets?: string[];
+  cloud_targets?: string[] | string;
+  deployment_type?: string;
+  repository_url?: string;
+  branch?: string;
 }
 
 interface Deployment {
@@ -20,6 +24,7 @@ interface Deployment {
   duration_ms: number;
   deployed_by: string;
   created_at: string;
+  endpoint_url?: string;
   logs?: Array<{ level: string; step: string; message: string; timestamp: string }>;
   metrics?: {
     cpu_usage_avg: number;
@@ -153,6 +158,34 @@ export default function DeploymentCenter() {
     oldCloud: string;
   } | null>(null);
 
+  const handleSelectApp = (appId: string) => {
+    setSelectedAppId(appId);
+    const app = apps.find(a => a.id === appId);
+    if (app) {
+      const type = app.deployment_type || 'Docker';
+      const isStatic = ['Azure Static Web Apps', 'AWS S3 + CloudFront', 'Static Website', 'Static Web App', 'GCP Cloud Storage Static Hosting'].includes(type);
+
+      let targets: string[] = [];
+      try {
+        targets = typeof app.cloud_targets === 'string' ? JSON.parse(app.cloud_targets) : (app.cloud_targets || []);
+      } catch (_) {}
+
+      const preferredCloud = targets[0] || (isStatic ? 'azure' : 'aws');
+      setSelectedCloud(preferredCloud);
+
+      if (preferredCloud === 'azure') {
+        setSelectedType(isStatic ? 'Azure Static Web Apps' : 'Docker');
+        setSelectedRegion('southeastasia');
+      } else if (preferredCloud === 'aws') {
+        setSelectedType(isStatic ? 'AWS S3 + CloudFront' : 'Docker');
+        setSelectedRegion('us-east-1');
+      } else if (preferredCloud === 'gcp') {
+        setSelectedType(isStatic ? 'GCP Cloud Storage Static Hosting' : 'Docker');
+        setSelectedRegion('us-central1');
+      }
+    }
+  };
+
   const handleDryRun = async () => {
     if (!selectedAppId || !selectedCloud) return;
     setRunningDryRun(true);
@@ -168,7 +201,8 @@ export default function DeploymentCenter() {
           applicationId: selectedAppId,
           targetCloud: selectedCloud,
           region: selectedRegion,
-          environment: 'production'
+          environment: 'production',
+          deploymentType: selectedType
         })
       });
       const data = await res.json();
@@ -209,7 +243,8 @@ export default function DeploymentCenter() {
           applicationId: selectedAppId,
           targetCloud: selectedCloud,
           region: selectedRegion,
-          environment: 'production'
+          environment: 'production',
+          deploymentType: selectedType
         })
       });
       const data = await res.json();
@@ -411,7 +446,7 @@ export default function DeploymentCenter() {
                 </label>
                 <select
                   value={selectedAppId}
-                  onChange={e => setSelectedAppId(e.target.value)}
+                  onChange={e => handleSelectApp(e.target.value)}
                   style={{
                     width: '100%', padding: '11px 14px', borderRadius: 10,
                     background: '#ffffff', border: '1px solid #cbd5e1',
@@ -433,9 +468,9 @@ export default function DeploymentCenter() {
                 </label>
                 <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
                   {[
-                    { id: 'aws', name: 'AWS', icon: Cpu, bg: '#fffbeb', border: '#fde68a', text: '#b45309' },
-                    { id: 'azure', name: 'Azure', icon: Cloud, bg: '#eff6ff', border: '#bfdbfe', text: '#1d4ed8' },
-                    { id: 'gcp', name: 'GCP', icon: Database, bg: '#ecfdf5', border: '#a7f3d0', text: '#047857' },
+                    { id: 'aws', name: 'AWS', icon: Cpu, bg: '#fffbeb', border: '#fde68a', text: '#b45309', defaultRegion: 'us-east-1' },
+                    { id: 'azure', name: 'Azure', icon: Cloud, bg: '#eff6ff', border: '#bfdbfe', text: '#1d4ed8', defaultRegion: 'southeastasia' },
+                    { id: 'gcp', name: 'GCP', icon: Database, bg: '#ecfdf5', border: '#a7f3d0', text: '#047857', defaultRegion: 'us-central1' },
                   ].map(c => {
                     const isSelected = selectedCloud === c.id;
                     return (
@@ -443,8 +478,10 @@ export default function DeploymentCenter() {
                         key={c.id}
                         onClick={() => {
                           setSelectedCloud(c.id);
+                          setSelectedRegion(c.defaultRegion);
                           if (c.id === 'aws') setSelectedType('AWS S3 + CloudFront');
                           else if (c.id === 'azure') setSelectedType('Azure Static Web Apps');
+                          else if (c.id === 'gcp') setSelectedType('GCP Cloud Storage Static Hosting');
                         }}
                         style={{
                           flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7,
@@ -498,7 +535,7 @@ export default function DeploymentCenter() {
               {/* Step 3: Region */}
               <div>
                 <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
-                  3. AWS Region
+                  3. {selectedCloud.toUpperCase()} Region
                 </label>
                 <select
                   value={selectedRegion}
@@ -509,11 +546,29 @@ export default function DeploymentCenter() {
                     color: '#1e293b', fontSize: 12, fontWeight: 600, outline: 'none', cursor: 'pointer',
                   }}
                 >
-                  <option value="us-east-1">US East (N. Virginia)</option>
-                  <option value="us-west-2">US West (Oregon)</option>
-                  <option value="ap-south-1">Asia Pacific (Mumbai)</option>
-                  <option value="eu-west-1">Europe (Ireland)</option>
-                  <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+                  {selectedCloud === 'azure' ? (
+                    <>
+                      <option value="southeastasia">Southeast Asia (Singapore) — Recommended</option>
+                      <option value="eastasia">East Asia (Hong Kong)</option>
+                      <option value="southindia">South India</option>
+                      <option value="eastus">East US</option>
+                      <option value="centralus">Central US</option>
+                    </>
+                  ) : selectedCloud === 'aws' ? (
+                    <>
+                      <option value="us-east-1">US East (N. Virginia)</option>
+                      <option value="us-west-2">US West (Oregon)</option>
+                      <option value="ap-south-1">Asia Pacific (Mumbai)</option>
+                      <option value="eu-west-1">Europe (Ireland)</option>
+                      <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+                    </>
+                  ) : (
+                    <>
+                      <option value="us-central1">US Central (Iowa)</option>
+                      <option value="asia-south1">Asia South (Mumbai)</option>
+                      <option value="europe-west1">Europe West (Belgium)</option>
+                    </>
+                  )}
                 </select>
               </div>
 
@@ -596,11 +651,29 @@ export default function DeploymentCenter() {
                           {d.target_cloud}
                         </span>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
                         <span style={{ fontSize: 11, color: '#64748b' }}>
                           {new Date(d.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
-                        {getStatusBadge(d.status)}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          {d.endpoint_url && (
+                            <a
+                              href={d.endpoint_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              style={{
+                                padding: '2px 7px', borderRadius: 4, background: '#dcfce7', color: '#15803d',
+                                border: '1px solid #86efac', fontSize: 10, fontWeight: 800, textDecoration: 'none',
+                                display: 'inline-flex', alignItems: 'center', gap: 3
+                              }}
+                            >
+                              <span>Open</span>
+                              <ExternalLink style={{ width: 10, height: 10 }} />
+                            </a>
+                          )}
+                          {getStatusBadge(d.status)}
+                        </div>
                       </div>
                     </div>
                   );
@@ -665,8 +738,12 @@ export default function DeploymentCenter() {
 
                   {/* Live Website Banner */}
                   {(() => {
-                    const liveUrl = (activeDeployment as any).endpoint_url || activeDeployment.logs?.find(l => l.step === '11_ENDPOINT_VERIFIED' || l.message?.includes('Application URL:'))?.message?.match(/https?:\/\/[^\s\)]+/)?.[0];
+                    const logs = activeDeployment.logs || [];
+                    const logUrlMatch = logs.map(l => l.message || '').join(' ').match(/https?:\/\/[a-zA-Z0-9\-\.]+\.(azurestaticapps\.net|azurewebsites\.net|cloudfront\.net|amazonaws\.com|run\.app|appspot\.com)[^\s\)\'\"\,]*/i);
+                    const fallbackUrlMatch = logs.find(l => l.step?.includes('SUCCESS') || l.step?.includes('ENDPOINT') || l.message?.includes('Application URL:') || l.message?.includes('deployed:'))?.message?.match(/https?:\/\/[^\s\)\'\"\,]+/)?.[0];
+                    const liveUrl = (activeDeployment as any).endpoint_url || (activeDeployment as any).endpointUrl || logUrlMatch?.[0] || fallbackUrlMatch;
                     if (!liveUrl || activeDeployment.status === 'Failed') return null;
+                    const cloudName = (activeDeployment.target_cloud || (activeDeployment as any).cloud_provider || 'CLOUD').toUpperCase();
                     return (
                       <div style={{
                         padding: '18px 24px', borderRadius: 14, marginBottom: 20,
@@ -683,12 +760,17 @@ export default function DeploymentCenter() {
                           </div>
                           <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                              <span style={{ fontSize: 13, fontWeight: 800, color: '#065f46' }}>AWS DEPLOYMENT SUCCESSFUL</span>
-                              <span style={{ padding: '2px 8px', borderRadius: 10, background: '#059669', color: '#ffffff', fontSize: 10, fontWeight: 800 }}>LIVE URL</span>
+                              <span style={{ fontSize: 13, fontWeight: 800, color: '#065f46' }}>{cloudName} DEPLOYMENT LIVE</span>
+                              <span style={{ padding: '2px 8px', borderRadius: 10, background: '#059669', color: '#ffffff', fontSize: 10, fontWeight: 800 }}>LIVE ON {cloudName}</span>
                             </div>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: '#047857', fontFamily: 'monospace' }}>
+                            <a
+                              href={liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ fontSize: 13, fontWeight: 700, color: '#047857', fontFamily: 'monospace', textDecoration: 'underline' }}
+                            >
                               {liveUrl}
-                            </div>
+                            </a>
                           </div>
                         </div>
 
@@ -702,7 +784,7 @@ export default function DeploymentCenter() {
                             fontSize: 13, fontWeight: 800, textDecoration: 'none', boxShadow: '0 4px 12px rgba(5,150,105,0.25)',
                           }}
                         >
-                          <span>Open Live Web App</span>
+                          <span>Open Live Website</span>
                           <ExternalLink style={{ width: 14, height: 14 }} />
                         </a>
                       </div>

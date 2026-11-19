@@ -22,7 +22,7 @@ export default function AwsMonitoring() {
 
   // AWS specific monitorable resources
   const monitorableResources = resources.filter(r =>
-    (r.provider === 'aws') &&
+    ((r.provider || '').toLowerCase() === 'aws') &&
     (r.type?.toLowerCase().includes('ec2') ||
      r.type?.toLowerCase().includes('rds') ||
      r.type?.toLowerCase().includes('lambda') ||

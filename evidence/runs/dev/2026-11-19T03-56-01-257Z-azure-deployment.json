@@ -1,0 +1,82 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T03-56-01-257Z-d9ac955d",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T03:56:01.259Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795060554951-d2100f68",
+    "applicationId": "app-ai-recommendation",
+    "tenantId": "demo-org-001",
+    "targetCloud": "azure",
+    "durationMs": 6277,
+    "endpointUrl": "https://ai-personalization-engine-erificatio-demo.azurewebsites.net",
+    "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-erificationestuite-ai-personalization-engine/providers/Microsoft.Web/sites/ai-personalization-engine-erificatio-demo",
+    "resourceGroup": "rg-cloudops-erificationestuite-ai-personalization-engine",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "deploymentId": "dep-1795060554951-d2100f68",
+      "operationId": "3277b7e2-1737-45e2-b28e-35c270c6ecd0",
+      "resourceId": "/subscriptions/demo-azure-sub-73821/resourceGroups/rg-cloudops-erificationestuite-ai-personalization-engine/providers/Microsoft.Web/sites/ai-personalization-engine-erificatio-demo",
+      "fqdn": "https://ai-personalization-engine-erificatio-demo.azurewebsites.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free (F1)",
+      "location": "southindia",
+      "repositoryUrl": "https://github.com/cloudops-enterprise/ai-recommender",
+      "branch": "main",
+      "revision": "",
+      "durationMs": 51,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Docker deployment workflow for 'AI Personalization Engine'",
+          "timestamp": "2026-11-19T03:55:55.370Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: demo-azure-sub-73821",
+          "timestamp": "2026-11-19T03:55:55.420Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-erificationestuite-ai-personalization-engine' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T03:55:55.421Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-erificationestuite-ai-personalization-engine' created & verified in Azure Portal (Region: southeastasia) (CloudOps Sandbox Context)",
+          "timestamp": "2026-11-19T03:55:55.421Z"
+        },
+        {
+          "step": "CONTAINER_APP_SUCCESS",
+          "message": "[Azure ARM Engine] Container workload deployed: https://ai-personalization-engine-erificatio-demo.azurewebsites.net (CloudOps Sandbox URL)",
+          "timestamp": "2026-11-19T03:55:55.421Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 0s.",
+          "timestamp": "2026-11-19T03:55:55.421Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "resourceId": true,
+        "fqdn": true
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ interface Props {
   events: SecurityEvent[];
 }
 
-const COLORS = { aws: '#FF9900', azure: '#0078D4', gcp: '#4285F4' };
+const COLORS = { aws: '#FF9900', azure: '#2563EB', gcp: '#4285F4' };
 
 export default React.memo(function ProviderDistribution({ events }: Props) {
   const data = useMemo(() => {

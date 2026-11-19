@@ -1,11 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig(() => {
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      tailwindcss()
+    ],
     resolve: {
       alias: {
         'd3-array': resolve(__dirname, 'node_modules/d3-array/dist/d3-array.js'),
@@ -52,6 +56,9 @@ export default defineConfig(() => {
     },
     server: {
       port: 5173,
+      watch: {
+        ignored: ['**/server/**', '**/dist/**', '**/*.zip', '**/temp_repos/**', '**/cached_repos/**']
+      },
       proxy: {
         '/api': {
           target: 'http://127.0.0.1:3001',

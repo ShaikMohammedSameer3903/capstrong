@@ -152,8 +152,8 @@ export default function DashboardHome() {
       {/* Empty State when no accounts connected */}
       {cloudAccounts.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 20px', background: 'var(--bg-surface)', borderRadius: 16, border: '1px solid var(--border-default)', margin: '16px 0 32px' }}>
-          <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(0,120,212,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
-            <Cloud size={32} color="var(--accent-color, #0078d4)" />
+          <div style={{ width: 64, height: 64, borderRadius: 16, background: 'rgba(37,99,235,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+            <Cloud size={32} color="var(--accent-color, #2563EB)" />
           </div>
           <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8, color: 'var(--text-primary)' }}>No Cloud Accounts Connected</h2>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 24, maxWidth: 500, margin: '0 auto 24px', lineHeight: 1.5 }}>
@@ -195,11 +195,11 @@ export default function DashboardHome() {
               e.currentTarget.style.borderColor = 'var(--border-default)';
             }}
           >
-            <div style={{ height: 4, background: 'linear-gradient(90deg, #0078d4, #00B7C3)' }} />
+            <div style={{ height: 4, background: '#2563EB' }} />
             <div style={{ padding: 24 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(0,120,212,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Cloud size={24} color="#0078d4" />
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: 'rgba(37,99,235,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Cloud size={24} color="#2563EB" />
                 </div>
                 <div>
                   <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)' }}>Azure</div>
@@ -208,10 +208,10 @@ export default function DashboardHome() {
                 <ArrowRight size={18} color="var(--text-tertiary)" style={{ marginLeft: 'auto' }} />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                <StatChip icon={Server} label="Resources" value={String(azureStats.resources)} color="#0078d4" />
-                <StatChip icon={Shield} label="Security" value={azureStats.securityScore != null ? `${Math.round(azureStats.securityScore)}%` : '—'} color="#107C10" />
-                <StatChip icon={DollarSign} label="Spend" value={fmtCurrency(azureStats.spend)} color="#00B7C3" />
-                <StatChip icon={Activity} label="Status" value={azureAccounts.some(a => a.status === 'Failed') ? 'Failed' : 'Connected'} color={azureAccounts.some(a => a.status === 'Failed') ? '#D13438' : '#107C10'} />
+                <StatChip icon={Server} label="Resources" value={String(azureStats.resources)} color="#2563EB" />
+                <StatChip icon={Shield} label="Security" value={azureStats.securityScore != null ? `${Math.round(azureStats.securityScore)}%` : '—'} color="#0D9488" />
+                <StatChip icon={DollarSign} label="Spend" value={fmtCurrency(azureStats.spend)} color="#0284C7" />
+                <StatChip icon={Activity} label="Status" value={azureAccounts.some(a => a.status === 'Failed') ? 'Failed' : 'Connected'} color={azureAccounts.some(a => a.status === 'Failed') ? '#DC2626' : '#0D9488'} />
               </div>
             </div>
           </button>

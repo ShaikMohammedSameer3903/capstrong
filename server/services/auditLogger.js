@@ -29,6 +29,24 @@ async function logAudit(tenantId, userId, userEmail, action, resourceType, resou
       details
     ]);
 
+    // Mirror audit log to MongoDB if connected
+    try {
+      const mongoService = require('./mongoService');
+      await mongoService.recordMongoAudit({
+        tenantId,
+        userId,
+        userEmail,
+        action,
+        resourceType,
+        resourceId,
+        ipAddress,
+        result,
+        details: additionalDetails
+      });
+    } catch (mErr) {
+      // Ignore background sync errors
+    }
+
     console.log(`[AUDIT LOG] Action: ${action} | User: ${userEmail} | IP: ${ipAddress} | Result: ${result}`);
   } catch (err) {
     console.error('[AUDIT ERROR] Failed to insert audit log entry:', err);

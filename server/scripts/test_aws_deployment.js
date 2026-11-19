@@ -27,9 +27,10 @@ async function testAwsDeploymentCapabilities() {
   console.log(`✓ Database active. Found ${cloudAccounts.length} connected cloud account(s).`);
 
   // 4. Test Dry-Run Deployment Service using seeded application
-  const seededApp = await db.get("SELECT id FROM applications LIMIT 1");
+  const seededApp = await db.get("SELECT id, tenant_id FROM applications LIMIT 1");
   const appId = seededApp ? seededApp.id : 'app-ecommerce-api';
-  const dryRun = await deploymentService.dryRunDeployment('demo-org-001', 'user-001', appId, 'aws', 'us-east-1', 'production');
+  const tenantId = seededApp ? seededApp.tenant_id : 'demo-org-001';
+  const dryRun = await deploymentService.dryRunDeployment(tenantId, 'user-001', appId, 'aws', 'us-east-1', 'production');
   console.log("✓ Dry-Run deployment validation result:", {
     appName: dryRun.appName,
     targetCloud: dryRun.targetCloud,

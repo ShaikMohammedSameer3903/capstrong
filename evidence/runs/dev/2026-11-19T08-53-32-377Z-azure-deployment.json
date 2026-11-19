@@ -1,0 +1,108 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T08-53-32-377Z-131e823b",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "azure",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T08:53:32.378Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795078366050-25102057",
+    "applicationId": "app-1795068304756-46b297e6",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "azure",
+    "durationMs": 46310,
+    "endpointUrl": "https://lemon-forest-03b694200.3.azurestaticapps.net",
+    "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-portfolio-2/providers/Microsoft.Web/staticSites/portfolio-2-23000316-d10b-8e62c4",
+    "resourceGroup": "rg-cloudops-2300031607-portfolio-2",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "provider": "Azure",
+      "deploymentId": "dep-1795078366050-25102057",
+      "operationId": "17ed794e-7133-44f8-9df6-d598768b5575",
+      "resourceId": "/subscriptions/d10be971-c619-4887-8737-b8054407194e/resourceGroups/rg-cloudops-2300031607-portfolio-2/providers/Microsoft.Web/staticSites/portfolio-2-23000316-d10b-8e62c4",
+      "fqdn": "https://lemon-forest-03b694200.3.azurestaticapps.net",
+      "provisioningState": "Succeeded",
+      "sku": "Free",
+      "location": "East Asia",
+      "repositoryUrl": "https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git",
+      "branch": "main",
+      "revision": "v1.0.0",
+      "durationMs": 45210,
+      "logs": [
+        {
+          "step": "AZURE_INIT",
+          "message": "[Azure ARM Engine] Initializing Azure Static Web Apps deployment workflow for 'PORTFOLIO-2'",
+          "timestamp": "2026-11-19T08:52:46.838Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[Azure ARM] Authenticated Azure Subscription ID: d10be971-c619-4887-8737-b8054407194e",
+          "timestamp": "2026-11-19T08:52:46.842Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Creating Resource Group 'rg-cloudops-2300031607-portfolio-2' in region 'southeastasia'...",
+          "timestamp": "2026-11-19T08:52:46.843Z"
+        },
+        {
+          "step": "RESOURCE_GROUP",
+          "message": "[Azure ARM] Resource Group 'rg-cloudops-2300031607-portfolio-2' created & verified in Azure Portal (Region: southeastasia)",
+          "timestamp": "2026-11-19T08:52:49.893Z"
+        },
+        {
+          "step": "STATIC_SITE_CREATE",
+          "message": "[Azure ARM] Provisioning Azure Static Web App for 'portfolio-2-23000316-d10b-8e62c4'...",
+          "timestamp": "2026-11-19T08:52:49.893Z"
+        },
+        {
+          "step": "STATIC_SITE_PROVISION",
+          "message": "[Azure ARM] Provisioning Azure Static Web App 'portfolio-2-23000316-d10b-8e62c4' in region 'eastasia'...",
+          "timestamp": "2026-11-19T08:52:50.224Z"
+        },
+        {
+          "step": "STATIC_SITE_SUCCESS",
+          "message": "[Azure ARM Engine] Azure Static Web App 'portfolio-2-23000316-d10b-8e62c4' successfully deployed: https://lemon-forest-03b694200.3.azurestaticapps.net",
+          "timestamp": "2026-11-19T08:52:51.594Z"
+        },
+        {
+          "step": "STATIC_SITE_DEPLOY_START",
+          "message": "[Azure ARM] Pushing live application content to Azure Static Web App 'portfolio-2-23000316-d10b-8e62c4'...",
+          "timestamp": "2026-11-19T08:52:51.594Z"
+        },
+        {
+          "step": "STATIC_SITE_CLI_DEPLOY",
+          "message": "[Azure ARM] Deploying assets to Azure Static Web Apps edge CDN via SWA CLI...",
+          "timestamp": "2026-11-19T08:52:51.942Z"
+        },
+        {
+          "step": "STATIC_SITE_CONTENT_SUCCESS",
+          "message": "[Azure ARM] Application assets successfully deployed to Azure Static Web App CDN!",
+          "timestamp": "2026-11-19T08:53:32.046Z"
+        },
+        {
+          "step": "DEPLOY_COMPLETED",
+          "message": "[Azure ARM Engine] Azure Deployment completed in 45s.",
+          "timestamp": "2026-11-19T08:53:32.048Z"
+        }
+      ],
+      "metrics": null,
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "SUCCEEDED",
+      "syntheticIdentifiers": {
+        "resourceId": false,
+        "fqdn": false
+      }
+    }
+  }
+}

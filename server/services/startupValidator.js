@@ -68,15 +68,22 @@ async function validateStartup() {
   }
 
   // 6. MongoDB Atlas Validation
+  const mongoService = require('./mongoService');
+  const mongoDiag = mongoService.getMongoDiagnostics();
   let mongoStatus = 'Not configured';
-  if (process.env.MONGODB_URI) {
-    mongoStatus = '✓ MongoDB Atlas Connected';
+  if (mongoDiag.configured) {
+    if (mongoDiag.connected) {
+      mongoStatus = `✓ MongoDB Connected (${mongoDiag.dbName})`;
+    } else {
+      mongoStatus = `⚠️  MongoDB Configured (${mongoDiag.status}) - ${mongoDiag.lastError || 'Connecting...'}`;
+      warnings.push(`MongoDB: ${mongoDiag.lastError || 'Unable to connect to ' + mongoDiag.target}`);
+    }
   }
 
   // Print diagnostics
   console.log(`Database:\n${dbStatus.startsWith('✓') ? '✓' : '✗'} ${dbStatus}`);
-  if (process.env.MONGODB_URI) {
-    console.log(`✓ ${mongoStatus} (${process.env.MONGODB_DB || 'capstrong'})`);
+  if (mongoDiag.configured) {
+    console.log(`${mongoDiag.connected ? '✓' : '⚠️ '} ${mongoStatus}`);
   }
   console.log(`\nAzure:\n${msStatus.startsWith('✓') ? '✓' : '✗'} ${msStatus}`);
   console.log(`${azureSubStatus.startsWith('✓') ? '✓' : '✗'} ${azureSubStatus}`);

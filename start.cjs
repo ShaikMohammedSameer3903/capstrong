@@ -3,15 +3,22 @@
 // Boots both backend and frontend development environments
 // ============================================================
 
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const path = require('path');
 
 console.log('[START] Launching production-ready local development stack...');
 
+// Free up occupied local ports if previously left hanging
+try {
+  if (process.platform === 'win32') {
+    execSync('powershell -Command "Get-NetTCPConnection -LocalPort 3001 -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.OwningProcess -Force }"', { stdio: 'ignore' });
+  }
+} catch (_) {}
+
 // Start Backend API Server
 const backend = spawn('node', ['index.js'], {
   cwd: path.join(__dirname, 'server'),
-  env: { ...process.env, PORT: '3001' },
+  env: { ...process.env, PORT: '3001', NODE_ENV: 'development' },
   shell: false,
 });
 
