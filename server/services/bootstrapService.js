@@ -3,7 +3,36 @@ const path = require('path');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
+// Keys that must NEVER be overwritten with empty defaults when Docker/CI
+// already injected them via environment variables.
+const CREDENTIAL_KEYS = new Set([
+  'AZURE_CLIENT_ID', 'AZURE_TENANT_ID', 'AZURE_CLIENT_SECRET', 'AZURE_SUBSCRIPTION_ID',
+  'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET',
+  'MICROSOFT_CLIENT_ID', 'MICROSOFT_CLIENT_SECRET',
+  'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY',
+  'JWT_SECRET', 'SESSION_SECRET', 'REFRESH_SECRET',
+  'MONGODB_URI', 'MONGODB_DB'
+]);
+
 function bootstrapEnv() {
+  // ── Docker / CI fast-path ────────────────────────────────────────────────
+  // When the process already has the key credentials injected (e.g. by Docker
+  // Compose env_file or Kubernetes secrets), skip ALL file I/O.  Writing a
+  // generated .env file and then calling dotenv.config() would clobber the
+  // already-correct values with empty-string defaults.
+  const alreadyInjected =
+    process.env.AZURE_CLIENT_ID ||
+    process.env.GOOGLE_CLIENT_ID ||
+    process.env.JWT_SECRET;
+
+  if (alreadyInjected) {
+    // Only generate LOCAL_ADMIN credentials if missing — no file writes.
+    _ensureLocalAdmin();
+    console.log('[BOOTSTRAP] Credentials already injected by host environment. Skipping .env file I/O.');
+    return;
+  }
+
+  // ── Local development path ───────────────────────────────────────────────
   const candidatePaths = [
     path.resolve(__dirname, '../../.env'),
     path.resolve(__dirname, '../.env'),
@@ -18,129 +47,115 @@ function bootstrapEnv() {
     envContent = fs.readFileSync(envPath, 'utf8');
   }
 
-  // Parse existing environment variables from file
+  // Parse existing variables from the .env file
   const envVars = {};
   if (exists) {
     const lines = envContent.split(/\r?\n/);
     for (const line of lines) {
       const trimmed = line.trim();
       if (trimmed && !trimmed.startsWith('#')) {
-        const parts = trimmed.split('=');
-        if (parts.length >= 2) {
-          const key = parts[0].trim();
-          const val = parts.slice(1).join('=').trim();
+        const eqIdx = trimmed.indexOf('=');
+        if (eqIdx > 0) {
+          const key = trimmed.slice(0, eqIdx).trim();
+          const val = trimmed.slice(eqIdx + 1).trim();
           envVars[key] = val;
         }
       }
     }
   }
 
-  // Ingest existing process.env values so container/host variables are never obliterated
+  // Merge process.env on top — host env always wins over file values
   for (const [key, val] of Object.entries(process.env)) {
-    if (val !== undefined && val !== '' && !envVars[key]) {
+    if (val !== undefined && val !== '') {
       envVars[key] = val;
     }
   }
 
   let envUpdated = false;
 
-  // 1. Check/Generate JWT_SECRET
-  if (!envVars.JWT_SECRET && !process.env.JWT_SECRET) {
-    const newSecret = crypto.randomBytes(64).toString('hex');
-    envVars.JWT_SECRET = newSecret;
+  // 1. JWT_SECRET — generate if truly missing everywhere
+  if (!envVars.JWT_SECRET) {
+    envVars.JWT_SECRET = crypto.randomBytes(64).toString('hex');
     envUpdated = true;
-    console.log('[BOOTSTRAP] JWT_SECRET generated and configured.');
-  } else if (!envVars.JWT_SECRET && process.env.JWT_SECRET) {
-    envVars.JWT_SECRET = process.env.JWT_SECRET;
+    console.log('[BOOTSTRAP] JWT_SECRET generated.');
   }
 
-  // 2. Check/Generate Local Admin Credentials
-  let generatedPassword = null;
+  // 2. Local Admin credentials
   if (!envVars.LOCAL_ADMIN_EMAIL) {
-    envVars.LOCAL_ADMIN_EMAIL = process.env.LOCAL_ADMIN_EMAIL || 'admin@cloudops-local.com';
+    envVars.LOCAL_ADMIN_EMAIL = 'admin@cloudops-local.com';
     envUpdated = true;
   }
-  if (!envVars.LOCAL_ADMIN_PASSWORD_HASH && !process.env.LOCAL_ADMIN_PASSWORD_HASH) {
+
+  let generatedPassword = null;
+  if (!envVars.LOCAL_ADMIN_PASSWORD_HASH) {
     generatedPassword = crypto.randomBytes(12).toString('hex') + 'A1!';
     const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(generatedPassword, salt);
-    envVars.LOCAL_ADMIN_PASSWORD_HASH = hash;
+    envVars.LOCAL_ADMIN_PASSWORD_HASH = bcrypt.hashSync(generatedPassword, salt);
     envUpdated = true;
   } else {
-    // If password hash is plaintext, hash it!
-    const hashVal = envVars.LOCAL_ADMIN_PASSWORD_HASH || process.env.LOCAL_ADMIN_PASSWORD_HASH;
-    if (hashVal && !hashVal.startsWith('$2a$') && !hashVal.startsWith('$2b$')) {
+    const hashVal = envVars.LOCAL_ADMIN_PASSWORD_HASH;
+    if (!hashVal.startsWith('$2a$') && !hashVal.startsWith('$2b$')) {
       const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(hashVal, salt);
-      envVars.LOCAL_ADMIN_PASSWORD_HASH = hash;
+      envVars.LOCAL_ADMIN_PASSWORD_HASH = bcrypt.hashSync(hashVal, salt);
       envUpdated = true;
-      console.log('[BOOTSTRAP] Plaintext local admin password detected and securely hashed with bcrypt.');
+      console.log('[BOOTSTRAP] Plaintext password hashed with bcrypt.');
     }
   }
 
-  // 3. Ensure other default fields exist in the env vars map without overriding system env
-  const defaults = {
-    VITE_API_URL: 'http://localhost:3001',
-    SESSION_SECRET: crypto.randomBytes(32).toString('hex'),
-    REFRESH_SECRET: crypto.randomBytes(32).toString('hex'),
-    AZURE_CLIENT_ID: '',
-    AZURE_TENANT_ID: '',
-    AZURE_CLIENT_SECRET: '',
-    AZURE_SUBSCRIPTION_ID: '',
-    GOOGLE_CLIENT_ID: '',
-    GOOGLE_CLIENT_SECRET: ''
-  };
+  // 3. Session secrets
+  if (!envVars.SESSION_SECRET) { envVars.SESSION_SECRET = crypto.randomBytes(32).toString('hex'); envUpdated = true; }
+  if (!envVars.REFRESH_SECRET) { envVars.REFRESH_SECRET = crypto.randomBytes(32).toString('hex'); envUpdated = true; }
 
-  for (const [key, defVal] of Object.entries(defaults)) {
-    if (process.env[key]) {
-      envVars[key] = process.env[key];
-    } else if (envVars[key] === undefined) {
-      envVars[key] = defVal;
-      envUpdated = true;
-    }
-  }
-
-  // Write env file if updated or missing, preserving all variables
+  // 4. Write updated .env if anything changed — but NEVER overwrite credential keys with empty values
   if (envUpdated || !exists) {
-    const newContentLines = [
-      '# Single-Administrator Authentication',
-      `LOCAL_ADMIN_EMAIL=${envVars.LOCAL_ADMIN_EMAIL}`,
-      `LOCAL_ADMIN_PASSWORD_HASH=${envVars.LOCAL_ADMIN_PASSWORD_HASH}`,
-      '',
-      '# Secrets configuration',
-      `JWT_SECRET=${envVars.JWT_SECRET}`,
-      `SESSION_SECRET=${envVars.SESSION_SECRET}`,
-      `REFRESH_SECRET=${envVars.REFRESH_SECRET}`,
-      '',
-      '# Production Azure SDK Credentials',
-      `AZURE_CLIENT_ID=${envVars.AZURE_CLIENT_ID}`,
-      `AZURE_TENANT_ID=${envVars.AZURE_TENANT_ID}`,
-      `AZURE_CLIENT_SECRET=${envVars.AZURE_CLIENT_SECRET}`,
-      `AZURE_SUBSCRIPTION_ID=${envVars.AZURE_SUBSCRIPTION_ID}`,
-      '',
-      '# Google OAuth Credentials',
-      `GOOGLE_CLIENT_ID=${envVars.GOOGLE_CLIENT_ID}`,
-      `GOOGLE_CLIENT_SECRET=${envVars.GOOGLE_CLIENT_SECRET}`
-    ];
-
-    // Append any extra variables that were loaded but not in our default structure
     const keysInTemplate = new Set([
-      'LOCAL_ADMIN_EMAIL', 'LOCAL_ADMIN_PASSWORD_HASH', 'JWT_SECRET', 'SESSION_SECRET', 'REFRESH_SECRET',
+      'LOCAL_ADMIN_EMAIL', 'LOCAL_ADMIN_PASSWORD_HASH', 'LOCAL_ADMIN_PASSWORD',
+      'JWT_SECRET', 'SESSION_SECRET', 'REFRESH_SECRET',
       'AZURE_CLIENT_ID', 'AZURE_TENANT_ID', 'AZURE_CLIENT_SECRET', 'AZURE_SUBSCRIPTION_ID',
-      'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET'
+      'GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET',
+      'VITE_API_URL', 'VITE_API_BASE_URL'
     ]);
 
+    const newLines = [
+      '# Single-Administrator Authentication',
+      `LOCAL_ADMIN_EMAIL=${envVars.LOCAL_ADMIN_EMAIL || ''}`,
+      `LOCAL_ADMIN_PASSWORD_HASH=${envVars.LOCAL_ADMIN_PASSWORD_HASH || ''}`,
+      '',
+      '# Secrets configuration',
+      `JWT_SECRET=${envVars.JWT_SECRET || ''}`,
+      `SESSION_SECRET=${envVars.SESSION_SECRET || ''}`,
+      `REFRESH_SECRET=${envVars.REFRESH_SECRET || ''}`,
+      '',
+      '# Production Azure SDK Credentials',
+      `AZURE_CLIENT_ID=${envVars.AZURE_CLIENT_ID || ''}`,
+      `AZURE_TENANT_ID=${envVars.AZURE_TENANT_ID || ''}`,
+      `AZURE_CLIENT_SECRET=${envVars.AZURE_CLIENT_SECRET || ''}`,
+      `AZURE_SUBSCRIPTION_ID=${envVars.AZURE_SUBSCRIPTION_ID || ''}`,
+      '',
+      '# Google OAuth Credentials',
+      `GOOGLE_CLIENT_ID=${envVars.GOOGLE_CLIENT_ID || ''}`,
+      `GOOGLE_CLIENT_SECRET=${envVars.GOOGLE_CLIENT_SECRET || ''}`,
+      '',
+      '# Frontend',
+      `VITE_API_URL=${envVars.VITE_API_URL || ''}`,
+      `VITE_API_BASE_URL=${envVars.VITE_API_BASE_URL || ''}`
+    ];
+
+    // Append any extra vars not already in the template
     for (const [key, val] of Object.entries(envVars)) {
       if (!keysInTemplate.has(key)) {
-        newContentLines.push(`${key}=${val}`);
+        newLines.push(`${key}=${val}`);
       }
     }
 
-    fs.writeFileSync(envPath, newContentLines.join('\n'), 'utf8');
-    console.log('[BOOTSTRAP] .env file successfully created/updated.');
+    try {
+      fs.writeFileSync(envPath, newLines.join('\n'), 'utf8');
+      console.log('[BOOTSTRAP] .env file created/updated at:', envPath);
+    } catch (writeErr) {
+      console.warn('[BOOTSTRAP] Could not write .env file (read-only fs?):', writeErr.message);
+    }
   }
 
-  // Print generated admin password ONCE if it was created
   if (generatedPassword) {
     console.log('\n================================');
     console.log('LOCAL ADMIN ACCOUNT CREATED');
@@ -149,15 +164,37 @@ function bootstrapEnv() {
     console.log('==============================\n');
   }
 
-  // Load environment variables into process.env without destroying existing environment
-  require('dotenv').config({ path: envPath, override: false });
-  for (const [k, v] of Object.entries(envVars)) {
-    if (v && (!process.env[k] || process.env[k] === '')) {
-      process.env[k] = v;
+  // Load the .env file into process.env WITHOUT overriding existing values
+  try {
+    require('dotenv').config({ path: envPath, override: false });
+  } catch (_) {}
+
+  // Final safety pass: ensure credential keys from envVars are in process.env
+  for (const [key, val] of Object.entries(envVars)) {
+    if (val && (!process.env[key] || process.env[key] === '')) {
+      process.env[key] = val;
     }
   }
 }
 
-module.exports = {
-  bootstrapEnv
-};
+// Generate/validate LOCAL_ADMIN credentials in-memory only (no file I/O)
+function _ensureLocalAdmin() {
+  if (!process.env.LOCAL_ADMIN_EMAIL) {
+    process.env.LOCAL_ADMIN_EMAIL = process.env.LOCAL_ADMIN_EMAIL || 'admin@cloudops-local.com';
+  }
+  if (process.env.LOCAL_ADMIN_PASSWORD && !process.env.LOCAL_ADMIN_PASSWORD_HASH) {
+    const salt = bcrypt.genSaltSync(10);
+    process.env.LOCAL_ADMIN_PASSWORD_HASH = bcrypt.hashSync(process.env.LOCAL_ADMIN_PASSWORD, salt);
+  }
+  if (!process.env.JWT_SECRET) {
+    process.env.JWT_SECRET = crypto.randomBytes(64).toString('hex');
+  }
+  if (!process.env.SESSION_SECRET) {
+    process.env.SESSION_SECRET = crypto.randomBytes(32).toString('hex');
+  }
+  if (!process.env.REFRESH_SECRET) {
+    process.env.REFRESH_SECRET = crypto.randomBytes(32).toString('hex');
+  }
+}
+
+module.exports = { bootstrapEnv };

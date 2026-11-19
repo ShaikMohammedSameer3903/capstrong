@@ -1199,10 +1199,13 @@ class AzureDeploymentProvider extends IDeploymentProvider {
 
     // CASE 2: Real External Git Repository
     if (repoUrl && (repoUrl.startsWith('http://') || repoUrl.startsWith('https://') || repoUrl.startsWith('git@'))) {
+      const crypto = require('crypto');
+      // Use URL hash + slug so each unique repo URL gets its own isolated cache dir
+      const urlHash = crypto.createHash('sha1').update(repoUrl).digest('hex').slice(0, 10);
       const slug = appName.toLowerCase().replace(/[^a-z0-9_-]/g, '_');
       const cacheBase = path.join(__dirname, '..', 'data', 'cached_repos');
       if (!fs.existsSync(cacheBase)) fs.mkdirSync(cacheBase, { recursive: true });
-      const repoDir = path.join(cacheBase, slug);
+      const repoDir = path.join(cacheBase, `${slug}_${urlHash}`);
 
       try {
         if (fs.existsSync(repoDir) && !fs.existsSync(path.join(repoDir, '.git'))) {
@@ -1212,62 +1215,116 @@ class AzureDeploymentProvider extends IDeploymentProvider {
         if (!fs.existsSync(path.join(repoDir, '.git'))) {
           addLog('SOURCE_DOWNLOAD', `[Azure ARM] Cloning real source repository: ${repoUrl} (branch: ${branch})...`);
           try {
-            execSync(`git clone --depth 1 -b "${branch}" "${repoUrl}" "${repoDir}"`, { timeout: 60000, stdio: 'pipe' });
+            execSync(`git clone --depth 1 -b "${branch}" "${repoUrl}" "${repoDir}"`, { timeout: 90000, stdio: 'pipe' });
           } catch (branchErr) {
-            addLog('SOURCE_NOTE', `[Azure ARM] Branch '${branch}' note: ${branchErr.message.split('\n')[0]}. Attempting default branch clone...`);
+            addLog('SOURCE_NOTE', `[Azure ARM] Branch '${branch}' not found: ${branchErr.message.split('\n')[0]}. Cloning default branch...`);
             if (fs.existsSync(repoDir)) {
               try { fs.rmSync(repoDir, { recursive: true, force: true }); } catch (_) {}
             }
-            execSync(`git clone --depth 1 "${repoUrl}" "${repoDir}"`, { timeout: 60000, stdio: 'pipe' });
+            execSync(`git clone --depth 1 "${repoUrl}" "${repoDir}"`, { timeout: 90000, stdio: 'pipe' });
           }
           addLog('SOURCE_SUCCESS', `[Azure ARM] Git clone succeeded for ${repoUrl}.`);
         } else {
           addLog('SOURCE_VALIDATION', `[Azure ARM] Fetching latest commit for ${repoUrl} (branch: ${branch})...`);
-          try { execSync(`git -C "${repoDir}" pull --depth 1`, { timeout: 20000, stdio: 'ignore' }); } catch (_) {}
+          try { execSync(`git -C "${repoDir}" pull --depth 1`, { timeout: 30000, stdio: 'ignore' }); } catch (_) {}
         }
 
-        // Framework and build detection
+        // ── Framework detection & build ──────────────────────────────────
         let targetBuildDir = repoDir;
+
+        // Node.js / React / Vite / Vue / Next / Nuxt / Angular / Svelte
         const pkgPath = path.join(repoDir, 'package.json');
         if (fs.existsSync(pkgPath)) {
-          addLog('FRAMEWORK_DETECTION', `[Azure ARM] Detected Node.js / Web Application framework in repository.`);
+          addLog('FRAMEWORK_DETECTION', `[Azure ARM] Detected Node.js project in repository.`);
           try {
             const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
-            if (pkg.scripts && pkg.scripts.build) {
-              addLog('DEPENDENCY_INSTALLATION', `[Azure ARM] Running npm install for production build dependencies...`);
-              execSync('npm install --prefer-offline --no-audit --no-fund', { cwd: repoDir, timeout: 120000, stdio: 'pipe' });
+            const deps = { ...pkg.dependencies, ...pkg.devDependencies };
+            const fw = deps['next'] ? 'Next.js' : deps['nuxt'] ? 'Nuxt.js' : deps['@angular/core'] ? 'Angular' : deps['svelte'] ? 'Svelte' : deps['vue'] ? 'Vue' : deps['react'] ? 'React/Vite' : 'Node.js';
+            addLog('FRAMEWORK_DETECTION', `[Azure ARM] Framework identified: ${fw}`);
 
-              addLog('PRODUCTION_BUILD', `[Azure ARM] Executing production build ('npm run build')...`);
-              execSync('npm run build', { cwd: repoDir, timeout: 120000, stdio: 'pipe' });
+            if (pkg.scripts && pkg.scripts.build) {
+              addLog('DEPENDENCY_INSTALLATION', `[Azure ARM] Running npm install...`);
+              execSync('npm install --prefer-offline --no-audit --no-fund --legacy-peer-deps', { cwd: repoDir, timeout: 180000, stdio: 'pipe' });
+              addLog('PRODUCTION_BUILD', `[Azure ARM] Running npm run build...`);
+              execSync('npm run build', { cwd: repoDir, timeout: 180000, stdio: 'pipe' });
               addLog('BUILD_SUCCESS', `[Azure ARM] Production build succeeded.`);
+            } else {
+              addLog('BUILD_NOTE', `[Azure ARM] No build script found — serving source files directly.`);
             }
           } catch (buildErr) {
-            addLog('BUILD_NOTE', `[Azure ARM] Build step notice: ${buildErr.message.split('\n')[0]}. Using existing artifacts.`);
+            addLog('BUILD_NOTE', `[Azure ARM] Build notice: ${buildErr.message.split('\n')[0]}. Serving existing artifacts.`);
           }
         }
 
-        // Detect build output directory with index.html
-        for (const sub of ['dist', 'build', 'out', 'public', '']) {
+        // Python Flask / Django — look for index.html in templates or static
+        else if (fs.existsSync(path.join(repoDir, 'requirements.txt')) || fs.existsSync(path.join(repoDir, 'setup.py')) || fs.existsSync(path.join(repoDir, 'pyproject.toml'))) {
+          addLog('FRAMEWORK_DETECTION', `[Azure ARM] Detected Python project.`);
+          // Try to find index.html in common locations
+          for (const pySub of ['templates', 'static', 'public', 'app/templates', 'app/static', '']) {
+            const pyHtml = path.join(repoDir, pySub, 'index.html');
+            if (fs.existsSync(pyHtml)) {
+              targetBuildDir = path.join(repoDir, pySub);
+              addLog('BUILD_VALIDATION', `[Azure ARM] Python project: serving static assets from '${pySub || 'root'}'.`);
+              break;
+            }
+          }
+        }
+
+        // PHP project
+        else if (fs.existsSync(path.join(repoDir, 'composer.json')) || fs.existsSync(path.join(repoDir, 'index.php'))) {
+          addLog('FRAMEWORK_DETECTION', `[Azure ARM] Detected PHP project.`);
+          const phpIndex = path.join(repoDir, 'index.php');
+          if (fs.existsSync(phpIndex) && !fs.existsSync(path.join(repoDir, 'index.html'))) {
+            // Generate a redirect HTML wrapper for PHP apps
+            const phpPreviewHtml = this._getGenericAppHtml(appName, repoUrl, 'PHP Web App', targetReg, appSpec);
+            fs.writeFileSync(path.join(repoDir, 'index.html'), phpPreviewHtml, 'utf8');
+          }
+        }
+
+        // ── Build output directory detection ────────────────────────────
+        // Check common framework build output dirs
+        const outputDirs = ['dist', 'build', 'out', '.next/static', 'public', '_site', 'site', 'www', '.output/public', ''];
+        for (const sub of outputDirs) {
           const checkDir = sub ? path.join(repoDir, sub) : repoDir;
+          if (!fs.existsSync(checkDir)) continue;
           const candidateHtml = path.join(checkDir, 'index.html');
           if (fs.existsSync(candidateHtml)) {
             targetBuildDir = checkDir;
-            addLog('BUILD_VALIDATION', `[Azure ARM] Validated production build output in '${sub || 'root'}'. Artifacts verified.`);
+            addLog('BUILD_VALIDATION', `[Azure ARM] Validated build output in '${sub || 'root'}'. Assets ready.`);
             break;
           }
         }
 
         if (fs.existsSync(path.join(targetBuildDir, 'index.html'))) {
+          const indexHtmlContent = fs.readFileSync(path.join(targetBuildDir, 'index.html'), 'utf8');
+          // Determine images dir
+          let imagesDir = null;
+          for (const imgSub of ['image', 'images', 'img', 'assets', 'static']) {
+            const imgPath = path.join(targetBuildDir, imgSub);
+            if (fs.existsSync(imgPath)) { imagesDir = imgPath; break; }
+          }
           return {
             isPortfolio: false,
             deployDir: targetBuildDir,
-            indexHtml: fs.readFileSync(path.join(targetBuildDir, 'index.html'), 'utf8'),
-            imagesDir: fs.existsSync(path.join(targetBuildDir, 'image')) ? path.join(targetBuildDir, 'image') : (fs.existsSync(path.join(targetBuildDir, 'images')) ? path.join(targetBuildDir, 'images') : null)
+            indexHtml: indexHtmlContent,
+            imagesDir
           };
         }
+
+        // No index.html found — generate a live preview card for the repo
+        addLog('BUILD_NOTE', `[Azure ARM] No index.html found in repo. Generating live preview page for '${appName}'.`);
+        const previewHtml = this._getGenericAppHtml(appName, repoUrl, 'Web Application', targetReg, appSpec);
+        fs.writeFileSync(path.join(repoDir, 'index.html'), previewHtml, 'utf8');
+        return {
+          isPortfolio: false,
+          deployDir: repoDir,
+          indexHtml: previewHtml,
+          imagesDir: null
+        };
+
       } catch (gitErr) {
         addLog('SOURCE_ERROR', `[Azure ARM] Real Git source retrieval error: ${gitErr.message}.`);
-        throw new Error(`Failed to retrieve real Git repository: ${gitErr.message}`);
+        throw new Error(`Failed to clone Git repository '${repoUrl}': ${gitErr.message}`);
       }
     }
 
