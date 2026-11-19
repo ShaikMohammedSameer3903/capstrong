@@ -8,7 +8,7 @@ class ProjectAnalyzer {
    * Analyze project directory structure or manifest files
    * @param {string} projectPath Absolute or relative path to project directory
    */
-  analyzeProject(projectPath = process.cwd()) {
+  analyzeProject(projectPath = process.cwd(), targetCloud = 'azure') {
     const resolvedPath = path.resolve(projectPath);
     if (!fs.existsSync(resolvedPath)) {
       throw new Error(`Project directory does not exist: ${resolvedPath}`);
@@ -91,7 +91,7 @@ class ProjectAnalyzer {
       buildCommand = 'N/A (Static Assets)';
       startCommand = 'N/A (Static Web Server)';
       outputDirectory = hasIndexHtmlPublic ? 'public' : (hasIndexHtmlDist ? 'dist' : './');
-      deploymentTypeRecommendation = 'Azure Static Web Apps';
+      deploymentTypeRecommendation = targetCloud === 'aws' ? 'AWS S3 + CloudFront' : targetCloud === 'gcp' ? 'Static Website' : 'Azure Static Web Apps';
       containerType = 'Static Web App';
       requiresDocker = false;
       requiresKubernetes = false;
@@ -225,7 +225,7 @@ class ProjectAnalyzer {
       buildCommand = 'N/A (Static Assets)';
       startCommand = 'N/A (Static Web Server)';
       outputDirectory = './';
-      deploymentTypeRecommendation = 'Azure Static Web Apps';
+      deploymentTypeRecommendation = targetCloud === 'aws' ? 'AWS S3 + CloudFront' : targetCloud === 'gcp' ? 'Static Website' : 'Azure Static Web Apps';
       containerType = 'Static Web App';
       requiresDocker = false;
       requiresKubernetes = false;
@@ -257,7 +257,7 @@ class ProjectAnalyzer {
     }
 
     if (hasDockerfile) {
-      deploymentTypeRecommendation = 'Azure Container Apps';
+      deploymentTypeRecommendation = targetCloud === 'aws' ? 'AWS ECS' : targetCloud === 'gcp' ? 'Google Cloud Run' : 'Azure Container Apps';
     }
 
     return {
@@ -292,7 +292,7 @@ class ProjectAnalyzer {
    * Clone a GitHub repository and perform automated project analysis
    * @param {string} repoUrl GitHub clone URL e.g. https://github.com/org/repo.git
    */
-  async analyzeGitRepository(repoUrl) {
+  async analyzeGitRepository(repoUrl, targetCloud = 'azure') {
     if (!repoUrl || typeof repoUrl !== 'string') {
       throw new Error('Valid repository URL required.');
     }
@@ -319,14 +319,16 @@ class ProjectAnalyzer {
       });
 
       console.log(`[ProjectAnalyzer] Git clone succeeded for ${cleanUrl}`);
-      const analysis = this.analyzeProject(tempDir);
+      const analysis = this.analyzeProject(tempDir, targetCloud);
       analysis.repositoryUrl = cleanUrl.replace(/\.git$/, '');
       return analysis;
     } catch (err) {
       console.warn(`[ProjectAnalyzer] Live git clone notice: ${err.message}. Falling back to URL metadata detection.`);
       
       const normalizedUrl = cleanUrl.replace(/\.git$/, '');
-      const isPortfolio = normalizedUrl.toLowerCase().includes('portfolio');
+      const isPortfolio = normalizedUrl.toLowerCase().includes('portfolio') || normalizedUrl.toLowerCase().includes('static') || normalizedUrl.toLowerCase().includes('web');
+      const staticRec = targetCloud === 'aws' ? 'AWS S3 + CloudFront' : targetCloud === 'gcp' ? 'Static Website' : 'Azure Static Web Apps';
+      const containerRec = targetCloud === 'aws' ? 'AWS ECS' : targetCloud === 'gcp' ? 'Google Cloud Run' : 'Azure Container Apps';
       return {
         projectPath: tempDir,
         repositoryUrl: normalizedUrl,
@@ -338,7 +340,7 @@ class ProjectAnalyzer {
         buildCommand: 'npm run build',
         startCommand: 'npm run dev',
         outputDirectory: 'dist',
-        deploymentTypeRecommendation: isPortfolio ? 'Azure Static Web Apps' : 'Azure Container Apps',
+        deploymentTypeRecommendation: isPortfolio ? staticRec : containerRec,
         containerType: isPortfolio ? 'Static Web App' : 'Docker',
         deploymentStrategy: 'Rolling',
         hasIndexHtml: true,

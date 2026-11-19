@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useCloudStore } from '../store/cloudStore';
 import {
   Layers, Cloud, Server, Cpu, Database, Shield, Terminal, CheckCircle2,
   AlertCircle, ChevronRight, ChevronLeft, Download, Box, Code2, HardDrive,
@@ -43,8 +44,13 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
   const [repositoryUrl, setRepositoryUrl] = useState(initialData?.repository_url || '');
   const [branch, setBranch] = useState(initialData?.branch || 'main');
   const [runtime, setRuntime] = useState(initialData?.runtime || 'Node.js 20.x');
-  const [targetCloud, setTargetCloud] = useState<'azure' | 'aws' | 'gcp' | 'hybrid'>(initialData?.targetCloud || 'azure');
-  const [region, setRegion] = useState(initialData?.region || 'eastus');
+  const { selectedProvider } = useCloudStore();
+  const defaultCloud: 'azure' | 'aws' | 'gcp' | 'hybrid' =
+    initialData?.targetCloud || (selectedProvider && selectedProvider !== 'all' ? (selectedProvider as any) : 'azure');
+  const defaultRegion = defaultCloud === 'aws' ? 'us-east-1' : defaultCloud === 'gcp' ? 'us-central1' : 'southeastasia';
+
+  const [targetCloud, setTargetCloud] = useState<'azure' | 'aws' | 'gcp' | 'hybrid'>(defaultCloud);
+  const [region, setRegion] = useState(initialData?.region || defaultRegion);
   const [owner, setOwner] = useState(initialData?.owner || 'Platform DevOps Team');
   const [environment, setEnvironment] = useState<'Development' | 'Testing' | 'Staging' | 'Production'>(initialData?.environment || 'Production');
   const [healthCheckUrl, setHealthCheckUrl] = useState(initialData?.healthCheckUrl || '/health');
@@ -193,28 +199,27 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
       rawRepoName.toLowerCase().includes('web') ||
       rep?.deploymentTypeRecommendation === 'Azure Static Web Apps');
 
+    const effectiveCloud = targetCloud || (selectedProvider && selectedProvider !== 'all' ? (selectedProvider as any) : 'azure');
+
     let recommendedType: DeploymentTypeCategory = 'Azure Static Web Apps';
-    if (targetCloud === 'aws') {
+    if (effectiveCloud === 'aws') {
       recommendedType = isStatic ? 'AWS S3 + CloudFront' : 'AWS ECS';
-    } else if (targetCloud === 'gcp') {
+    } else if (effectiveCloud === 'gcp') {
       recommendedType = isStatic ? 'Static Website' : 'Google Cloud Run';
     } else {
       recommendedType = isStatic ? 'Azure Static Web Apps' : 'Azure App Service';
-    }
-    if (rep?.deploymentTypeRecommendation && targetCloud === 'azure') {
-      recommendedType = rep.deploymentTypeRecommendation;
     }
 
     // Preserve custom name if user already entered one
     setName(prev => (!prev || prev === 'PORTFOLIO' || prev === 'APP' ? formattedName : prev));
     setVersion(prev => prev || '1.0.0');
-    setDescription(prev => prev || `Auto-configured ${rep?.framework || (isStatic ? 'Static Portfolio Website' : 'Application')} from ${urlToUse}`);
+    setDescription(prev => prev || `Auto-configured ${rep?.framework || (isStatic ? 'Static HTML/CSS/JS Website' : 'Application')} from ${urlToUse}`);
     setBranch(prev => rep?.branch || prev || 'main');
     setRuntime(rep?.language || (isStatic ? 'HTML5 / JavaScript / React' : 'Node.js 20.x'));
     setDeploymentType(recommendedType as DeploymentTypeCategory);
-    setBuildCommand(rep?.buildCommand || 'npm run build');
-    setOutputDirectory(rep?.outputDirectory || 'dist');
-    setStaticFramework('React');
+    setBuildCommand(rep?.buildCommand || (isStatic ? 'N/A (Static Assets)' : 'npm run build'));
+    setOutputDirectory(rep?.outputDirectory || (isStatic ? './' : 'dist'));
+    setStaticFramework(isStatic ? 'Static HTML' : 'React');
     setContainerImage(`ghcr.io/cloudops/${rawRepoName.toLowerCase()}:v1.0.0`);
     setHealthCheckUrl('/');
     setTimeoutSec(30);
@@ -222,18 +227,14 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
     setReplicas(2);
     setAutoDictatedBadge(true);
 
-    if (rep) {
-      setAnalysisReport(rep);
-    } else {
-      setAnalysisReport({
-        framework: isStatic ? 'React / Vite SPA' : 'Full-Stack Application',
-        language: isStatic ? 'HTML5 / CSS3 / JavaScript' : 'JavaScript / TypeScript',
-        deploymentTypeRecommendation: recommendedType,
-        buildCommand: 'npm run build',
-        outputDirectory: 'dist',
-        requiresDocker: !isStatic
-      });
-    }
+    setAnalysisReport({
+      framework: rep?.framework || (isStatic ? 'Static HTML/CSS/JS Website' : 'Full-Stack Application'),
+      language: rep?.language || (isStatic ? 'HTML5 / CSS3 / JavaScript' : 'JavaScript / TypeScript'),
+      deploymentTypeRecommendation: recommendedType,
+      buildCommand: rep?.buildCommand || (isStatic ? 'N/A (Static Assets)' : 'npm run build'),
+      outputDirectory: rep?.outputDirectory || (isStatic ? './' : 'dist'),
+      requiresDocker: isStatic ? false : (rep ? rep.requiresDocker : true)
+    });
 
     if (rep?.envVars && typeof rep.envVars === 'object') {
       const dictEnvRows: EnvVarRow[] = Object.entries(rep.envVars).map(([k, v], i) => ({
@@ -262,7 +263,7 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify({ repositoryUrl: urlToUse.trim() })
+        body: JSON.stringify({ repositoryUrl: urlToUse.trim(), targetCloud })
       });
       const data = await res.json();
       if (data.success && data.data) {
@@ -666,6 +667,19 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                         } else if (deploymentType.startsWith('AWS') || deploymentType.startsWith('Google')) {
                           setDeploymentType('Azure App Service');
                         }
+                      }
+                      if (analysisReport) {
+                        const isSt = analysisReport.requiresDocker === false || analysisReport.framework?.toLowerCase().includes('static') || analysisReport.framework?.toLowerCase().includes('html');
+                        const newRec = c === 'aws' ? 'AWS S3 + CloudFront'
+                          : c === 'gcp' ? 'Static Website'
+                          : 'Azure Static Web Apps';
+                        const newContainerRec = c === 'aws' ? 'AWS ECS'
+                          : c === 'gcp' ? 'Google Cloud Run'
+                          : 'Azure App Service';
+                        setAnalysisReport((prev: any) => prev ? {
+                          ...prev,
+                          deploymentTypeRecommendation: isSt ? newRec : newContainerRec
+                        } : null);
                       }
                     }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"

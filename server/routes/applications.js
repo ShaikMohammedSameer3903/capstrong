@@ -14,13 +14,13 @@ function requireAuth(req, res, next) {
 // POST /api/applications/analyze-repo - Auto-dictate and inspect Git repository
 router.post('/analyze-repo', async (req, res) => {
   try {
-    const { repositoryUrl } = req.body;
+    const { repositoryUrl, targetCloud } = req.body;
     if (!repositoryUrl || !repositoryUrl.trim()) {
       return res.status(400).json({ success: false, error: 'Repository URL is required.' });
     }
 
-    console.log(`[Applications] Analyzing repository: ${repositoryUrl}`);
-    const analysis = await projectAnalyzer.analyzeGitRepository(repositoryUrl);
+    console.log(`[Applications] Analyzing repository: ${repositoryUrl} (targetCloud: ${targetCloud || 'azure'})`);
+    const analysis = await projectAnalyzer.analyzeGitRepository(repositoryUrl, targetCloud || 'azure');
     res.json({ success: true, data: analysis });
   } catch (err) {
     console.error('[Applications] Repo analysis error:', err.message);
