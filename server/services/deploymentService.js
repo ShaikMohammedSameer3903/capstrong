@@ -314,16 +314,13 @@ class DeploymentService {
         cloudAccount = await db.get(
           `SELECT * FROM cloud_accounts
            WHERE LOWER(provider) = ?
-             AND (user_id = ? OR tenant_id = ?)
              AND (status = 'Active' OR status = 'Enabled')
              AND id NOT LIKE '%test%'
-             AND subscription_id NOT LIKE '%test%'
-             AND tenant_id NOT LIKE '%test%'
              AND (tenant_id IS NULL OR tenant_id != 'demo-org-001')
            ORDER BY (CASE WHEN user_id = ? THEN 0 ELSE 1 END),
-                    (CASE WHEN subscription_id LIKE '%-%-%-%-%' THEN 0 ELSE 1 END),
+                    (CASE WHEN tenant_id = ? THEN 0 ELSE 1 END),
                     id DESC LIMIT 1`,
-          [cloudName, userId, tenantId, userId]
+          [cloudName, userId, tenantId]
         );
       }
 
@@ -436,13 +433,22 @@ class DeploymentService {
       // Previously only region/account_id were passed, so AzureDeploymentProvider fell back to env-only
       // credentials and missed the subscription_id, client_id, client_secret from the DB-stored account.
       const baseRegion = cloudName === 'azure' ? 'southeastasia' : cloudName === 'aws' ? 'us-east-1' : 'us-central1';
+      const secretsManager = require('./secretsManager');
+      const safeDecrypt = (val) => {
+        if (!val) return null;
+        try { return secretsManager.decryptSecret(val) || val; } catch (_) { return val; }
+      };
+
       const deployAccountConfig = cloudAccount ? {
         ...cloudAccount,
         region: cloudAccount.region || baseRegion,
+        access_key_id: safeDecrypt(cloudAccount.access_key_id),
+        secret_access_key: safeDecrypt(cloudAccount.secret_access_key),
+        external_id: safeDecrypt(cloudAccount.external_id),
         // Azure-specific — flatten azure_subscriptions fields if available
         subscription_id: cloudAccount.subscription_id || cloudAccount.azure_subscription_id,
         client_id: cloudAccount.client_id,
-        client_secret: cloudAccount.client_secret,
+        client_secret: safeDecrypt(cloudAccount.client_secret),
         azure_tenant_id: cloudAccount.azure_tenant_id || cloudAccount.tenant_id,
         active_resource_group: cloudAccount.active_resource_group,
         userAzureToken: options.userAzureToken || null,

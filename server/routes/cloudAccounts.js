@@ -217,20 +217,27 @@ const handleAwsAccountAdd = async (req, res) => {
   try {
     const db = await getDatabase();
 
-    const existing = await db.get('SELECT id FROM cloud_accounts WHERE id = ? AND tenant_id = ?', [id, req.tenantId]);
-    if (existing) {
-      return res.status(200).json({
-        success: true,
-        alreadyConnected: true,
-        accountId: resolvedAccountId,
-        provider: 'aws',
-        message: 'AWS account already connected'
-      });
-    }
-
     const encExternalId = secretsManager.encryptSecret(externalId);
     const encAccessKeyId = secretsManager.encryptSecret(accessKeyId);
     const encSecretAccessKey = secretsManager.encryptSecret(secretAccessKey);
+
+    const existing = await db.get('SELECT id FROM cloud_accounts WHERE id = ? AND tenant_id = ?', [id, req.tenantId]);
+    if (existing) {
+      await db.run(`
+        UPDATE cloud_accounts
+        SET account_name = ?, region = ?, role_arn = ?, external_id = ?, access_key_id = ?, secret_access_key = ?, status = 'Active', user_id = ?
+        WHERE id = ? AND tenant_id = ?
+      `, [accountName, region, roleArn || null, encExternalId || null, encAccessKeyId || null, encSecretAccessKey || null, req.userId, id, req.tenantId]);
+
+      return res.status(200).json({
+        success: true,
+        alreadyConnected: false,
+        updated: true,
+        accountId: resolvedAccountId,
+        provider: 'aws',
+        message: 'AWS account credentials updated and verified successfully!'
+      });
+    }
 
     await db.run(`
       INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, account_id, region, role_arn, external_id, access_key_id, secret_access_key, status)
