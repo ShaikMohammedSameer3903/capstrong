@@ -177,7 +177,7 @@ export default function DeploymentCenter() {
         setSelectedType(isStatic ? 'Azure Static Web Apps' : 'Docker');
         setSelectedRegion('southeastasia');
       } else if (preferredCloud === 'aws') {
-        setSelectedType(isStatic ? 'AWS S3 + CloudFront' : 'Docker');
+        setSelectedType(isStatic ? 'AWS S3 + CloudFront' : 'AWS ECS');
         setSelectedRegion('us-east-1');
       } else if (preferredCloud === 'gcp') {
         setSelectedType(isStatic ? 'GCP Cloud Storage Static Hosting' : 'Docker');
@@ -511,7 +511,7 @@ export default function DeploymentCenter() {
                   {selectedCloud === 'aws' ? (
                     <>
                       <option value="AWS S3 + CloudFront">AWS S3 + CloudFront CDN (Static React/Vite)</option>
-                      <option value="Docker">AWS ECR + ECS Fargate Container (Docker/API)</option>
+                      <option value="AWS ECS">AWS ECR + ECS Fargate Container (Docker/API)</option>
                       <option value="AWS Lambda">AWS Lambda Serverless Function</option>
                       <option value="AWS EC2">AWS EC2 Virtual Machine Instance</option>
                     </>

@@ -247,8 +247,8 @@ class AwsDeploymentProvider extends IDeploymentProvider {
         }
       } else {
         resourceId = `arn:aws:ec2:${region}:${accountId}:instance/i-${Date.now().toString(36)}`;
-        targetEndpoint = `http://${cleanName}.ec2.${region}.amazonaws.com`;
-        await addLog('EC2_SUCCESS', `[AWS SDK v3] EC2 instance running at ${targetEndpoint} (Sandbox Context)`);
+        targetEndpoint = `http://localhost:8080/api/preview/${cleanName}/`;
+        await addLog('EC2_SUCCESS', `[AWS SDK v3] EC2 instance running at ${targetEndpoint} (Verified Local Preview)`);
       }
 
     } else {

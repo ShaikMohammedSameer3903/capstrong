@@ -193,7 +193,17 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
       rawRepoName.toLowerCase().includes('web') ||
       rep?.deploymentTypeRecommendation === 'Azure Static Web Apps');
 
-    const recommendedType = rep?.deploymentTypeRecommendation || (isStatic ? 'Azure Static Web Apps' : 'Docker');
+    let recommendedType: DeploymentTypeCategory = 'Azure Static Web Apps';
+    if (targetCloud === 'aws') {
+      recommendedType = isStatic ? 'AWS S3 + CloudFront' : 'AWS ECS';
+    } else if (targetCloud === 'gcp') {
+      recommendedType = isStatic ? 'Static Website' : 'Google Cloud Run';
+    } else {
+      recommendedType = isStatic ? 'Azure Static Web Apps' : 'Azure App Service';
+    }
+    if (rep?.deploymentTypeRecommendation && targetCloud === 'azure') {
+      recommendedType = rep.deploymentTypeRecommendation;
+    }
 
     // Preserve custom name if user already entered one
     setName(prev => (!prev || prev === 'PORTFOLIO' || prev === 'APP' ? formattedName : prev));
@@ -637,11 +647,26 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                       setTargetCloud(c);
                       if (c === 'aws') {
                         setRegion('us-east-1');
-                        if (deploymentType === 'Azure Static Web Apps') {
+                        if (deploymentType === 'Azure Static Web Apps' || deploymentType === 'Static Website') {
+                          setDeploymentType('AWS S3 + CloudFront');
+                        } else if (deploymentType.startsWith('Azure') || deploymentType.startsWith('Google')) {
                           setDeploymentType('AWS ECS');
                         }
-                      } else if (c === 'gcp') setRegion('us-central1');
-                      else if (c === 'azure') setRegion('southeastasia');
+                      } else if (c === 'gcp') {
+                        setRegion('us-central1');
+                        if (deploymentType === 'Azure Static Web Apps' || deploymentType === 'AWS S3 + CloudFront') {
+                          setDeploymentType('Static Website');
+                        } else if (deploymentType.startsWith('Azure') || deploymentType.startsWith('AWS')) {
+                          setDeploymentType('Google Cloud Run');
+                        }
+                      } else if (c === 'azure') {
+                        setRegion('southeastasia');
+                        if (deploymentType === 'AWS S3 + CloudFront' || deploymentType === 'Static Website') {
+                          setDeploymentType('Azure Static Web Apps');
+                        } else if (deploymentType.startsWith('AWS') || deploymentType.startsWith('Google')) {
+                          setDeploymentType('Azure App Service');
+                        }
+                      }
                     }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
                   >

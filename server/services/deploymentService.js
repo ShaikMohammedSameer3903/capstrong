@@ -517,36 +517,59 @@ class DeploymentService {
         WHERE id = ?
       `, [providerResult.fqdn || '', durationMs, deploymentId]);
 
-      const activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || (`sub-${crypto.createHash('md5').update(userEmail || 'user').digest('hex').substring(0, 12)}`);
+      const isAws = cloudName === 'aws';
+      const isGcp = cloudName === 'gcp';
+      const isAzure = cloudName === 'azure';
+
+      let activeSubId;
+      let rgName;
+      let rgResId;
+      let workResId;
       const cleanName = appSpec.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
       const userSlug = (userEmail || 'devops').split('@')[0].replace(/[^a-z0-9]/g, '');
-      const targetLocation = providerResult.location || 'centralus';
-      const rgName = `rg-cloudops-${userSlug}-${cleanName}`;
-      const rgResId = `/subscriptions/${activeSubId}/resourceGroups/${rgName}`;
-      const workResId = providerResult.resourceId || `${rgResId}/providers/${isStatic ? 'Microsoft.Web/staticSites' : 'Microsoft.App/containerApps'}/${cleanName}`;
+      const targetLocation = providerResult.location || (isAws ? 'us-east-1' : isGcp ? 'us-central1' : 'southeastasia');
 
-      // Sync User-Specific Resource Group to DB
-      await db.run(`
-        INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-      `, [
-        rgResId,
-        activeSubId,
-        tenantId,
-        userId,
-        rgName,
-        'Resource Group',
-        targetCloud.toUpperCase(),
-        targetLocation,
-        rgName,
-        JSON.stringify({ environment: 'production', owner: userEmail || appSpec.owner || 'DevOps' }),
-        0.00,
-        0.00,
-        'Running'
-      ]);
+      if (isAzure) {
+        activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || 'sub-azure-live';
+        rgName = `rg-cloudops-${userSlug}-${cleanName}`;
+        rgResId = `/subscriptions/${activeSubId}/resourceGroups/${rgName}`;
+        workResId = providerResult.resourceId || `${rgResId}/providers/${isStatic ? 'Microsoft.Web/staticSites' : 'Microsoft.App/containerApps'}/${cleanName}`;
 
-      // Sync Dynamic Workload Resource to DB
+        // Sync Resource Group to DB only for Azure (Azure-specific construct)
+        await db.run(`
+          INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        `, [
+          rgResId,
+          activeSubId,
+          tenantId,
+          userId,
+          rgName,
+          'Resource Group',
+          'AZURE',
+          targetLocation,
+          rgName,
+          JSON.stringify({ environment: 'production', owner: userEmail || appSpec.owner || 'DevOps' }),
+          0.00,
+          0.00,
+          'Running'
+        ]);
+      } else if (isAws) {
+        activeSubId = cloudAccount?.subscription_id || cloudAccount?.account_id || '783493260935';
+        rgName = `AWS CloudOps (${targetLocation})`;
+        workResId = providerResult.resourceId || `arn:aws:${isStatic ? 's3:::cloudops-static-' + cleanName : 'ecs:' + targetLocation + ':' + activeSubId + ':service/' + cleanName + '-service'}`;
+      } else {
+        activeSubId = cloudAccount?.subscription_id || cloudAccount?.account_id || 'gcp-project-cloudops';
+        rgName = `GCP CloudOps (${targetLocation})`;
+        workResId = providerResult.resourceId || `projects/${activeSubId}/services/${cleanName}`;
+      }
+
+      // Sync Workload Resource to DB with accurate provider-specific type
       const monthlyCost = isStatic ? 12.00 : 28.50;
+      const resourceType = isStatic ? (isAws ? 'S3 Static Website / CloudFront' : 'Static Web App')
+        : isVm ? 'Virtual Machine'
+        : (isAws ? 'ECS Fargate Service' : 'Container App');
+
       await db.run(`
         INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
@@ -556,7 +579,7 @@ class DeploymentService {
         tenantId,
         userId,
         appSpec.name,
-        isStatic ? 'Dynamic Web App' : isVm ? 'Virtual Machine' : 'Container App',
+        resourceType,
         targetCloud.toUpperCase(),
         targetLocation,
         rgName,
