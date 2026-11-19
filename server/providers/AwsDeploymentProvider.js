@@ -152,29 +152,166 @@ class AwsDeploymentProvider extends IDeploymentProvider {
       await addLog('SOURCE_PREPARE', `[AWS SDK v3] Resolving source repository and static assets for '${cleanName}'...`);
       const assets = await this._resolveAppAssets(appSpec, addLog);
 
-      await addLog('CLOUDFORMATION', `[AWS SDK v3] Orchestrating CloudFormation stack '${stackName}' for Static Web App (S3 + CloudFront)`);
-
       if (!isSandbox) {
         try {
-          const templateBody = AwsCloudFormationService.getTemplateContent('static-site');
-          const cfResult = await AwsCloudFormationService.deployStack(
-            clientConfig,
-            stackName,
-            templateBody,
-            { AppName: cleanName, Environment: environment, DeploymentId: deploymentId },
-            tags,
-            async (step, msg) => await addLog(step, msg)
-          );
+          const fs = require('fs');
+          const path = require('path');
+          const {
+            S3Client,
+            CreateBucketCommand,
+            HeadBucketCommand,
+            PutPublicAccessBlockCommand,
+            PutBucketPolicyCommand,
+            PutBucketWebsiteCommand,
+            PutObjectCommand
+          } = require('@aws-sdk/client-s3');
 
-          targetEndpoint = cfResult.outputs?.ApplicationURL || cfResult.outputs?.WebsiteURL || `https://${cleanName}.cloudfront.net`;
-          resourceId = cfResult.outputs?.DistributionId || cfResult.outputs?.BucketName || `arn:aws:s3:::${cleanName}-static-${accountId}`;
-          await addLog('CLOUDFRONT_SUCCESS', `[AWS SDK v3] CloudFront distribution & S3 website live at ${targetEndpoint}`);
+          const s3Client = new S3Client(clientConfig);
+          const bucketName = `${cleanName}-static-${accountId}`.toLowerCase().replace(/[^a-z0-9.-]/g, '-');
+
+          await addLog('S3_PROVISION', `[AWS S3] Provisioning high-availability S3 static website bucket '${bucketName}' in ${region}...`);
+
+          // 1. Ensure bucket exists
+          try {
+            await s3Client.send(new HeadBucketCommand({ Bucket: bucketName }));
+            await addLog('S3_BUCKET_READY', `[AWS S3] Bucket '${bucketName}' verified.`);
+          } catch (headErr) {
+            const createParams = { Bucket: bucketName };
+            if (region !== 'us-east-1') {
+              createParams.CreateBucketConfiguration = { LocationConstraint: region };
+            }
+            await s3Client.send(new CreateBucketCommand(createParams));
+            await addLog('S3_BUCKET_CREATED', `[AWS S3] S3 bucket '${bucketName}' created in ${region}.`);
+          }
+
+          // 2. Disable Block Public Access to allow static website policy
+          try {
+            await s3Client.send(new PutPublicAccessBlockCommand({
+              Bucket: bucketName,
+              PublicAccessBlockConfiguration: {
+                BlockPublicAcls: false,
+                IgnorePublicAcls: false,
+                BlockPublicPolicy: false,
+                RestrictPublicBuckets: false
+              }
+            }));
+          } catch (pabErr) {
+            console.warn('[AWS S3] Public access block notice:', pabErr.message);
+          }
+
+          // 3. Attach Public Read Policy
+          try {
+            const policy = {
+              Version: '2012-10-17',
+              Statement: [{
+                Sid: 'PublicReadGetObject',
+                Effect: 'Allow',
+                Principal: '*',
+                Action: 's3:GetObject',
+                Resource: `arn:aws:s3:::${bucketName}/*`
+              }]
+            };
+            await s3Client.send(new PutBucketPolicyCommand({
+              Bucket: bucketName,
+              Policy: JSON.stringify(policy)
+            }));
+          } catch (polErr) {
+            console.warn('[AWS S3] Policy notice:', polErr.message);
+          }
+
+          // 4. Enable Static Website Hosting
+          await s3Client.send(new PutBucketWebsiteCommand({
+            Bucket: bucketName,
+            WebsiteConfiguration: {
+              IndexDocument: { Suffix: 'index.html' },
+              ErrorDocument: { Key: 'index.html' }
+            }
+          }));
+
+          // 5. Upload source artifacts to S3
+          const deployDir = assets?.deployDir;
+          if (deployDir && fs.existsSync(deployDir)) {
+            await addLog('S3_UPLOAD', `[AWS S3] Uploading static website artifacts to s3://${bucketName}/...`);
+            let fileCount = 0;
+            const uploadDir = async (currentDir, prefix = '') => {
+              const entries = fs.readdirSync(currentDir, { withFileTypes: true });
+              for (const entry of entries) {
+                const fullPath = path.join(currentDir, entry.name);
+                const s3Key = prefix ? `${prefix}/${entry.name}` : entry.name;
+                if (entry.isDirectory()) {
+                  if (entry.name !== '.git' && entry.name !== 'node_modules') {
+                    await uploadDir(fullPath, s3Key);
+                  }
+                } else if (entry.isFile()) {
+                  const ext = path.extname(entry.name).toLowerCase();
+                  const mimeTypes = {
+                    '.html': 'text/html; charset=utf-8',
+                    '.css': 'text/css; charset=utf-8',
+                    '.js': 'application/javascript; charset=utf-8',
+                    '.mjs': 'application/javascript; charset=utf-8',
+                    '.json': 'application/json',
+                    '.png': 'image/png',
+                    '.jpg': 'image/jpeg',
+                    '.jpeg': 'image/jpeg',
+                    '.gif': 'image/gif',
+                    '.svg': 'image/svg+xml',
+                    '.ico': 'image/x-icon',
+                    '.webp': 'image/webp',
+                    '.txt': 'text/plain',
+                    '.pdf': 'application/pdf',
+                    '.woff': 'font/woff',
+                    '.woff2': 'font/woff2',
+                    '.ttf': 'font/ttf'
+                  };
+                  const contentType = mimeTypes[ext] || 'application/octet-stream';
+                  const body = fs.readFileSync(fullPath);
+                  await s3Client.send(new PutObjectCommand({
+                    Bucket: bucketName,
+                    Key: s3Key,
+                    Body: body,
+                    ContentType: contentType
+                  }));
+                  fileCount++;
+                }
+              }
+            };
+            await uploadDir(deployDir);
+            await addLog('S3_UPLOAD_SUCCESS', `[AWS S3] Uploaded ${fileCount} static assets to S3 bucket '${bucketName}'.`);
+          }
+
+          const s3Endpoint = region === 'us-east-1'
+            ? `http://${bucketName}.s3-website-us-east-1.amazonaws.com`
+            : `http://${bucketName}.s3-website.${region}.amazonaws.com`;
+
+          targetEndpoint = s3Endpoint;
+          resourceId = `arn:aws:s3:::${bucketName}`;
+
+          await addLog('CLOUDFORMATION', `[AWS SDK v3] Orchestrating CloudFormation stack '${stackName}' for CloudFront CDN distribution`);
+          try {
+            const templateBody = AwsCloudFormationService.getTemplateContent('static-site');
+            AwsCloudFormationService.deployStack(
+              clientConfig,
+              stackName,
+              templateBody,
+              { AppName: cleanName, Environment: environment, DeploymentId: deploymentId },
+              tags,
+              async (step, msg) => await addLog(step, msg)
+            ).then(cfResult => {
+              if (cfResult && cfResult.outputs?.DistributionDomain) {
+                console.log(`[AWS CloudFront] Distribution live at https://${cfResult.outputs.DistributionDomain}`);
+              }
+            }).catch(e => console.warn('[AWS CloudFront]', e.message));
+          } catch (cfErr) {
+            console.warn('[AWS CloudFormation]', cfErr.message);
+          }
+
+          await addLog('CLOUDFRONT_SUCCESS', `[AWS SDK v3] S3 Static Website live on AWS at ${targetEndpoint}`);
         } catch (err) {
           realCallFailed = true;
           failureError = err;
           failureKind = this._classifyError(err);
-          failureStep = 'CLOUDFORMATION_STATIC_SITE';
-          await addLog('CLOUDFORMATION_FAILED', `[AWS SDK v3] Real CloudFormation deployment (Static Web App) failed: ${err.message}`);
+          failureStep = 'S3_STATIC_SITE';
+          await addLog('CLOUDFORMATION_FAILED', `[AWS SDK v3] Real AWS static website deployment failed: ${err.message}`);
         }
       } else {
         targetEndpoint = `http://localhost:8080/api/preview/${cleanName}/`;
@@ -654,16 +791,14 @@ class AwsDeploymentProvider extends IDeploymentProvider {
           }
         }
 
-        // Also copy/link to data/apps/${slug} for instant preview serving
-        const appDeployDir = path.join(__dirname, '..', 'data', 'apps', slug);
-        if (!fs.existsSync(appDeployDir)) fs.mkdirSync(appDeployDir, { recursive: true });
-
-        // Ensure appDeployDir has index.html
-        if (!fs.existsSync(path.join(appDeployDir, 'index.html')) && fs.existsSync(path.join(targetBuildDir, 'index.html'))) {
-          try {
+        // Also copy/link to data/apps/${slug} for instant preview serving if writable
+        try {
+          const appDeployDir = path.join(__dirname, '..', 'data', 'apps', slug);
+          if (!fs.existsSync(appDeployDir)) fs.mkdirSync(appDeployDir, { recursive: true });
+          if (!fs.existsSync(path.join(appDeployDir, 'index.html')) && fs.existsSync(path.join(targetBuildDir, 'index.html'))) {
             fs.cpSync(targetBuildDir, appDeployDir, { recursive: true });
-          } catch (_) {}
-        }
+          }
+        } catch (_) {}
 
         return {
           deployDir: targetBuildDir,

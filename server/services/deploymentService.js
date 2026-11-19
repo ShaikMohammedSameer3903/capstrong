@@ -316,11 +316,11 @@ class DeploymentService {
            WHERE LOWER(provider) = ?
              AND (status = 'Active' OR status = 'Enabled')
              AND id NOT LIKE '%test%'
-             AND (tenant_id IS NULL OR tenant_id != 'demo-org-001')
-           ORDER BY (CASE WHEN user_id = ? THEN 0 ELSE 1 END),
+           ORDER BY (CASE WHEN (access_key_id IS NOT NULL AND access_key_id != '') OR role_arn IS NOT NULL THEN 0 ELSE 1 END),
                     (CASE WHEN tenant_id = ? THEN 0 ELSE 1 END),
+                    (CASE WHEN user_id = ? THEN 0 ELSE 1 END),
                     id DESC LIMIT 1`,
-          [cloudName, userId, tenantId]
+          [cloudName, tenantId, userId]
         );
       }
 
@@ -519,9 +519,9 @@ class DeploymentService {
       const durationMs = Date.now() - startTime;
       await db.run(`
         UPDATE deployments 
-        SET status = 'Completed', endpoint_url = ?, duration_ms = ?, updated_at = CURRENT_TIMESTAMP
+        SET status = 'Completed', endpoint_url = ?, resource_id = ?, duration_ms = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
-      `, [providerResult.fqdn || '', durationMs, deploymentId]);
+      `, [providerResult.fqdn || '', providerResult.resourceId || workResId || '', durationMs, deploymentId]);
 
       const isAws = cloudName === 'aws';
       const isGcp = cloudName === 'gcp';
