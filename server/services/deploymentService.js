@@ -596,11 +596,6 @@ class DeploymentService {
           'Running'
         ]);
       }
-        JSON.stringify({ environment: 'production', owner: userEmail, application: appSpec.name }),
-        monthlyCost,
-        monthlyCost,
-        'Running'
-      ]);
 
       const metrics = providerResult.metrics || {
         cpuUsageAvg: 24.5,
