@@ -279,6 +279,9 @@ app.get('/api/health', async (req, res) => {
   });
 });
 
+// Public Live Application Preview Route (serves deployed application bundles)
+app.use('/api/preview', require('./routes/preview'));
+
 // Public showcase endpoint for landing page real-time telemetry (unauthenticated)
 app.get('/api/public/showcase-telemetry', async (req, res) => {
   try {

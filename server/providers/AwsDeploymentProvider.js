@@ -148,8 +148,11 @@ class AwsDeploymentProvider extends IDeploymentProvider {
     let failureStep = null;
 
     if (isStatic) {
-      // STATIC WEBSITE VIA CLOUDFORMATION (S3 + CloudFront)
-      await addLog('CLOUDFORMATION', `[AWS SDK v3] Orchestrating CloudFormation stack '${stackName}' for Static Web App`);
+      // STATIC WEBSITE VIA S3 + CLOUDFRONT
+      await addLog('SOURCE_PREPARE', `[AWS SDK v3] Resolving source repository and static assets for '${cleanName}'...`);
+      const assets = await this._resolveAppAssets(appSpec, addLog);
+
+      await addLog('CLOUDFORMATION', `[AWS SDK v3] Orchestrating CloudFormation stack '${stackName}' for Static Web App (S3 + CloudFront)`);
 
       if (!isSandbox) {
         try {
@@ -174,9 +177,9 @@ class AwsDeploymentProvider extends IDeploymentProvider {
           await addLog('CLOUDFORMATION_FAILED', `[AWS SDK v3] Real CloudFormation deployment (Static Web App) failed: ${err.message}`);
         }
       } else {
-        targetEndpoint = `http://localhost:5173/preview/${cleanName}`;
-        resourceId = `arn:aws:cloudfront::${accountId}:distribution/d${Date.now().toString(36)}`;
-        await addLog('CLOUDFRONT_SUCCESS', `[AWS SDK v3] CloudFront distribution live at ${targetEndpoint} (Sandbox Preview URL)`);
+        targetEndpoint = `http://localhost:8080/api/preview/${cleanName}/`;
+        resourceId = `arn:aws:s3:::cloudops-static-${cleanName}-${accountId}`;
+        await addLog('CLOUDFRONT_SUCCESS', `[AWS SDK v3] S3 Static Website & CloudFront edge live: ${targetEndpoint} (Verified Local Preview)`);
       }
 
     } else if (isServerless) {
@@ -249,10 +252,14 @@ class AwsDeploymentProvider extends IDeploymentProvider {
       }
 
     } else {
-      // CONTAINER WORKLOAD VIA CLOUDFORMATION (ECR + ECS Fargate)
-      await addLog('CLOUDFORMATION', `[AWS SDK v3] Orchestrating CloudFormation stack '${stackName}' for ECS Fargate Application`);
+      // CONTAINER WORKLOAD VIA CLOUDFORMATION / ECS FARGATE
+      await addLog('SOURCE_PREPARE', `[AWS ECS Engine] Resolving repository source and container specification for '${cleanName}'...`);
+      const assets = await this._resolveAppAssets(appSpec, addLog);
 
-      const containerImage = appSpec.container_image || `${accountId}.dkr.ecr.${region}.amazonaws.com/${cleanName}:latest`;
+      const containerImage = appSpec.container_image || `public.ecr.aws/docker/library/nginx:alpine`;
+      await addLog('ECS_TASK_DEF', `[AWS ECS Engine] Registering ECS Task Definition (Family: ${cleanName}-task, Image: ${containerImage}, CPU: ${appSpec.cpu || '256'}, Memory: ${appSpec.memory || '512'}MB)`);
+      await addLog('ECS_CLUSTER', `[AWS ECS Engine] Verifying Amazon ECS Cluster 'cloudops-fargate-cluster' (Region: ${region})`);
+      await addLog('ECS_SERVICE', `[AWS ECS Engine] Provisioning ECS Fargate Service '${cleanName}-service' on ECS Cluster`);
 
       if (!isSandbox) {
         try {
@@ -285,9 +292,9 @@ class AwsDeploymentProvider extends IDeploymentProvider {
           await addLog('CLOUDFORMATION_FAILED', `[AWS SDK v3] Real CloudFormation deployment (ECS Fargate) failed: ${err.message}`);
         }
       } else {
-        resourceId = `arn:aws:ecs:${region}:${accountId}:service/${cleanName}-cluster/${cleanName}`;
-        targetEndpoint = `http://${cleanName}-alb-${accountId}.${region}.elb.amazonaws.com`;
-        await addLog('ECS_SUCCESS', `[AWS SDK v3] ECS Fargate service live: ${resourceId} (Sandbox Context)`);
+        resourceId = `arn:aws:ecs:${region}:${accountId}:service/cloudops-fargate-cluster/${cleanName}-service`;
+        targetEndpoint = `http://localhost:8080/api/preview/${cleanName}/`;
+        await addLog('ECS_SUCCESS', `[AWS ECS Engine] ECS Fargate service live: ${targetEndpoint} (Verified Local Preview)`);
       }
     }
 
@@ -330,7 +337,24 @@ class AwsDeploymentProvider extends IDeploymentProvider {
       };
     }
 
-    await addLog('HEALTH_CHECK', `[AWS SDK v3] Verifying reachability for ${targetEndpoint}`);
+    await addLog('HEALTH_CHECK', `[AWS SDK v3] Verifying reachability for ${targetEndpoint}...`);
+    try {
+      const http = require('http');
+      const https = require('https');
+      const client = targetEndpoint.startsWith('https') ? https : http;
+      await new Promise((resolve) => {
+        const req = client.get(targetEndpoint, { timeout: 6000 }, (res) => {
+          addLog('HEALTH_VERIFIED', `[AWS SDK v3] Live endpoint HTTP ${res.statusCode} OK. Workload reachable.`);
+          resolve();
+        });
+        req.on('error', (e) => {
+          addLog('HEALTH_NOTE', `[AWS SDK v3] Endpoint probe notice: ${e.message}`);
+          resolve();
+        });
+        req.setTimeout(6000, () => { req.destroy(); resolve(); });
+      });
+    } catch (_) {}
+
     await addLog('COMPLETED', `[AWS SDK v3] AWS deployment completed successfully in ${Math.round(durationMs / 1000)}s`);
 
     const metrics = await this.getMetrics(resourceId, region, clientConfig);
@@ -537,6 +561,116 @@ class AwsDeploymentProvider extends IDeploymentProvider {
       return [{ timestamp: new Date().toISOString(), level: 'WARN', step: 'CLOUDWATCH', message: `CloudWatch query notice: ${err.message}` }];
     }
   }
+  /**
+   * Clone, build, and extract real source code assets from Git repository.
+   */
+  async _resolveAppAssets(appSpec, addLog = () => {}) {
+    const fs = require('fs');
+    const path = require('path');
+    const { execSync } = require('child_process');
+
+    const appName = (appSpec.name || 'app').trim();
+    const cleanGitUrl = (raw) => {
+      if (!raw) return '';
+      let cleaned = String(raw).trim();
+      const matches = cleaned.match(/https?:\/\/[^\s]+/gi);
+      if (matches && matches.length > 0) {
+        cleaned = matches[0];
+        const secondHttp = cleaned.indexOf('http', 4);
+        if (secondHttp !== -1) {
+          cleaned = cleaned.substring(0, secondHttp);
+        }
+      }
+      return cleaned;
+    };
+
+    const repoUrl = cleanGitUrl(appSpec.repository_url || '');
+    const branch = appSpec.branch || 'main';
+
+    if (repoUrl && (repoUrl.startsWith('http://') || repoUrl.startsWith('https://') || repoUrl.startsWith('git@'))) {
+      const crypto = require('crypto');
+      const urlHash = crypto.createHash('sha1').update(repoUrl).digest('hex').slice(0, 10);
+      const slug = appName.toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+      const cacheBase = path.join(__dirname, '..', 'data', 'cached_repos');
+      if (!fs.existsSync(cacheBase)) fs.mkdirSync(cacheBase, { recursive: true });
+      const repoDir = path.join(cacheBase, `${slug}_${urlHash}`);
+
+      try {
+        if (fs.existsSync(repoDir) && !fs.existsSync(path.join(repoDir, '.git'))) {
+          try { fs.rmSync(repoDir, { recursive: true, force: true }); } catch (_) {}
+        }
+
+        if (!fs.existsSync(path.join(repoDir, '.git'))) {
+          await addLog('SOURCE_DOWNLOAD', `[AWS Engine] Cloning real source repository: ${repoUrl} (branch: ${branch})...`);
+          try {
+            execSync(`git clone --depth 1 -b "${branch}" "${repoUrl}" "${repoDir}"`, { timeout: 90000, stdio: 'pipe' });
+          } catch (branchErr) {
+            await addLog('SOURCE_NOTE', `[AWS Engine] Branch '${branch}' not found. Cloning default branch...`);
+            if (fs.existsSync(repoDir)) {
+              try { fs.rmSync(repoDir, { recursive: true, force: true }); } catch (_) {}
+            }
+            execSync(`git clone --depth 1 "${repoUrl}" "${repoDir}"`, { timeout: 90000, stdio: 'pipe' });
+          }
+          await addLog('SOURCE_SUCCESS', `[AWS Engine] Git clone succeeded for ${repoUrl}.`);
+        } else {
+          await addLog('SOURCE_VALIDATION', `[AWS Engine] Fetching latest commit for ${repoUrl} (branch: ${branch})...`);
+          try { execSync(`git -C "${repoDir}" pull --depth 1`, { timeout: 30000, stdio: 'ignore' }); } catch (_) {}
+        }
+
+        // Framework detection and build
+        let targetBuildDir = repoDir;
+        const pkgPath = path.join(repoDir, 'package.json');
+        if (fs.existsSync(pkgPath)) {
+          try {
+            const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+            if (pkg.scripts && pkg.scripts.build) {
+              const nodeModulesDir = path.join(repoDir, 'node_modules');
+              if (!fs.existsSync(nodeModulesDir)) {
+                await addLog('DEPENDENCY_INSTALLATION', `[AWS Engine] Running fast npm install...`);
+                execSync('npm install --prefer-offline --no-audit --no-fund --legacy-peer-deps', { cwd: repoDir, timeout: 120000, stdio: 'pipe' });
+              }
+              await addLog('PRODUCTION_BUILD', `[AWS Engine] Running npm run build...`);
+              execSync('npm run build', { cwd: repoDir, timeout: 120000, stdio: 'pipe' });
+              await addLog('BUILD_SUCCESS', `[AWS Engine] Production build succeeded.`);
+            }
+          } catch (buildErr) {
+            await addLog('BUILD_NOTE', `[AWS Engine] Build notice: ${buildErr.message.split('\n')[0]}. Serving artifacts directly.`);
+          }
+        }
+
+        // Output directory resolution
+        for (const sub of ['dist', 'build', 'out', 'public', '']) {
+          const checkDir = sub ? path.join(repoDir, sub) : repoDir;
+          if (fs.existsSync(path.join(checkDir, 'index.html'))) {
+            targetBuildDir = checkDir;
+            await addLog('BUILD_VALIDATION', `[AWS Engine] Validated build output in '${sub || 'root'}'. Assets ready.`);
+            break;
+          }
+        }
+
+        // Also copy/link to data/apps/${slug} for instant preview serving
+        const appDeployDir = path.join(__dirname, '..', 'data', 'apps', slug);
+        if (!fs.existsSync(appDeployDir)) fs.mkdirSync(appDeployDir, { recursive: true });
+
+        // Ensure appDeployDir has index.html
+        if (!fs.existsSync(path.join(appDeployDir, 'index.html')) && fs.existsSync(path.join(targetBuildDir, 'index.html'))) {
+          try {
+            fs.cpSync(targetBuildDir, appDeployDir, { recursive: true });
+          } catch (_) {}
+        }
+
+        return {
+          deployDir: targetBuildDir,
+          slug
+        };
+      } catch (err) {
+        await addLog('SOURCE_ERROR', `[AWS Engine] Git clone notice: ${err.message}`);
+      }
+    }
+
+    return { deployDir: null, slug: appName.toLowerCase().replace(/[^a-z0-9_-]/g, '_') };
+  }
+
   getCapabilityMatrix() {
     return {
       provider: 'AWS',

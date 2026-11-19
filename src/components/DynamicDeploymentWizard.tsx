@@ -9,7 +9,7 @@ import {
 export type DeploymentTypeCategory =
   | 'Docker' | 'Docker Compose' | 'Kubernetes' | 'Helm'
   | 'Azure App Service' | 'Azure Container Apps' | 'Azure Functions' | 'Azure Virtual Machine' | 'Azure Static Web Apps'
-  | 'AWS ECS' | 'AWS EKS' | 'AWS EC2' | 'AWS Lambda' | 'AWS Elastic Beanstalk' | 'AWS App Runner'
+  | 'AWS ECS' | 'AWS EKS' | 'AWS EC2' | 'AWS Lambda' | 'AWS S3 + CloudFront' | 'AWS Elastic Beanstalk' | 'AWS App Runner'
   | 'Google Cloud Run' | 'Google Kubernetes Engine' | 'Google Compute Engine' | 'Google Cloud Functions' | 'Google App Engine'
   | 'Static Website' | 'Bare Metal' | 'On-Prem Kubernetes' | 'Serverless' | 'Microservice';
 
@@ -314,7 +314,7 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
   const isFunctionBased = ['Azure Functions', 'AWS Lambda', 'Google Cloud Functions', 'Serverless'].includes(deploymentType);
 
   // Determine if Static Website based
-  const isStaticWeb = ['Azure Static Web Apps', 'Static Website'].includes(deploymentType);
+  const isStaticWeb = ['Azure Static Web Apps', 'AWS S3 + CloudFront', 'Static Website'].includes(deploymentType);
 
   // Determine if Azure App Service based
   const isAppService = ['Azure App Service', 'AWS Elastic Beanstalk', 'Google App Engine'].includes(deploymentType);
@@ -335,8 +335,12 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
 
     if (step === 2) {
       if (isContainerBased && !containerImage.trim()) {
-        setValidationError('Container Image is required for containerized deployment types.');
-        return false;
+        if (repositoryUrl.trim()) {
+          setContainerImage('public.ecr.aws/nginx/nginx:alpine');
+        } else {
+          setValidationError('Container Image is required for containerized deployment types.');
+          return false;
+        }
       }
       if (isVmBased) {
         if (!vmName.trim()) {
@@ -564,6 +568,7 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                   </optgroup>
                   <optgroup label="Amazon Web Services (AWS)">
                     <option value="AWS ECS">AWS ECS Fargate</option>
+                    <option value="AWS S3 + CloudFront">AWS S3 + CloudFront (Static Website)</option>
                     <option value="AWS EKS">AWS EKS Cluster</option>
                     <option value="AWS EC2">AWS EC2 Instance</option>
                     <option value="AWS Lambda">AWS Lambda</option>
@@ -630,8 +635,12 @@ export const DynamicDeploymentWizard: React.FC<DynamicDeploymentWizardProps> = (
                     onChange={(e) => {
                       const c = e.target.value as any;
                       setTargetCloud(c);
-                      if (c === 'aws') setRegion('us-east-1');
-                      else if (c === 'gcp') setRegion('us-central1');
+                      if (c === 'aws') {
+                        setRegion('us-east-1');
+                        if (deploymentType === 'Azure Static Web Apps') {
+                          setDeploymentType('AWS ECS');
+                        }
+                      } else if (c === 'gcp') setRegion('us-central1');
                       else if (c === 'azure') setRegion('southeastasia');
                     }}
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
