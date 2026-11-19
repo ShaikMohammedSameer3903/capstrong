@@ -165,6 +165,13 @@ async function getDatabase() {
     console.warn('[DB] V13 Enterprise Migration notice:', migErr.message);
   }
 
+  try {
+    const { runV14Migration } = require('./migrations/v14_aws_production_migration');
+    await runV14Migration();
+  } catch (v14Err) {
+    console.warn('[DB] V14 AWS Migration notice:', v14Err.message);
+  }
+
   // Handle migration for new resource columns if using SQLite (PRAGMA is SQLite only)
   if (!process.env.DATABASE_URL) {
     try {
@@ -441,7 +448,10 @@ async function getDatabase() {
 
     const testAccountsResult = await db.run(`
       DELETE FROM cloud_accounts 
-      WHERE (id LIKE '%test%' OR subscription_id LIKE '%test%' OR tenant_id = 'demo-org-001')
+      WHERE (id LIKE '%test%' OR subscription_id LIKE '%test%')
+        AND (access_key_id IS NULL OR access_key_id = '')
+        AND (secret_access_key IS NULL OR secret_access_key = '')
+        AND (role_arn IS NULL OR role_arn = '')
     `);
     if (testAccountsResult.changes > 0) {
       console.log(`[DB] Purged ${testAccountsResult.changes} synthetic test cloud_account(s).`);

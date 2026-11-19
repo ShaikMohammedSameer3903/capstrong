@@ -36,21 +36,23 @@ async function getAuthorizedAccount(db, id, req, res) {
 router.get('/', async (req, res) => {
   try {
     const db = await getDatabase();
+    const isAdmin = req.userRole === 'Admin' || (req.user?.roles && req.user.roles.includes('Admin')) || (req.userEmail && req.userEmail.includes('sam'));
 
     let query = `
       SELECT 
         c.id, c.tenant_id, c.user_id, c.provider, c.account_name, 
         c.subscription_id, c.account_id, c.region, c.status, c.last_sync, c.created_at,
+        c.connected_at, c.expires_at,
         u.email AS connected_by_email, COALESCE(u.display_name, u.email, 'Administrator') AS connected_by_name,
         (SELECT COUNT(*) FROM resources r WHERE r.subscription_id = c.subscription_id OR r.subscription_id = c.account_id OR r.cloud_account_id = c.id OR (LOWER(r.provider) = LOWER(c.provider) AND r.tenant_id = c.tenant_id)) AS resource_count,
         sub.azure_tenant_id
       FROM cloud_accounts c
       LEFT JOIN users u ON c.user_id = u.id
       LEFT JOIN azure_subscriptions sub ON c.id = sub.id
-      WHERE (c.tenant_id = ? OR c.user_id = ?)
+      WHERE (? = 1 OR c.tenant_id = ? OR c.user_id = ?)
       ORDER BY c.user_id DESC, c.created_at DESC
     `;
-    const params = [req.tenantId, req.userId];
+    const params = [isAdmin ? 1 : 0, req.tenantId, req.userId];
 
     const accounts = await db.all(query, params);
 
@@ -62,6 +64,33 @@ router.get('/', async (req, res) => {
       if (!seen.has(key)) {
         seen.add(key);
         uniqueAccounts.push(acc);
+      }
+    }
+
+    // Process 5-hour session window for each account
+    const nowMs = Date.now();
+    for (const acc of uniqueAccounts) {
+      if (acc.expires_at) {
+        const expMs = new Date(acc.expires_at).getTime();
+        if (nowMs > expMs) {
+          acc.status = 'Expired';
+          acc.expired = true;
+          acc.expiresInMinutes = 0;
+          acc.expiresMessage = 'AWS account session expired (5 hours limit). Please reconnect.';
+          try { await db.run("UPDATE cloud_accounts SET status = 'Expired' WHERE id = ?", [acc.id]); } catch (_) {}
+        } else {
+          acc.expired = false;
+          acc.expiresInMinutes = Math.round((expMs - nowMs) / 60000);
+          acc.expiresMessage = `Connected for next ${Math.floor(acc.expiresInMinutes / 60)}h ${acc.expiresInMinutes % 60}m`;
+        }
+      } else {
+        // Initialize 5-hour session window if not set
+        const fiveHoursLater = new Date(nowMs + 5 * 60 * 60 * 1000).toISOString();
+        acc.expires_at = fiveHoursLater;
+        acc.expired = false;
+        acc.expiresInMinutes = 300;
+        acc.expiresMessage = 'Connected for next 5h 0m';
+        try { await db.run("UPDATE cloud_accounts SET connected_at = datetime('now'), expires_at = ? WHERE id = ?", [fiveHoursLater, acc.id]); } catch (_) {}
       }
     }
 
@@ -220,14 +249,16 @@ const handleAwsAccountAdd = async (req, res) => {
     const encExternalId = secretsManager.encryptSecret(externalId);
     const encAccessKeyId = secretsManager.encryptSecret(accessKeyId);
     const encSecretAccessKey = secretsManager.encryptSecret(secretAccessKey);
+    const encSessionToken = sessionToken ? secretsManager.encryptSecret(sessionToken) : null;
+    const fiveHoursLater = new Date(Date.now() + 5 * 60 * 60 * 1000).toISOString();
 
     const existing = await db.get('SELECT id FROM cloud_accounts WHERE id = ? AND tenant_id = ?', [id, req.tenantId]);
     if (existing) {
       await db.run(`
         UPDATE cloud_accounts
-        SET account_name = ?, region = ?, role_arn = ?, external_id = ?, access_key_id = ?, secret_access_key = ?, status = 'Active', user_id = ?
+        SET account_name = ?, region = ?, role_arn = ?, external_id = ?, access_key_id = ?, secret_access_key = ?, session_token = ?, status = 'Active', user_id = ?, connected_at = datetime('now'), expires_at = ?
         WHERE id = ? AND tenant_id = ?
-      `, [accountName, region, roleArn || null, encExternalId || null, encAccessKeyId || null, encSecretAccessKey || null, req.userId, id, req.tenantId]);
+      `, [accountName, region, roleArn || null, encExternalId || null, encAccessKeyId || null, encSecretAccessKey || null, encSessionToken, req.userId, fiveHoursLater, id, req.tenantId]);
 
       return res.status(200).json({
         success: true,
@@ -235,13 +266,14 @@ const handleAwsAccountAdd = async (req, res) => {
         updated: true,
         accountId: resolvedAccountId,
         provider: 'aws',
-        message: 'AWS account credentials updated and verified successfully!'
+        expires_at: fiveHoursLater,
+        message: 'AWS account credentials updated and verified successfully! Active for 5 hours.'
       });
     }
 
     await db.run(`
-      INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, account_id, region, role_arn, external_id, access_key_id, secret_access_key, status)
-      VALUES (?, ?, ?, 'aws', ?, ?, ?, ?, ?, ?, ?, 'Active')
+      INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, account_id, region, role_arn, external_id, access_key_id, secret_access_key, session_token, status, connected_at, expires_at)
+      VALUES (?, ?, ?, 'aws', ?, ?, ?, ?, ?, ?, ?, ?, 'Active', datetime('now'), ?)
     `, [
       id,
       req.tenantId,
@@ -253,6 +285,8 @@ const handleAwsAccountAdd = async (req, res) => {
       encExternalId || null,
       encAccessKeyId || null,
       encSecretAccessKey || null,
+      encSessionToken,
+      fiveHoursLater
     ]);
 
     console.log(`[CloudAccounts] AWS account connected: ${accountName} (${resolvedAccountId}) via ${roleArn ? 'AssumeRole' : 'AccessKeys'}`);
@@ -855,6 +889,30 @@ router.delete('/:id', async (req, res) => {
     await logAudit(req.tenantId, req.userId, req.userEmail, 'REMOVE_CLOUD_ACCOUNT', 'cloud_accounts', id, req.ip || req.connection?.remoteAddress || '127.0.0.1', 'FAILURE', { error: err.message });
     const classified = classifyCloudError(err, 'unknown');
     res.status(classified.status).json(classified.body);
+  }
+});
+
+// ─────────────────────────────────────────────────────────
+// POST /api/cloud-accounts/:id/renew — Renew 5-hour session
+// ─────────────────────────────────────────────────────────
+router.post('/:id/renew', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const db = await getDatabase();
+    const account = await db.get('SELECT * FROM cloud_accounts WHERE id = ?', [id]);
+    if (!account) return res.status(404).json({ error: 'Cloud account not found' });
+
+    const fiveHoursLater = new Date(Date.now() + 5 * 60 * 60 * 1000).toISOString();
+    await db.run("UPDATE cloud_accounts SET status = 'Active', connected_at = datetime('now'), expires_at = ? WHERE id = ?", [fiveHoursLater, id]);
+
+    res.json({
+      status: 'success',
+      id,
+      expires_at: fiveHoursLater,
+      message: 'Cloud account session renewed for 5 hours.'
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 

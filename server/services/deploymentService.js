@@ -489,8 +489,14 @@ class DeploymentService {
       const providerResult = await provider.deploy(appSpec, {
         deploymentId,
         userEmail,
-        onLog: async (step, message) => {
-          await logStep('INFO', `11_DEPLOY_${step}`, message);
+        onLog: async (step, message, stage) => {
+          await logStep('INFO', step, message);
+          if (stage) {
+            try {
+              await db.run('UPDATE deployments SET pipeline_stage = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [stage, deploymentId]);
+              eventBus.emit(`deployment_status_${deploymentId}`, { status: 'Running', pipeline_stage: stage, step, message });
+            } catch (_) {}
+          }
         }
       });
 
@@ -517,11 +523,7 @@ class DeploymentService {
 
       // 13. STEP 13: Save Deployment, Metrics, and Sync Created Resources to Database
       const durationMs = Date.now() - startTime;
-      await db.run(`
-        UPDATE deployments 
-        SET status = 'Completed', endpoint_url = ?, resource_id = ?, duration_ms = ?, updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `, [providerResult.fqdn || '', providerResult.resourceId || workResId || '', durationMs, deploymentId]);
+      const finalEndpoint = providerResult.endpoint || providerResult.fqdn || '';
 
       const isAws = cloudName === 'aws';
       const isGcp = cloudName === 'gcp';
@@ -533,7 +535,48 @@ class DeploymentService {
       let workResId;
       const cleanName = appSpec.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
       const userSlug = (userEmail || 'devops').split('@')[0].replace(/[^a-z0-9]/g, '');
-      const targetLocation = providerResult.location || (isAws ? 'us-east-1' : isGcp ? 'us-central1' : 'southeastasia');
+      const targetLocation = providerResult.region || providerResult.location || (isAws ? 'us-east-1' : isGcp ? 'us-central1' : 'southeastasia');
+
+      if (isAzure && !providerResult.isSandbox) {
+        activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || 'sub-azure-live';
+        rgName = `rg-cloudops-${userSlug}-${cleanName}`;
+        rgResId = `/subscriptions/${activeSubId}/resourceGroups/${rgName}`;
+        workResId = providerResult.resourceId || `${rgResId}/providers/${isStatic ? 'Microsoft.Web/staticSites' : 'Microsoft.App/containerApps'}/${cleanName}`;
+      } else if (isAws) {
+        activeSubId = cloudAccount?.subscription_id || cloudAccount?.account_id || '783493260935';
+        rgName = `AWS CloudOps (${targetLocation})`;
+        workResId = providerResult.resourceId || `arn:aws:${isStatic ? 's3:::cloudops-static-' + cleanName : 'ecs:' + targetLocation + ':' + activeSubId + ':service/' + cleanName + '-service'}`;
+      } else {
+        activeSubId = cloudAccount?.subscription_id || cloudAccount?.account_id || 'gcp-project-cloudops';
+        rgName = `GCP CloudOps (${targetLocation})`;
+        workResId = providerResult.resourceId || `projects/${activeSubId}/services/${cleanName}`;
+      }
+
+      await db.run(`
+        UPDATE deployments 
+        SET status = 'Completed', 
+            pipeline_stage = 'DEPLOYED',
+            endpoint_url = ?, 
+            resource_id = ?, 
+            s3_bucket = ?,
+            cloudfront_distribution_id = ?,
+            cloudfront_domain = ?,
+            aws_region = ?,
+            operation_id = ?,
+            duration_ms = ?, 
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `, [
+        finalEndpoint, 
+        providerResult.resourceId || workResId || '', 
+        providerResult.s3Bucket || null,
+        providerResult.distributionId || null,
+        providerResult.distributionDomain || null,
+        providerResult.region || targetLocation,
+        providerResult.operationId || null,
+        durationMs, 
+        deploymentId
+      ]);
 
       if (isAzure && !providerResult.isSandbox) {
         activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || 'sub-azure-live';
@@ -662,7 +705,7 @@ class DeploymentService {
       await logStep('ERROR', 'FAILED', `Deployment pipeline failed at step: ${err.message}`);
       await db.run(`
         UPDATE deployments 
-        SET status = 'Failed', error_message = ?, updated_at = CURRENT_TIMESTAMP
+        SET status = 'Failed', pipeline_stage = 'FAILED', error_message = ?, updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
       `, [err.message, deploymentId]);
 

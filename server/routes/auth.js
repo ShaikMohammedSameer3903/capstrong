@@ -983,17 +983,19 @@ const handleAwsLogin = async (req, res) => {
     const existingAccount = await db.get('SELECT * FROM cloud_accounts WHERE account_id = ? AND provider = "aws"', [accountId]);
     let targetAccountId = existingAccount ? existingAccount.id : `aws-${accountId}`;
     
+    const fiveHoursLater = new Date(Date.now() + 5 * 60 * 60 * 1000).toISOString();
+
     // REQUIREMENT 1 & 4: Save the AWS account with the authenticated userId
     if (!existingAccount) {
       console.log(`[AWS-LOGIN] Registering new AWS cloud account ${accountId}`);
       await db.run(
-        `INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, account_id, region, role_arn, external_id, access_key_id, secret_access_key, status, created_at)
-         VALUES (?, ?, ?, 'aws', ?, ?, ?, ?, ?, ?, ?, 'Active', CURRENT_TIMESTAMP)`,
-        [targetAccountId, userTenantId, userRow.id, `AWS Account ${accountId}`, accountId, region, roleArn || null, encExternalId, encAccessKey, encSecretKey]
+        `INSERT INTO cloud_accounts (id, tenant_id, user_id, provider, account_name, account_id, region, role_arn, external_id, access_key_id, secret_access_key, session_token, status, connected_at, expires_at, created_at)
+         VALUES (?, ?, ?, 'aws', ?, ?, ?, ?, ?, ?, ?, ?, 'Active', CURRENT_TIMESTAMP, ?, CURRENT_TIMESTAMP)`,
+        [targetAccountId, userTenantId, userRow.id, `AWS Account ${accountId}`, accountId, region, roleArn || null, encExternalId, encAccessKey, encSecretKey, encSessionToken, fiveHoursLater]
       );
     } else {
       console.log(`[AWS-LOGIN] Updating existing AWS cloud account ${accountId}`);
-      await db.run(`UPDATE cloud_accounts SET user_id = ?, access_key_id = ?, secret_access_key = ?, role_arn = ?, external_id = ?, region = ? WHERE account_id = ? AND provider = 'aws'`, [userRow.id, encAccessKey, encSecretKey, roleArn || null, encExternalId, region, accountId]);
+      await db.run(`UPDATE cloud_accounts SET user_id = ?, access_key_id = ?, secret_access_key = ?, session_token = ?, role_arn = ?, external_id = ?, region = ?, status = 'Active', connected_at = CURRENT_TIMESTAMP, expires_at = ? WHERE account_id = ? AND provider = 'aws'`, [userRow.id, encAccessKey, encSecretKey, encSessionToken, roleArn || null, encExternalId, region, fiveHoursLater, accountId]);
     }
 
     // REQUIREMENT 6: Backend logging

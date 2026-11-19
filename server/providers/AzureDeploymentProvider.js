@@ -1315,9 +1315,9 @@ class AzureDeploymentProvider extends IDeploymentProvider {
     }
 
     // CASE 3: Dedicated Dynamic Application (e.g. "test-1")
+    const workspaceManager = require('../services/workspaceManager');
     const slug = appName.toLowerCase().replace(/[^a-z0-9_-]/g, '_');
-    const appDeployDir = path.join(__dirname, '..', 'data', 'apps', slug);
-    if (!fs.existsSync(appDeployDir)) fs.mkdirSync(appDeployDir, { recursive: true });
+    const appDeployDir = workspaceManager.getAppDirectory(slug);
 
     const appHtml = this._getGenericAppHtml(appName, repoUrl, deploymentType, targetReg, appSpec);
     fs.writeFileSync(path.join(appDeployDir, 'index.html'), appHtml, 'utf8');

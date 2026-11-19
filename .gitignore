@@ -63,4 +63,9 @@ credentials.json
 # Generated reports
 test-results/*.json
 
+# Runtime workspaces & clone caches
+server/data/apps/
+server/data/cached_repos/
+server/data/workspaces/
+
 .vercel

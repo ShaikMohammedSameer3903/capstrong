@@ -20,11 +20,18 @@ interface Deployment {
   application_name: string;
   target_cloud: string;
   version: string;
-  status: 'Queued' | 'Running' | 'Completed' | 'Failed' | 'Rollback' | 'Restarted' | 'Terminated' | 'Cancelled';
+  status: 'Queued' | 'Running' | 'Completed' | 'Failed' | 'Rollback' | 'Restarted' | 'Terminated' | 'Cancelled' | 'DEPLOYED' | 'FAILED' | 'ROLLING_BACK';
+  pipeline_stage?: string;
   duration_ms: number;
   deployed_by: string;
   created_at: string;
   endpoint_url?: string;
+  s3_bucket?: string;
+  cloudfront_distribution_id?: string;
+  cloudfront_domain?: string;
+  aws_region?: string;
+  operation_id?: string;
+  error_message?: string;
   logs?: Array<{ level: string; step: string; message: string; timestamp: string }>;
   metrics?: {
     cpu_usage_avg: number;
@@ -36,9 +43,12 @@ interface Deployment {
 
 const STATUS_CONFIG: Record<string, { bg: string; text: string; border: string; icon: any; label: string }> = {
   Completed: { bg: '#f0fdf4', text: '#15803d', border: '#bbf7d0', icon: CheckCircle2, label: 'Completed' },
+  DEPLOYED: { bg: '#ecfdf5', text: '#059669', border: '#a7f3d0', icon: CheckCircle2, label: 'DEPLOYED' },
   Running: { bg: '#eff6ff', text: '#1d4ed8', border: '#bfdbfe', icon: Activity, label: 'Running' },
   Failed: { bg: '#fef2f2', text: '#b91c1c', border: '#fecaca', icon: XCircle, label: 'Failed' },
+  FAILED: { bg: '#fef2f2', text: '#b91c1c', border: '#fecaca', icon: XCircle, label: 'Failed' },
   Rollback: { bg: '#fffbeb', text: '#b45309', border: '#fde68a', icon: RotateCcw, label: 'Rollback' },
+  ROLLING_BACK: { bg: '#fffbeb', text: '#b45309', border: '#fde68a', icon: RotateCcw, label: 'Rolling Back' },
   Restarted: { bg: '#faf5ff', text: '#6b21a8', border: '#e9d5ff', icon: RefreshCw, label: 'Restarted' },
   Cancelled: { bg: '#f1f5f9', text: '#475569', border: '#cbd5e1', icon: XCircle, label: 'Cancelled' },
 };
@@ -736,14 +746,102 @@ export default function DeploymentCenter() {
                     </div>
                   </div>
 
+                  {/* Deployment Pipeline Stepper */}
+                  <div style={{ marginBottom: 20, padding: '16px 20px', borderRadius: 12, background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        Production Pipeline Progress
+                      </span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: '#2563eb' }}>
+                        Stage: {activeDeployment.pipeline_stage || (activeDeployment.status === 'Completed' || (activeDeployment as any).status === 'DEPLOYED' ? 'DEPLOYED' : activeDeployment.status)}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, overflowX: 'auto', paddingBottom: 4 }}>
+                      {[
+                        { key: 'VALIDATING', label: 'Validate' },
+                        { key: 'CLONING', label: 'Git Clone' },
+                        { key: 'BUILDING', label: 'Build' },
+                        { key: 'UPLOADING', label: 'S3 Upload' },
+                        { key: 'CONFIGURING_CDN', label: 'CloudFront CDN' },
+                        { key: 'VERIFYING', label: 'Health Check' },
+                        { key: 'DEPLOYED', label: 'Live' }
+                      ].map((step, idx, arr) => {
+                        const currentStage = activeDeployment.pipeline_stage || (activeDeployment.status === 'Completed' || (activeDeployment as any).status === 'DEPLOYED' ? 'DEPLOYED' : 'PENDING');
+                        const isDone = (activeDeployment.status === 'Completed' || (activeDeployment as any).status === 'DEPLOYED') || 
+                          (idx < arr.findIndex(s => s.key === currentStage));
+                        const isCurrent = currentStage === step.key && activeDeployment.status === 'Running';
+                        const isFailed = (activeDeployment.status === 'Failed' || (activeDeployment as any).status === 'FAILED') && (currentStage === step.key || idx === arr.findIndex(s => s.key === currentStage));
+
+                        return (
+                          <React.Fragment key={step.key}>
+                            <div style={{
+                              display: 'flex', alignItems: 'center', gap: 6, padding: '6px 10px', borderRadius: 8,
+                              background: isFailed ? '#fef2f2' : isDone ? '#ecfdf5' : isCurrent ? '#eff6ff' : '#ffffff',
+                              border: `1px solid ${isFailed ? '#fecaca' : isDone ? '#a7f3d0' : isCurrent ? '#bfdbfe' : '#e2e8f0'}`,
+                              color: isFailed ? '#991b1b' : isDone ? '#065f46' : isCurrent ? '#1d4ed8' : '#64748b',
+                              fontSize: 11, fontWeight: 700, whiteSpace: 'nowrap'
+                            }}>
+                              {isFailed ? <XCircle size={12} /> : isDone ? <CheckCircle2 size={12} /> : isCurrent ? <RefreshCw size={12} style={{ animation: 'spin 1s linear infinite' }} /> : <Clock size={12} />}
+                              <span>{step.label}</span>
+                            </div>
+                            {idx < arr.length - 1 && (
+                              <div style={{ width: 12, height: 2, background: isDone ? '#10b981' : '#cbd5e1', flexShrink: 0 }} />
+                            )}
+                          </React.Fragment>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* AWS Infrastructure Metadata Grid */}
+                  <div style={{
+                    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20
+                  }}>
+                    <div style={{ padding: '12px 14px', borderRadius: 10, background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>Application / Source</div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', wordBreak: 'break-all' }}>
+                        {activeDeployment.application_name}
+                      </div>
+                      <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Target: {activeDeployment.target_cloud.toUpperCase()}</div>
+                    </div>
+
+                    <div style={{ padding: '12px 14px', borderRadius: 10, background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>S3 Storage Bucket</div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', fontFamily: 'monospace' }}>
+                        {activeDeployment.s3_bucket || 'Configured via AWS S3'}
+                      </div>
+                      <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Region: {activeDeployment.aws_region || selectedRegion}</div>
+                    </div>
+
+                    <div style={{ padding: '12px 14px', borderRadius: 10, background: '#f8fafc', border: '1px solid #e2e8f0' }}>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>CloudFront CDN</div>
+                      <div style={{ fontSize: 12, fontWeight: 700, color: '#0f172a', fontFamily: 'monospace' }}>
+                        {activeDeployment.cloudfront_distribution_id || (activeDeployment.endpoint_url?.includes('cloudfront.net') ? 'Active Edge CDN' : 'Direct Hosting')}
+                      </div>
+                      <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Duration: {Math.round((activeDeployment.duration_ms || 0) / 1000)}s</div>
+                    </div>
+                  </div>
+
                   {/* Live Website Banner */}
                   {(() => {
-                    const logs = activeDeployment.logs || [];
-                    const logUrlMatch = logs.map(l => l.message || '').join(' ').match(/https?:\/\/[a-zA-Z0-9\-\.]+\.(azurestaticapps\.net|azurewebsites\.net|cloudfront\.net|amazonaws\.com|run\.app|appspot\.com)[^\s\)\'\"\,]*/i);
-                    const fallbackUrlMatch = logs.find(l => l.step?.includes('SUCCESS') || l.step?.includes('ENDPOINT') || l.message?.includes('Application URL:') || l.message?.includes('deployed:'))?.message?.match(/https?:\/\/[^\s\)\'\"\,]+/)?.[0];
-                    const liveUrl = (activeDeployment as any).endpoint_url || (activeDeployment as any).endpointUrl || logUrlMatch?.[0] || fallbackUrlMatch;
-                    if (!liveUrl || activeDeployment.status === 'Failed') return null;
-                    const cloudName = (activeDeployment.target_cloud || (activeDeployment as any).cloud_provider || 'CLOUD').toUpperCase();
+                    const rawUrl = activeDeployment.endpoint_url || (activeDeployment as any).endpointUrl || '';
+                    const isLocal = rawUrl.includes('localhost') || rawUrl.includes('127.0.0.1');
+
+                    if (isLocal) {
+                      return (
+                        <div style={{
+                          padding: '14px 18px', borderRadius: 12, marginBottom: 20,
+                          background: '#fffbeb', border: '1px solid #fde68a', color: '#b45309',
+                          display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 12, fontWeight: 600
+                        }}>
+                          <span>⚠️ Notice: Deployment endpoint was a local preview ({rawUrl}). Re-deploy with AWS S3 + CloudFront for genuine public AWS hosting.</span>
+                        </div>
+                      );
+                    }
+
+                    if (!rawUrl || activeDeployment.status === 'Failed' || (activeDeployment as any).status === 'FAILED') return null;
+                    const cloudName = (activeDeployment.target_cloud || 'AWS').toUpperCase();
+
                     return (
                       <div style={{
                         padding: '18px 24px', borderRadius: 14, marginBottom: 20,
@@ -760,22 +858,22 @@ export default function DeploymentCenter() {
                           </div>
                           <div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                              <span style={{ fontSize: 13, fontWeight: 800, color: '#065f46' }}>{cloudName} DEPLOYMENT LIVE</span>
-                              <span style={{ padding: '2px 8px', borderRadius: 10, background: '#059669', color: '#ffffff', fontSize: 10, fontWeight: 800 }}>LIVE ON {cloudName}</span>
+                              <span style={{ fontSize: 13, fontWeight: 800, color: '#065f46' }}>{cloudName} PRODUCTION DEPLOYMENT LIVE</span>
+                              <span style={{ padding: '2px 8px', borderRadius: 10, background: '#059669', color: '#ffffff', fontSize: 10, fontWeight: 800 }}>LIVE ON AWS</span>
                             </div>
                             <a
-                              href={liveUrl}
+                              href={rawUrl}
                               target="_blank"
                               rel="noopener noreferrer"
                               style={{ fontSize: 13, fontWeight: 700, color: '#047857', fontFamily: 'monospace', textDecoration: 'underline' }}
                             >
-                              {liveUrl}
+                              {rawUrl}
                             </a>
                           </div>
                         </div>
 
                         <a
-                          href={liveUrl}
+                          href={rawUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -784,7 +882,7 @@ export default function DeploymentCenter() {
                             fontSize: 13, fontWeight: 800, textDecoration: 'none', boxShadow: '0 4px 12px rgba(5,150,105,0.25)',
                           }}
                         >
-                          <span>Open Live Website</span>
+                          <span>Open Production Website</span>
                           <ExternalLink style={{ width: 14, height: 14 }} />
                         </a>
                       </div>

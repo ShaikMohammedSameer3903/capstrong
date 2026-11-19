@@ -20,6 +20,36 @@ function bootstrapEnv() {
   // Compose env_file or Kubernetes secrets), skip ALL file I/O.  Writing a
   // generated .env file and then calling dotenv.config() would clobber the
   // already-correct values with empty-string defaults.
+  // Load any variables from .env file that are missing in process.env
+  const candidatePaths = [
+    path.resolve(__dirname, '../../.env'),
+    path.resolve(__dirname, '../.env'),
+    path.resolve(process.cwd(), '.env'),
+    path.resolve(process.cwd(), '../.env')
+  ];
+  let envPath = candidatePaths.find(p => fs.existsSync(p));
+  if (envPath) {
+    try {
+      const fileContent = fs.readFileSync(envPath, 'utf8');
+      const lines = fileContent.split(/\r?\n/);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (trimmed && !trimmed.startsWith('#')) {
+          const eqIdx = trimmed.indexOf('=');
+          if (eqIdx > 0) {
+            const key = trimmed.slice(0, eqIdx).trim();
+            const val = trimmed.slice(eqIdx + 1).trim();
+            if (!process.env[key] && val) {
+              process.env[key] = val;
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('[BOOTSTRAP] Error reading fallback .env:', e.message);
+    }
+  }
+
   const alreadyInjected =
     process.env.AZURE_CLIENT_ID ||
     process.env.GOOGLE_CLIENT_ID ||
@@ -28,18 +58,12 @@ function bootstrapEnv() {
   if (alreadyInjected) {
     // Only generate LOCAL_ADMIN credentials if missing — no file writes.
     _ensureLocalAdmin();
-    console.log('[BOOTSTRAP] Credentials already injected by host environment. Skipping .env file I/O.');
+    console.log('[BOOTSTRAP] Credentials already injected or loaded from .env. Skipping generated file writes.');
     return;
   }
 
   // ── Local development path ───────────────────────────────────────────────
-  const candidatePaths = [
-    path.resolve(__dirname, '../../.env'),
-    path.resolve(__dirname, '../.env'),
-    path.resolve(process.cwd(), '.env'),
-    path.resolve(process.cwd(), '../.env')
-  ];
-  let envPath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
+  envPath = candidatePaths.find(p => fs.existsSync(p)) || candidatePaths[0];
   let envContent = '';
   let exists = fs.existsSync(envPath);
 

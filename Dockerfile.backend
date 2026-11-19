@@ -27,7 +27,9 @@ RUN apk add --no-cache git curl wget gcompat icu-libs
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # Create persistent data directory and ensure proper permissions
-RUN mkdir -p /app/server/data && chown -R node:node /app
+RUN mkdir -p /app/server/data/apps /app/server/data/cached_repos /app/server/data/workspaces /tmp/cloudops_workspaces && \
+    chown -R node:node /app /tmp/cloudops_workspaces && \
+    chmod -R 777 /app/server/data /tmp/cloudops_workspaces
 
 # Copy server codebase and node_modules from build stage
 COPY --from=build --chown=node:node /app/server ./
