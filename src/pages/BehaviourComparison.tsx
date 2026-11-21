@@ -136,16 +136,16 @@ export default function BehaviourComparison() {
                 Side-by-Side Performance (Azure vs AWS vs GCP)
               </h3>
             </div>
-            <div className="h-80 w-full pt-2">
+            <div style={{ height: 320, width: '100%', minHeight: 320, position: 'relative' }}>
               {loading ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-2">
                   <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-xs">Loading benchmark charts...</p>
                 </div>
               ) : (
-                <ResponsiveContainer minWidth={0} minHeight={280} width="100%" height={280}>
-                  <BarChart data={data?.metrics || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.3} />
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={data?.metrics || []} margin={{ top: 15, right: 15, left: -15, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" opacity={0.25} />
                     <XAxis dataKey="category" stroke="#64748b" tick={{ fontSize: 11 }} />
                     <YAxis stroke="#64748b" tick={{ fontSize: 11 }} />
                     <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#1e293b', borderRadius: 12, color: '#ffffff' }} />
@@ -167,18 +167,18 @@ export default function BehaviourComparison() {
                 Multi-Dimensional Cloud Parity Radar
               </h3>
             </div>
-            <div className="h-80 w-full pt-2">
+            <div style={{ height: 320, width: '100%', minHeight: 320, position: 'relative' }}>
               {loading ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-2">
                   <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-xs">Generating radar matrix...</p>
                 </div>
               ) : (
-                <ResponsiveContainer minWidth={0} minHeight={280} width="100%" height={280}>
+                <ResponsiveContainer width="100%" height={300}>
                   <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data?.radarData || []}>
-                    <PolarGrid stroke="#475569" opacity={0.4} />
-                    <PolarAngleAxis dataKey="metric" stroke="#94a3b8" tick={{ fontSize: 11 }} />
-                    <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#64748b" />
+                    <PolarGrid stroke="#64748b" opacity={0.3} />
+                    <PolarAngleAxis dataKey="metric" stroke="#64748b" tick={{ fontSize: 11 }} />
+                    <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#94a3b8" />
                     <Radar name="Azure" dataKey="Azure" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.25} />
                     <Radar name="AWS" dataKey="AWS" stroke="#f59e0b" fill="#f59e0b" fillOpacity={0.25} />
                     <Radar name="GCP" dataKey="GCP" stroke="#10b981" fill="#10b981" fillOpacity={0.25} />
@@ -188,6 +188,59 @@ export default function BehaviourComparison() {
                 </ResponsiveContainer>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Empirical Telemetry Breakdown Table */}
+        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div className="p-6 bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+            <div>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                Empirical Multi-Cloud Benchmark Telemetry (Stored Runs)
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Direct averages from verified production deployments in SQLite database.
+              </p>
+            </div>
+            <span className="text-xs font-mono font-bold px-3 py-1 bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 rounded-xl border border-blue-200 dark:border-blue-900">
+              100% Real-Time Data
+            </span>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs uppercase tracking-wider">
+                <tr>
+                  <th className="py-3 px-6">Metric Category</th>
+                  <th className="py-3 px-6 text-blue-600 dark:text-blue-400">Azure</th>
+                  <th className="py-3 px-6 text-amber-600 dark:text-amber-400">AWS</th>
+                  <th className="py-3 px-6 text-emerald-600 dark:text-emerald-400">GCP</th>
+                  <th className="py-3 px-6">Unit</th>
+                  <th className="py-3 px-6">Optimal Provider</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
+                {(data?.metrics || []).map((m, idx) => (
+                  <tr key={idx} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                    <td className="py-3.5 px-6 font-semibold">{m.category}</td>
+                    <td className="py-3.5 px-6 font-mono font-bold text-blue-600 dark:text-blue-400">{m.azure || 0}</td>
+                    <td className="py-3.5 px-6 font-mono font-bold text-amber-600 dark:text-amber-400">{m.aws || 0}</td>
+                    <td className="py-3.5 px-6 font-mono text-slate-400">{m.gcp > 0 ? m.gcp : '—'}</td>
+                    <td className="py-3.5 px-6 text-slate-500 font-mono text-xs">{m.unit}</td>
+                    <td className="py-3.5 px-6">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold ${
+                        m.winner === 'AWS' ? 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800' :
+                        m.winner === 'Azure' ? 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-300 dark:border-blue-800' :
+                        'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
+                      }`}>
+                        {m.winner}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

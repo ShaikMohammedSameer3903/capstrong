@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Layers, Plus, Trash2, Edit3, Cloud, Server, ExternalLink, GitBranch, Tag, User, Terminal, CheckCircle2, Shield, Search, RefreshCw, Rocket, Box, Globe, Zap, ArrowRight, ShieldCheck, FileCheck, AlertTriangle, Eye, Lock, Cpu, Database } from 'lucide-react';
 import AnimatedPage from '../components/layout/AnimatedPage';
 import DynamicDeploymentWizard from '../components/DynamicDeploymentWizard';
@@ -43,7 +43,9 @@ const CLOUD_BADGES = {
 
 export default function ApplicationCatalog() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'catalog' | 'evidence'>('catalog');
+  const location = useLocation();
+  const isEvidencePath = location.pathname.includes('manifest') || location.pathname.includes('evidence') || location.search.includes('evidence');
+  const [activeTab, setActiveTab] = useState<'catalog' | 'evidence'>(isEvidencePath ? 'evidence' : 'catalog');
   const [apps, setApps] = useState<Application[]>([]);
   const [evidenceRuns, setEvidenceRuns] = useState<EvidenceRun[]>([]);
   const [loading, setLoading] = useState(true);

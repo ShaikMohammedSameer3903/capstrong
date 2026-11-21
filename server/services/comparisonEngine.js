@@ -20,28 +20,8 @@ class ComparisonEngine {
   async getBehaviourComparison(tenantId) {
     const db = await getDatabase();
 
-    // ── 1. Fetch comparison_results rows (populated by infraDiffEngine / deployment runs) ──
-    let rows = await db.all(`
-      SELECT * FROM comparison_results WHERE tenant_id = ? ORDER BY id ASC
-    `, [tenantId]);
-
-    if (!rows || rows.length === 0) {
-      rows = await db.all(`
-        SELECT * FROM comparison_results WHERE tenant_id = 'demo-org-001' OR tenant_id IS NULL ORDER BY id ASC
-      `);
-    }
-
-    const metrics = (rows || []).map(r => ({
-      category: r.metric_category,
-      azure: r.azure_value,
-      aws: r.aws_value,
-      gcp: r.gcp_value,
-      winner: r.winner,
-      unit: r.unit
-    }));
-
-    // ── 2. Fetch deployment_metrics for real provider-level aggregates ──
-    let deployMetrics = await db.all(`
+    // ── 1. Fetch REAL deployment_metrics for provider-level aggregates ──
+    const deployMetrics = await db.all(`
       SELECT LOWER(dm.target_cloud) as target_cloud,
              AVG(dm.cpu_usage_avg) as avg_cpu,
              AVG(dm.memory_mb_avg) as avg_memory,
@@ -53,24 +33,56 @@ class ComparisonEngine {
       GROUP BY LOWER(dm.target_cloud)
     `);
 
-    // Ensure all 3 providers (Azure, AWS, GCP) are represented in the comparison
-    const cloudsPresent = new Set((deployMetrics || []).map(d => d.target_cloud));
-    const baselines = [
-      { target_cloud: 'azure', avg_cpu: 24.5, avg_memory: 512, avg_latency: 14.2, avg_storage: 450, avg_startup: 2.4, deployment_count: 6 },
-      { target_cloud: 'aws', avg_cpu: 28.2, avg_memory: 540, avg_latency: 18.5, avg_storage: 410, avg_startup: 1.8, deployment_count: 5 },
-      { target_cloud: 'gcp', avg_cpu: 21.8, avg_memory: 490, avg_latency: 12.8, avg_storage: 480, avg_startup: 1.5, deployment_count: 4 }
-    ];
-
-    baselines.forEach(b => {
-      if (!cloudsPresent.has(b.target_cloud)) {
-        deployMetrics.push(b);
-      }
+    // Build real cloud map from actual deployments
+    const cloudMap = {};
+    (deployMetrics || []).forEach(d => {
+      cloudMap[d.target_cloud] = d;
     });
 
-    // ── 3. Compute winners dynamically from actual data ──
+    // ── 2. Derive real-time comparison categories directly from recorded measurements ──
+    const categories = [
+      { key: 'avg_cpu', label: 'CPU Usage', unit: '%', invert: true },
+      { key: 'avg_memory', label: 'Memory Consumption', unit: 'MB', invert: true },
+      { key: 'avg_latency', label: 'Network Latency', unit: 'ms', invert: true },
+      { key: 'avg_storage', label: 'Storage Throughput', unit: 'MB/s', invert: false },
+      { key: 'avg_startup', label: 'Container Startup', unit: 'sec', invert: true }
+    ];
+
+    const metrics = categories.map(cat => {
+      const azVal = cloudMap['azure'] ? Math.round(cloudMap['azure'][cat.key] * 10) / 10 : 0;
+      const awsVal = cloudMap['aws'] ? Math.round(cloudMap['aws'][cat.key] * 10) / 10 : 0;
+      const gcpVal = cloudMap['gcp'] ? Math.round(cloudMap['gcp'][cat.key] * 10) / 10 : 0;
+
+      // Determine real winner among clouds that have actual deployment measurements
+      let winner = 'Pending';
+      const candidates = [];
+      if (cloudMap['azure'] && azVal > 0) candidates.push({ name: 'Azure', val: azVal });
+      if (cloudMap['aws'] && awsVal > 0) candidates.push({ name: 'AWS', val: awsVal });
+      if (cloudMap['gcp'] && gcpVal > 0) candidates.push({ name: 'GCP', val: gcpVal });
+
+      if (candidates.length > 0) {
+        if (cat.invert) {
+          candidates.sort((a, b) => a.val - b.val);
+        } else {
+          candidates.sort((a, b) => b.val - a.val);
+        }
+        winner = candidates[0].name;
+      }
+
+      return {
+        category: cat.label,
+        azure: azVal,
+        aws: awsVal,
+        gcp: gcpVal,
+        winner,
+        unit: cat.unit
+      };
+    });
+
+    // ── 3. Compute winners dynamically from real data only ──
     const winners = this._computeWinners(deployMetrics, metrics);
 
-    // ── 4. Compute radar data dynamically ──
+    // ── 4. Compute radar data dynamically from real data only ──
     const radarData = this._computeRadarData(deployMetrics);
 
     // ── 5. Fetch evidence run IDs backing this comparison ──

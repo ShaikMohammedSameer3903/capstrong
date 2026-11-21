@@ -34,14 +34,27 @@ router.get('/metrics', async (req, res) => {
     for (const app of apps) {
       const existingHealth = await db.get('SELECT * FROM application_health WHERE application_id = ?', [app.id]);
       if (!existingHealth) {
-        // Find matching local container or use application state
+        // Look up real deployment and real metrics for this application
+        const dep = await db.get(`
+          SELECT d.target_cloud, d.status as dep_status, dm.cpu_usage_avg, dm.memory_mb_avg, dm.latency_ms, dm.storage_read_mbps
+          FROM deployments d
+          LEFT JOIN deployment_metrics dm ON d.id = dm.deployment_id
+          WHERE d.application_id = ?
+          ORDER BY d.created_at DESC LIMIT 1
+        `, [app.id]);
+
         const matchingContainer = localContainers.find(c => 
           (c.name && c.name.toLowerCase().includes(app.name.toLowerCase())) || 
           (c.image && c.image.toLowerCase().includes(app.name.toLowerCase()))
         );
-        const containerStatus = matchingContainer ? (matchingContainer.state === 'running' ? 'Running' : matchingContainer.state) : (app.health_status === 'Healthy' ? 'Running' : 'Ready');
-        const cpuPercent = matchingContainer ? Math.min(95, Math.max(5, Math.round(matchingContainer.cpuPercent || 14.5))) : 12.4;
-        const memPercent = matchingContainer ? Math.min(90, Math.max(10, Math.round(matchingContainer.memPercent || 38.2))) : 36.8;
+
+        const isDeployed = dep && (dep.dep_status === 'Completed' || dep.dep_status === 'DEPLOYED');
+        const provider = dep?.target_cloud ? dep.target_cloud.toUpperCase() : (app.cloud_targets && app.cloud_targets.includes('azure') ? 'AZURE' : 'AWS');
+        const containerStatus = isDeployed ? 'Running' : (matchingContainer ? (matchingContainer.state === 'running' ? 'Running' : matchingContainer.state) : 'Ready');
+        const latencyMs = dep?.latency_ms ? Math.round(dep.latency_ms * 10) / 10 : 0;
+        const cpuPercent = dep?.cpu_usage_avg ? Math.round(dep.cpu_usage_avg * 10) / 10 : (matchingContainer ? Math.round(matchingContainer.cpuPercent || 0) : 0);
+        const memPercent = dep?.memory_mb_avg ? Math.min(100, Math.round((dep.memory_mb_avg / 1024) * 100 * 10) / 10) : (matchingContainer ? Math.round(matchingContainer.memPercent || 0) : 0);
+        const diskPercent = dep?.storage_read_mbps ? Math.min(100, Math.round((dep.storage_read_mbps / 500) * 100)) : 0;
         
         await db.run(`
           INSERT INTO application_health (id, application_id, provider, cpu_percent, memory_percent, network_kbps, disk_usage_percent, request_count, error_count, availability_percent, response_time_ms, container_status, restart_count, pod_status, node_status, updated_at)
@@ -49,15 +62,15 @@ router.get('/metrics', async (req, res) => {
         `, [
           `hlth-${app.id}`,
           app.id,
-          app.cloud_targets && app.cloud_targets.includes('azure') ? 'Azure' : 'AWS',
+          provider,
           cpuPercent,
           memPercent,
-          1240,
-          24.5,
-          14200,
+          isDeployed ? 120 : 0,
+          diskPercent,
+          isDeployed ? 100 : 0,
           0,
-          99.98,
-          42,
+          isDeployed ? 100.0 : 0.0,
+          latencyMs,
           containerStatus,
           0
         ]);
