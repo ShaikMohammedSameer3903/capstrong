@@ -59,6 +59,7 @@ export default function Sidebar() {
       title: 'Infrastructure',
       items: [
         { id: 'providers', label: 'Providers', icon: Cloud, path: '/infrastructure-providers' },
+        { id: 'clusters', label: 'Kubernetes Clusters', icon: Layers, path: '/clusters' },
         { id: 'resources', label: 'Resources', icon: Server, path: '/infrastructure-resources' }
       ]
     },
@@ -77,6 +78,7 @@ export default function Sidebar() {
       items: [
         { id: 'security', label: 'Security', icon: Shield, path: '/azure/security' },
         { id: 'compliance', label: 'Compliance', icon: ShieldCheck, path: '/compliance-center' },
+        { id: 'manifest', label: 'Evidence Manifest', icon: FileBarChart, path: '/manifest' },
         { id: 'soc', label: 'Security SOC', icon: ShieldAlert, path: '/security-soc', badge: openIncidents }
       ]
     },

@@ -79,6 +79,8 @@ const InfrastructureDifferenceReport = lazy(() => import('./pages/Infrastructure
 const ApplicationMonitoring = lazy(() => import('./pages/ApplicationMonitoring'));
 const RecoveryDashboard = lazy(() => import('./pages/RecoveryDashboard'));
 const SmartCloudRecommendation = lazy(() => import('./pages/SmartCloudRecommendation'));
+const ClustersDashboard = lazy(() => import('./pages/ClustersDashboard'));
+const EvidenceManifest = lazy(() => import('./pages/EvidenceManifest'));
 
 
 
@@ -184,12 +186,14 @@ function AnimatedRoutes() {
         <Route path="/applications"             element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
         <Route path="/application-catalog"      element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
         <Route path="/catalog"                  element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
-        <Route path="/manifest"                 element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
-        <Route path="/evidence"                 element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
+        <Route path="/manifest"                 element={<AnimatedPage><EvidenceManifest /></AnimatedPage>} />
+        <Route path="/evidence"                 element={<AnimatedPage><EvidenceManifest /></AnimatedPage>} />
+        <Route path="/sha256-manifest"          element={<AnimatedPage><EvidenceManifest /></AnimatedPage>} />
         <Route path="/deployments"              element={<AnimatedPage><DeploymentCenter /></AnimatedPage>} />
         <Route path="/infrastructure-resources" element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
         <Route path="/resources"                element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
-        <Route path="/clusters"                 element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
+        <Route path="/clusters"                 element={<AnimatedPage><ClustersDashboard /></AnimatedPage>} />
+        <Route path="/kubernetes"               element={<AnimatedPage><ClustersDashboard /></AnimatedPage>} />
         <Route path="/application-monitoring"   element={<AnimatedPage><ApplicationMonitoring /></AnimatedPage>} />
         <Route path="/monitoring"               element={<AnimatedPage><ApplicationMonitoring /></AnimatedPage>} />
         <Route path="/telemetry"                element={<AnimatedPage><ApplicationMonitoring /></AnimatedPage>} />
