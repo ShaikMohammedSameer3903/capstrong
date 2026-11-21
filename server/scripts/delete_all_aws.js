@@ -30,7 +30,7 @@ async function cleanAws() {
   const buckets = bucketsRes.Buckets || [];
 
   for (const b of buckets) {
-    if (b.Name.includes('portfolio') || b.Name.includes('cloudops') || b.Name.includes('test')) {
+    if (b.Name.includes('portfolio') || b.Name.includes('cloudops') || b.Name.includes('test') || b.Name.includes('cement') || b.Name.includes('shaik')) {
       console.log(`Emptying and deleting S3 bucket: ${b.Name}...`);
       try {
         // List all objects in bucket
