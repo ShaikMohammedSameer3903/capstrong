@@ -178,20 +178,35 @@ function AnimatedRoutes() {
         <Route path="/multicloud/research"       element={<AnimatedPage><ResearchDashboard /></AnimatedPage>} />
         <Route path="/resource-explorer"         element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
 
-        {/* ── CLOUD-223 Primary Modules ── */}
+        {/* ── CLOUD-223 Primary Modules & Aliases ── */}
         <Route path="/infrastructure-providers" element={<AnimatedPage><InfrastructureProviders /></AnimatedPage>} />
+        <Route path="/providers"                element={<AnimatedPage><InfrastructureProviders /></AnimatedPage>} />
         <Route path="/applications"             element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
+        <Route path="/application-catalog"      element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
+        <Route path="/catalog"                  element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
+        <Route path="/manifest"                 element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
+        <Route path="/evidence"                 element={<AnimatedPage><ApplicationCatalog /></AnimatedPage>} />
         <Route path="/deployments"              element={<AnimatedPage><DeploymentCenter /></AnimatedPage>} />
         <Route path="/infrastructure-resources" element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
+        <Route path="/resources"                element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
+        <Route path="/clusters"                 element={<AnimatedPage><ResourceExplorer /></AnimatedPage>} />
         <Route path="/application-monitoring"   element={<AnimatedPage><ApplicationMonitoring /></AnimatedPage>} />
+        <Route path="/monitoring"               element={<AnimatedPage><ApplicationMonitoring /></AnimatedPage>} />
+        <Route path="/telemetry"                element={<AnimatedPage><ApplicationMonitoring /></AnimatedPage>} />
         <Route path="/portability-analysis"     element={<AnimatedPage><PortabilityAnalysis /></AnimatedPage>} />
         <Route path="/behaviour-comparison"     element={<AnimatedPage><BehaviourComparison /></AnimatedPage>} />
+        <Route path="/behaviour_comparison"     element={<AnimatedPage><BehaviourComparison /></AnimatedPage>} />
+        <Route path="/behavior-comparison"      element={<AnimatedPage><BehaviourComparison /></AnimatedPage>} />
+        <Route path="/behavior_comparison"      element={<AnimatedPage><BehaviourComparison /></AnimatedPage>} />
+        <Route path="/comparison"               element={<AnimatedPage><BehaviourComparison /></AnimatedPage>} />
         <Route path="/infrastructure-difference" element={<AnimatedPage><InfrastructureDifferenceReport /></AnimatedPage>} />
         <Route path="/cloud-recommendations"    element={<AnimatedPage><SmartCloudRecommendation /></AnimatedPage>} />
         <Route path="/cost-management"          element={<AnimatedPage><FinOpsDashboard /></AnimatedPage>} />
         <Route path="/compliance-center"        element={<AnimatedPage><ComplianceCenter /></AnimatedPage>} />
         <Route path="/ai-optimization"          element={<AnimatedPage><AiOptimizationCenter /></AnimatedPage>} />
         <Route path="/disaster-recovery"        element={<AnimatedPage><RecoveryDashboard /></AnimatedPage>} />
+        <Route path="/recovery"                 element={<AnimatedPage><RecoveryDashboard /></AnimatedPage>} />
+        <Route path="/dr"                       element={<AnimatedPage><RecoveryDashboard /></AnimatedPage>} />
 
         {/* ── Shared Operations ── */}
         <Route path="/security-soc"              element={<AnimatedPage><SecuritySOC /></AnimatedPage>} />

@@ -524,34 +524,6 @@ class DeploymentService {
       // 13. STEP 13: Save Deployment, Metrics, and Sync Created Resources to Database
       const durationMs = Date.now() - startTime;
       const finalEndpoint = providerResult.endpoint || providerResult.fqdn || '';
-
-      const isAws = cloudName === 'aws';
-      const isGcp = cloudName === 'gcp';
-      const isAzure = cloudName === 'azure';
-
-      let activeSubId;
-      let rgName;
-      let rgResId;
-      let workResId;
-      const cleanName = appSpec.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
-      const userSlug = (userEmail || 'devops').split('@')[0].replace(/[^a-z0-9]/g, '');
-      const targetLocation = providerResult.region || providerResult.location || (isAws ? 'us-east-1' : isGcp ? 'us-central1' : 'southeastasia');
-
-      if (isAzure && !providerResult.isSandbox) {
-        activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || 'sub-azure-live';
-        rgName = `rg-cloudops-${userSlug}-${cleanName}`;
-        rgResId = `/subscriptions/${activeSubId}/resourceGroups/${rgName}`;
-        workResId = providerResult.resourceId || `${rgResId}/providers/${isStatic ? 'Microsoft.Web/staticSites' : 'Microsoft.App/containerApps'}/${cleanName}`;
-      } else if (isAws) {
-        activeSubId = cloudAccount?.subscription_id || cloudAccount?.account_id || '783493260935';
-        rgName = `AWS CloudOps (${targetLocation})`;
-        workResId = providerResult.resourceId || `arn:aws:${isStatic ? 's3:::cloudops-static-' + cleanName : 'ecs:' + targetLocation + ':' + activeSubId + ':service/' + cleanName + '-service'}`;
-      } else {
-        activeSubId = cloudAccount?.subscription_id || cloudAccount?.account_id || 'gcp-project-cloudops';
-        rgName = `GCP CloudOps (${targetLocation})`;
-        workResId = providerResult.resourceId || `projects/${activeSubId}/services/${cleanName}`;
-      }
-
       await db.run(`
         UPDATE deployments 
         SET status = 'Completed', 
@@ -577,6 +549,18 @@ class DeploymentService {
         durationMs, 
         deploymentId
       ]);
+
+      const isAws = cloudName === 'aws';
+      const isGcp = cloudName === 'gcp';
+      const isAzure = cloudName === 'azure';
+
+      let activeSubId;
+      let rgName;
+      let rgResId;
+      let workResId;
+      const cleanName = appSpec.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+      const userSlug = (userEmail || 'devops').split('@')[0].replace(/[^a-z0-9]/g, '');
+      const targetLocation = providerResult.location || (isAws ? 'us-east-1' : isGcp ? 'us-central1' : 'southeastasia');
 
       if (isAzure && !providerResult.isSandbox) {
         activeSubId = cloudAccount?.subscription_id || process.env.AZURE_SUBSCRIPTION_ID || 'sub-azure-live';

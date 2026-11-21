@@ -43,7 +43,10 @@ export default function BehaviourComparison() {
     <AnimatedPage>
       <div className="p-6 space-y-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
         {/* Glassmorphic Gradient Header */}
-        <div className="gradient-header-purple rounded-3xl p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+        <div
+          className="rounded-3xl p-8 border border-indigo-900/50 shadow-2xl relative overflow-hidden text-white"
+          style={{ background: 'linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #4338ca 100%)' }}
+        >
           <div className="absolute -top-12 -right-12 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none pulse-glow-bg"></div>
           <div className="absolute -bottom-12 -left-12 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
 

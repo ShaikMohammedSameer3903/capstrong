@@ -45,7 +45,10 @@ export default function RecoveryDashboard() {
     <AnimatedPage>
       <div className="p-6 space-y-6 bg-slate-50 dark:bg-slate-950 min-h-screen">
         {/* Glassmorphic Gradient Header */}
-        <div className="gradient-header-emerald rounded-3xl p-8 border border-slate-800 shadow-2xl relative overflow-hidden">
+        <div
+          className="rounded-3xl p-8 border border-emerald-900/50 shadow-2xl relative overflow-hidden text-white"
+          style={{ background: 'linear-gradient(135deg, #064e3b 0%, #065f46 40%, #047857 100%)' }}
+        >
           <div className="absolute -top-12 -right-12 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none pulse-glow-bg"></div>
           <div className="absolute -bottom-12 -left-12 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none"></div>
 

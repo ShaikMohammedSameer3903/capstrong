@@ -66,8 +66,10 @@ export default function Sidebar() {
       title: 'Observability',
       items: [
         { id: 'monitoring', label: 'Monitoring', icon: Activity, path: '/application-monitoring' },
+        { id: 'behaviour', label: 'Behaviour Comparison', icon: Scale, path: '/behaviour-comparison' },
+        { id: 'recovery', label: 'Disaster Recovery', icon: RefreshCw, path: '/recovery' },
         { id: 'performance', label: 'Performance', icon: Gauge, path: '/multicloud/benchmark' },
-        { id: 'telemetry', label: 'Telemetry', icon: Radio, path: '/azure/monitoring' }
+        { id: 'telemetry', label: 'Telemetry', icon: Radio, path: '/application-monitoring' }
       ]
     },
     {
