@@ -1,13 +1,11 @@
 ##############################################################
 # Render Deployment Blueprint
-# Deploys:
-#   - name-azure-cloudops-api  → Node.js backend API
-#   - Render PostgreSQL        → Persistent database
+# Deploys CloudOps Backend API on Render Web Service
 ##############################################################
 
 services:
   - type: web
-    name: name-azure-cloudops-api
+    name: cloudops-api
     runtime: node
     rootDir: server
     plan: free
@@ -19,30 +17,26 @@ services:
     healthCheckPath: /api/health
 
     envVars:
-      # ── Database (auto-linked from the db below) ──────────────
-      - key: DATABASE_URL
-        fromDatabase:
-          name: cloudops-postgres
-          property: connectionString
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
 
-      # ── Auth ──────────────────────────────────────────────────
+      # Security & JWT Secrets
       - key: JWT_SECRET
         generateValue: true
       - key: SESSION_SECRET
         generateValue: true
+      - key: REFRESH_SECRET
+        generateValue: true
 
-      # ── Server ────────────────────────────────────────────────
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 3001
-
-      # ── CORS / Frontend Origin ─────────────────────────────────
-      # Set this to your Vercel/Netlify frontend URL once deployed
+      # CORS & Frontend Origin (e.g. https://your-app.vercel.app)
       - key: FRONTEND_URL
-        value: https://your-frontend.vercel.app
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
 
-      # ── Azure Credentials (set manually in Render dashboard) ──
+      # Microsoft Entra ID (Azure)
       - key: AZURE_TENANT_ID
         sync: false
       - key: AZURE_CLIENT_ID
@@ -52,25 +46,22 @@ services:
       - key: AZURE_SUBSCRIPTION_ID
         sync: false
 
-      # ── Local Admin (set manually in Render dashboard) ────────
-      - key: LOCAL_ADMIN_EMAIL
+      # Amazon Web Services (AWS)
+      - key: AWS_ACCESS_KEY_ID
         sync: false
-      - key: LOCAL_ADMIN_PASSWORD_HASH
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_REGION
+        value: us-east-1
+      - key: AWS_ACCOUNT_ID
         sync: false
 
-      # ── OAuth (set manually in Render dashboard) ──────────────
-      - key: MICROSOFT_CLIENT_ID
-        sync: false
-      - key: MICROSOFT_CLIENT_SECRET
-        sync: false
+      # Google Cloud Platform & OAuth
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET
         sync: false
 
-databases:
-  - name: cloudops-postgres
-    plan: free
-    region: oregon
-    databaseName: cloudops
-    user: cloudops_admin
+      # Optional PostgreSQL (runs SQLite if left unset)
+      - key: DATABASE_URL
+        sync: false

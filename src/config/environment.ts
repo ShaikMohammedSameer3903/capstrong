@@ -9,17 +9,25 @@
  * the same origin's nginx reverse proxy — this is correct for Docker deployments.
  */
 export const API_BASE_URL =
-  // Only use an explicit override if it was set at build time AND it is NOT localhost
-  // (localhost URLs baked into the bundle break Docker deployments where the browser
-  //  cannot reach the internal container port directly).
   (() => {
     const explicit =
       import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
     if (explicit && !explicit.includes('localhost') && !explicit.includes('127.0.0.1')) {
-      return explicit;
+      return explicit.replace(/\/+$/, '');
     }
-    // Fall back to relative paths — works for both Vite proxy (dev) and nginx proxy (Docker prod)
+    // Fall back to relative paths — works for both Vite proxy (dev) and nginx/Vercel proxy
     return '';
   })();
+
+// Auto-prefix relative /api calls when an external backend URL is configured
+if (typeof window !== 'undefined' && API_BASE_URL) {
+  const originalFetch = window.fetch;
+  window.fetch = function (input: RequestInfo | URL, init?: RequestInit) {
+    if (typeof input === 'string' && input.startsWith('/api/')) {
+      return originalFetch(`${API_BASE_URL}${input}`, init);
+    }
+    return originalFetch(input, init);
+  };
+}
 
 export const CURRENT_ENV = import.meta.env.DEV ? 'Development' : 'Production';
