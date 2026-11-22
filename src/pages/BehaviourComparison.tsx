@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Scale, Trophy, Zap, DollarSign, Clock, BarChart3, CheckCircle2, Sparkles, Award } from 'lucide-react';
 import AnimatedPage from '../components/layout/AnimatedPage';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
+import { api } from '../services/api';
 
 interface MetricItem {
   category: string;
@@ -28,14 +29,23 @@ export default function BehaviourComparison() {
 
   useEffect(() => {
     const token = localStorage.getItem('cloudops-local-token') || localStorage.getItem('token') || '';
-    fetch('/api/behaviour/comparison', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-      .then(res => res.json())
-      .then(res => {
-        if (res.success) setData(res.data);
+    api.get<any>('/api/behaviour/comparison')
+      .then((res: any) => {
+        const payload = res.data?.data || res.data || res;
+        if (payload && (payload.metrics || payload.radarData)) {
+          setData(payload);
+        }
       })
-      .catch(console.error)
+      .catch(() => {
+        fetch('/api/behaviour/comparison', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then(res => res.json())
+          .then(res => {
+            if (res.success && res.data) setData(res.data);
+          })
+          .catch(console.error);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -127,23 +137,23 @@ export default function BehaviourComparison() {
         </div>
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
           {/* Bar Chart Card */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-7 space-y-4 shadow-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-7 space-y-4 shadow-sm min-w-0 w-full overflow-hidden">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                 Side-by-Side Performance (Azure vs AWS vs GCP)
               </h3>
             </div>
-            <div style={{ height: 320, width: '100%', minHeight: 320, position: 'relative' }}>
+            <div style={{ height: 320, width: '100%', minHeight: 320, position: 'relative' }} className="w-full">
               {loading ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-2">
                   <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-xs">Loading benchmark charts...</p>
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={300} minWidth={0} minHeight={300} debounce={50} key={`barchart-${data?.metrics?.length || 0}`}>
                   <BarChart data={data?.metrics || []} margin={{ top: 15, right: 15, left: -15, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#94a3b8" opacity={0.25} />
                     <XAxis dataKey="category" stroke="#64748b" tick={{ fontSize: 11 }} />
@@ -160,21 +170,21 @@ export default function BehaviourComparison() {
           </div>
 
           {/* Radar Chart Card */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-7 space-y-4 shadow-sm">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-7 space-y-4 shadow-sm min-w-0 w-full overflow-hidden">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Scale className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                 Multi-Dimensional Cloud Parity Radar
               </h3>
             </div>
-            <div style={{ height: 320, width: '100%', minHeight: 320, position: 'relative' }}>
+            <div style={{ height: 320, width: '100%', minHeight: 320, position: 'relative' }} className="w-full">
               {loading ? (
                 <div className="h-full flex flex-col items-center justify-center text-slate-400 gap-2">
                   <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-xs">Generating radar matrix...</p>
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height={300}>
+                <ResponsiveContainer width="100%" height={300} minWidth={0} minHeight={300} debounce={50} key={`radarchart-${data?.radarData?.length || 0}`}>
                   <RadarChart cx="50%" cy="50%" outerRadius="75%" data={data?.radarData || []}>
                     <PolarGrid stroke="#64748b" opacity={0.3} />
                     <PolarAngleAxis dataKey="metric" stroke="#64748b" tick={{ fontSize: 11 }} />

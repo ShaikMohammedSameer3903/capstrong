@@ -196,6 +196,11 @@ class ComparisonEngine {
         point[cloudLower] = Math.max(0, Math.min(100, normalized));
       });
 
+      // Ensure all 3 providers exist with numeric values so Recharts Radar never encounters undefined
+      if (point.Azure === undefined) { point.Azure = 0; point.azure = 0; }
+      if (point.AWS === undefined) { point.AWS = 0; point.aws = 0; }
+      if (point.GCP === undefined) { point.GCP = 0; point.gcp = 0; }
+
       return point;
     });
   }

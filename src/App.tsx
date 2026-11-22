@@ -211,6 +211,9 @@ function AnimatedRoutes() {
         <Route path="/disaster-recovery"        element={<AnimatedPage><RecoveryDashboard /></AnimatedPage>} />
         <Route path="/recovery"                 element={<AnimatedPage><RecoveryDashboard /></AnimatedPage>} />
         <Route path="/dr"                       element={<AnimatedPage><RecoveryDashboard /></AnimatedPage>} />
+        <Route path="/performance"              element={<AnimatedPage><BenchmarkEngine /></AnimatedPage>} />
+        <Route path="/evidence-manifest"        element={<AnimatedPage><EvidenceManifest /></AnimatedPage>} />
+        <Route path="/evidence-manifests"       element={<AnimatedPage><EvidenceManifest /></AnimatedPage>} />
 
         {/* ── Shared Operations ── */}
         <Route path="/security-soc"              element={<AnimatedPage><SecuritySOC /></AnimatedPage>} />
