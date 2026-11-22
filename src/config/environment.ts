@@ -10,8 +10,12 @@
  */
 export const API_BASE_URL =
   (() => {
-    const explicit =
+    let explicit =
       import.meta.env.VITE_API_BASE_URL || import.meta.env.VITE_API_URL || '';
+    // Auto-correct common typo without the unique Render subdomain suffix
+    if (explicit && explicit.includes('cloudops-api.onrender.com') && !explicit.includes('-6erz')) {
+      explicit = explicit.replace('cloudops-api.onrender.com', 'cloudops-api-6erz.onrender.com');
+    }
     if (explicit && !explicit.includes('localhost') && !explicit.includes('127.0.0.1')) {
       return explicit.replace(/\/+$/, '');
     }
