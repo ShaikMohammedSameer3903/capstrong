@@ -1,0 +1,24 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-11-21T09-58-47-618Z-c056e834",
+    "runType": "chaos",
+    "partition": "acceptance",
+    "provider": "multi",
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-11-21T09:58:47.618Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-mem-stress-001",
+    "experimentType": "MEMORY_STRESS",
+    "status": "Completed",
+    "recovered": true,
+    "rtoSeconds": 0.485,
+    "failoverSeconds": 0.65,
+    "restoreSeconds": 0.39,
+    "details": {
+      "test": "Memory threshold limit & cgroup eviction recovery",
+      "recoveryVerified": true
+    }
+  }
+}

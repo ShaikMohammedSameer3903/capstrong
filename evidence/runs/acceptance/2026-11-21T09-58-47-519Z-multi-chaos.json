@@ -1,0 +1,24 @@
+{
+  "_evidenceMeta": {
+    "runId": "chaos-2026-11-21T09-58-47-519Z-5e7f04ec",
+    "runType": "chaos",
+    "partition": "acceptance",
+    "provider": "multi",
+    "generatedBy": "server/services/chaosEngine.js",
+    "generatedAt": "2026-11-21T09:58:47.522Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "experimentId": "chaos-cold-start-001",
+    "experimentType": "COLD_START",
+    "status": "Completed",
+    "recovered": true,
+    "rtoSeconds": 1.62,
+    "failoverSeconds": 2.15,
+    "restoreSeconds": 1.48,
+    "details": {
+      "test": "Forced cold-start container spin-up",
+      "recoveryVerified": true
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T18-06-44-775Z-9c7f38a6",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "aws",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T18:06:44.776Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795111600648-caed51ba",
+    "applicationId": "app-1795111598561-1258b734",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "aws",
+    "durationMs": 4113,
+    "endpointUrl": "http://localhost:8080/api/preview/portfolio-aws/",
+    "resourceId": "arn:aws:s3:::cloudops-static-portfolio-aws-4133636935276",
+    "resourceGroup": "AWS CloudOps (us-east-1)",
+    "metrics": {
+      "cpuUsageAvg": 24.5,
+      "memoryMbAvg": 512,
+      "latencyMs": 14.2,
+      "storageReadMbps": 145,
+      "containerStartupSec": 2.4
+    },
+    "providerResult": {
+      "success": true,
+      "provider": "AWS",
+      "operationId": "ops-aws-1795111604747",
+      "deploymentId": "dep-1795111600648-caed51ba",
+      "stackName": "platform-portfolio-aws-production",
+      "resourceId": "arn:aws:s3:::cloudops-static-portfolio-aws-4133636935276",
+      "arn": "arn:aws:s3:::cloudops-static-portfolio-aws-4133636935276",
+      "accountId": "4133636935276",
+      "region": "us-east-1",
+      "provisioningState": "Succeeded",
+      "fqdn": "http://localhost:8080/api/preview/portfolio-aws/",
+      "endpoint": "http://localhost:8080/api/preview/portfolio-aws/",
+      "location": "us-east-1",
+      "containerImage": "N/A (Non-container workload)",
+      "logs": [
+        {
+          "step": "VALIDATION",
+          "message": "[AWS SDK v3] Validating AWS deployment specification for PORTFOLIO-aws (AWS S3 + CloudFront)",
+          "timestamp": "2026-11-19T18:06:41.211Z"
+        },
+        {
+          "step": "CREDENTIALS",
+          "message": "[AWS SDK v3] Authenticated AWS IAM Identity: arn:aws:iam::4133636935276:user/cloudops-admin (Sandbox Context)",
+          "timestamp": "2026-11-19T18:06:42.011Z"
+        },
+        {
+          "step": "SOURCE_PREPARE",
+          "message": "[AWS SDK v3] Resolving source repository and static assets for 'portfolio-aws'...",
+          "timestamp": "2026-11-19T18:06:42.013Z"
+        },
+        {
+          "step": "SOURCE_DOWNLOAD",
+          "message": "[AWS Engine] Cloning real source repository: https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git (branch: main)...",
+          "timestamp": "2026-11-19T18:06:42.015Z"
+        },
+        {
+          "step": "SOURCE_SUCCESS",
+          "message": "[AWS Engine] Git clone succeeded for https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git.",
+          "timestamp": "2026-11-19T18:06:43.820Z"
+        },
+        {
+          "step": "BUILD_VALIDATION",
+          "message": "[AWS Engine] Validated build output in 'root'. Assets ready.",
+          "timestamp": "2026-11-19T18:06:43.827Z"
+        },
+        {
+          "step": "CLOUDFORMATION",
+          "message": "[AWS SDK v3] Orchestrating CloudFormation stack 'platform-portfolio-aws-production' for Static Web App (S3 + CloudFront)",
+          "timestamp": "2026-11-19T18:06:43.906Z"
+        },
+        {
+          "step": "CLOUDFRONT_SUCCESS",
+          "message": "[AWS SDK v3] S3 Static Website & CloudFront edge live: http://localhost:8080/api/preview/portfolio-aws/ (Verified Local Preview)",
+          "timestamp": "2026-11-19T18:06:43.909Z"
+        },
+        {
+          "step": "HEALTH_CHECK",
+          "message": "[AWS SDK v3] Verifying reachability for http://localhost:8080/api/preview/portfolio-aws/...",
+          "timestamp": "2026-11-19T18:06:43.912Z"
+        },
+        {
+          "step": "HEALTH_VERIFIED",
+          "message": "[AWS SDK v3] Live endpoint HTTP 200 OK. Workload reachable.",
+          "timestamp": "2026-11-19T18:06:43.934Z"
+        },
+        {
+          "step": "COMPLETED",
+          "message": "[AWS SDK v3] AWS deployment completed successfully in 3s",
+          "timestamp": "2026-11-19T18:06:43.934Z"
+        }
+      ],
+      "durationMs": 2701,
+      "metrics": null,
+      "isSandbox": true,
+      "executionMode": "SANDBOX",
+      "status": "SIMULATED",
+      "syntheticIdentifiers": {
+        "accountId": true,
+        "arn": true,
+        "resourceId": true,
+        "endpoint": true
+      }
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "_evidenceMeta": {
+    "runId": "deployment-2026-11-19T19-03-09-947Z-ba044f3d",
+    "runType": "deployment",
+    "partition": "dev",
+    "provider": "aws",
+    "generatedBy": "server/services/deploymentService.js",
+    "generatedAt": "2026-11-19T19:03:09.947Z",
+    "schemaVersion": "1.0.0"
+  },
+  "data": {
+    "deploymentId": "dep-1795114978330-6a56af4e",
+    "applicationId": "app-1795065312733-dc2595d2",
+    "tenantId": "808cc83e-a546-47e7-a03f-73a1ebba24f3",
+    "targetCloud": "aws",
+    "durationMs": 11609,
+    "endpointUrl": "http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com",
+    "resourceId": "arn:aws:s3:::portfolio-783493260935",
+    "resourceGroup": "AWS CloudOps (us-east-1)",
+    "metrics": {
+      "cpuUsageAvg": 12,
+      "memoryMbAvg": 256,
+      "latencyMs": 18.5,
+      "storageReadMbps": 120,
+      "containerStartupSec": 1.2
+    },
+    "providerResult": {
+      "success": true,
+      "provider": "AWS",
+      "operationId": "ops-aws-1795114989929",
+      "deploymentId": "dep-1795114978330-6a56af4e",
+      "stackName": "platform-portfolio-production",
+      "resourceId": "arn:aws:s3:::portfolio-783493260935",
+      "arn": "arn:aws:s3:::portfolio-783493260935",
+      "accountId": "783493260935",
+      "region": "us-east-1",
+      "provisioningState": "Succeeded",
+      "fqdn": "http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com",
+      "endpoint": "http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com",
+      "location": "us-east-1",
+      "containerImage": "N/A (Non-container workload)",
+      "s3Bucket": "portfolio-783493260935",
+      "distributionId": "",
+      "distributionDomain": "",
+      "pipelineStage": "DEPLOYED",
+      "logs": [
+        {
+          "step": "VALIDATE",
+          "message": "[VALIDATE] Validating application specification for PORTFOLIO (Azure Static Web Apps)",
+          "timestamp": "2026-11-19T19:02:58.907Z"
+        },
+        {
+          "step": "AWS_AUTH",
+          "message": "[AWS_AUTH] Verifying AWS identity via STS GetCallerIdentity...",
+          "timestamp": "2026-11-19T19:02:58.913Z"
+        },
+        {
+          "step": "AWS_AUTH",
+          "message": "[AWS_AUTH] Authenticated AWS IAM Principal: arn:aws:iam::783493260935:root (Account: 783493260935)",
+          "timestamp": "2026-11-19T19:03:00.705Z"
+        },
+        {
+          "step": "GIT_CLONE",
+          "message": "[GIT_CLONE] Cloning repository and resolving static assets for 'portfolio'...",
+          "timestamp": "2026-11-19T19:03:00.708Z"
+        },
+        {
+          "step": "GIT_CLONE",
+          "message": "[GIT_CLONE] Cloning GitHub repository https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git (branch: main)...",
+          "timestamp": "2026-11-19T19:03:00.715Z"
+        },
+        {
+          "step": "GIT_CLONE",
+          "message": "[GIT_CLONE] Git clone succeeded for https://github.com/ShaikMohammedSameer3903/PORTFOLIO.git.",
+          "timestamp": "2026-11-19T19:03:02.356Z"
+        },
+        {
+          "step": "BUILD_VERIFY",
+          "message": "[BUILD_VERIFY] Validated build output in repository root. Assets ready for upload.",
+          "timestamp": "2026-11-19T19:03:02.361Z"
+        },
+        {
+          "step": "BUILD_VERIFY",
+          "message": "[BUILD_VERIFY] Validating build output assets in 'D:\\Downloads\\capstrong-main\\capstrong-main\\server\\data\\workspaces\\portfolio-dep-1795114978330-6a56af4e'...",
+          "timestamp": "2026-11-19T19:03:02.389Z"
+        },
+        {
+          "step": "S3_BUCKET",
+          "message": "[S3_BUCKET] Checking S3 bucket 'portfolio-783493260935' in us-east-1...",
+          "timestamp": "2026-11-19T19:03:02.395Z"
+        },
+        {
+          "step": "S3_BUCKET",
+          "message": "[S3_BUCKET] Verified existing S3 bucket 'portfolio-783493260935'.",
+          "timestamp": "2026-11-19T19:03:03.258Z"
+        },
+        {
+          "step": "S3_UPLOAD",
+          "message": "[S3_UPLOAD] Uploading production assets to s3://portfolio-783493260935...",
+          "timestamp": "2026-11-19T19:03:03.263Z"
+        },
+        {
+          "step": "S3_UPLOAD",
+          "message": "[S3_UPLOAD] Uploaded 5 production assets (291 KB) to s3://portfolio-783493260935.",
+          "timestamp": "2026-11-19T19:03:05.659Z"
+        },
+        {
+          "step": "CLOUDFRONT",
+          "message": "[CLOUDFRONT] Configuring CloudFront CDN distribution & Origin Access Control (OAC)...",
+          "timestamp": "2026-11-19T19:03:05.681Z"
+        },
+        {
+          "step": "CLOUDFRONT_WARNING",
+          "message": "[CLOUDFRONT] Notice: AWS Account requires CloudFront verification with AWS Support: Your account must be verified before you can add new CloudFront resources. To verify your account, please contact AWS Support (https://console.aws.amazon.com/support/home#/) and include this error message.",
+          "timestamp": "2026-11-19T19:03:07.449Z"
+        },
+        {
+          "step": "S3_WEBSITE",
+          "message": "[AWS S3] Configuring direct AWS S3 Static Website hosting endpoint...",
+          "timestamp": "2026-11-19T19:03:07.453Z"
+        },
+        {
+          "step": "S3_WEBSITE",
+          "message": "[AWS S3] Live S3 static website hosting configured at http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com",
+          "timestamp": "2026-11-19T19:03:08.550Z"
+        },
+        {
+          "step": "PUBLIC_HEALTH_CHECK",
+          "message": "[PUBLIC_HEALTH_CHECK] Checking public endpoint accessibility: http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com...",
+          "timestamp": "2026-11-19T19:03:08.553Z"
+        },
+        {
+          "step": "PUBLIC_HEALTH_CHECK",
+          "message": "[PUBLIC_HEALTH_CHECK] Verified live public endpoint: HTTP 200 OK at http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com",
+          "timestamp": "2026-11-19T19:03:09.151Z"
+        },
+        {
+          "step": "DEPLOYMENT_SUCCESS",
+          "message": "[DEPLOYMENT_SUCCESS] Production deployment successfully verified at http://portfolio-783493260935.s3-website-us-east-1.amazonaws.com",
+          "timestamp": "2026-11-19T19:03:09.155Z"
+        }
+      ],
+      "durationMs": 10257,
+      "metrics": {
+        "cpuUsageAvg": 12,
+        "memoryMbAvg": 256,
+        "latencyMs": 18.5,
+        "storageReadMbps": 120,
+        "containerStartupSec": 1.2
+      },
+      "isSandbox": false,
+      "executionMode": "REAL",
+      "status": "Completed",
+      "syntheticIdentifiers": {
+        "accountId": false,
+        "arn": false,
+        "resourceId": false,
+        "endpoint": false
+      }
+    }
+  }
+}
