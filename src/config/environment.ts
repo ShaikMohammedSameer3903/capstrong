@@ -15,7 +15,11 @@ export const API_BASE_URL =
     if (explicit && !explicit.includes('localhost') && !explicit.includes('127.0.0.1')) {
       return explicit.replace(/\/+$/, '');
     }
-    // Fall back to relative paths — works for both Vite proxy (dev) and nginx/Vercel proxy
+    // Dynamic production fallback for Vercel deployment
+    if (typeof window !== 'undefined' && window.location.hostname.endsWith('vercel.app')) {
+      return 'https://cloudops-api-6erz.onrender.com';
+    }
+    // Fall back to relative paths — works for both Vite proxy (dev) and nginx
     return '';
   })();
 
