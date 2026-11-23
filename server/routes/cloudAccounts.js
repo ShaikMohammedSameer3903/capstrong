@@ -67,16 +67,17 @@ router.get('/', async (req, res) => {
       }
     }
 
-    // Process 5-hour session window for each account
+    // Process session lifespan (temporary STS tokens expire after 5 hours; static IAM keys remain Active)
     const nowMs = Date.now();
     for (const acc of uniqueAccounts) {
-      if (acc.expires_at) {
+      const isPermanentKey = acc.provider === 'aws' && !acc.session_token;
+      if (acc.expires_at && !isPermanentKey) {
         const expMs = new Date(acc.expires_at).getTime();
         if (nowMs > expMs) {
           acc.status = 'Expired';
           acc.expired = true;
           acc.expiresInMinutes = 0;
-          acc.expiresMessage = 'AWS account session expired (5 hours limit). Please reconnect.';
+          acc.expiresMessage = 'Account session expired. Please reconnect.';
           try { await db.run("UPDATE cloud_accounts SET status = 'Expired' WHERE id = ?", [acc.id]); } catch (_) {}
         } else {
           acc.expired = false;
@@ -84,13 +85,10 @@ router.get('/', async (req, res) => {
           acc.expiresMessage = `Connected for next ${Math.floor(acc.expiresInMinutes / 60)}h ${acc.expiresInMinutes % 60}m`;
         }
       } else {
-        // Initialize 5-hour session window if not set
-        const fiveHoursLater = new Date(nowMs + 5 * 60 * 60 * 1000).toISOString();
-        acc.expires_at = fiveHoursLater;
+        // Permanent IAM key or active session
         acc.expired = false;
-        acc.expiresInMinutes = 300;
-        acc.expiresMessage = 'Connected for next 5h 0m';
-        try { await db.run("UPDATE cloud_accounts SET connected_at = datetime('now'), expires_at = ? WHERE id = ?", [fiveHoursLater, acc.id]); } catch (_) {}
+        acc.status = 'Active';
+        acc.expiresMessage = 'Connected (Active IAM Credentials)';
       }
     }
 

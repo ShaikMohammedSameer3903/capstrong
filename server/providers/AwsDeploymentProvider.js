@@ -30,9 +30,9 @@ class AwsDeploymentProvider extends IDeploymentProvider {
         const db = await getDatabase();
         const row = await db.get(`
           SELECT * FROM cloud_accounts 
-          WHERE LOWER(provider) = 'aws' AND status IN ('Active', 'Enabled')
+          WHERE LOWER(provider) = 'aws'
             AND (access_key_id IS NOT NULL AND access_key_id != '')
-          ORDER BY (CASE WHEN expires_at > datetime('now') THEN 0 ELSE 1 END), id DESC LIMIT 1
+          ORDER BY (CASE WHEN status IN ('Active', 'Enabled') THEN 0 ELSE 1 END), (CASE WHEN expires_at > datetime('now') THEN 0 ELSE 1 END), id DESC LIMIT 1
         `);
         if (row) {
           const secretsManager = require('../services/secretsManager');
