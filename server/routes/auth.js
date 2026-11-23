@@ -580,19 +580,31 @@ router.post('/refresh', async (req, res) => {
     const decoded = jwt.verify(refreshToken, REFRESH_SECRET);
     const db = await getDatabase();
 
-    const session = await db.get('SELECT * FROM sessions WHERE session_id = ? AND revoked = 0', [decoded.sessionId]);
+    let session = await db.get('SELECT * FROM sessions WHERE session_id = ? AND revoked = 0', [decoded.sessionId]);
     if (!session) {
-      return res.status(403).json({ error: 'Access Denied: Session revoked or not found.' });
+      // Check if session was recently rotated within 90s grace window to handle network races
+      const recentSession = await db.get('SELECT * FROM sessions WHERE session_id = ?', [decoded.sessionId]);
+      if (recentSession) {
+        const lastActiveTime = recentSession.last_active
+          ? new Date(recentSession.last_active.includes('T') ? recentSession.last_active : recentSession.last_active.replace(' ', 'T') + 'Z').getTime()
+          : 0;
+        if (lastActiveTime > 0 && Date.now() - lastActiveTime < 90 * 1000) {
+          session = recentSession;
+        }
+      }
+    }
+    if (!session) {
+      return res.status(403).json({ error: 'Access Denied: Session revoked or not found.', code: 'SESSION_REVOKED' });
     }
 
     const user = await db.get('SELECT * FROM users WHERE id = ?', [session.user_id]);
     if (!user || user.status !== 'Approved') {
-      return res.status(403).json({ error: 'Access Denied: User account is not active.' });
+      return res.status(403).json({ error: 'Access Denied: User account is not active.', code: 'USER_INACTIVE' });
     }
 
     // Rotate refresh token and update session
     const newSessionId = Math.random().toString(36).substring(2) + Date.now().toString(36);
-    await db.run('UPDATE sessions SET revoked = 1 WHERE session_id = ?', [decoded.sessionId]);
+    await db.run("UPDATE sessions SET revoked = 1, last_active = datetime('now') WHERE session_id = ?", [decoded.sessionId]);
     
     await db.run(`
       INSERT INTO sessions (session_id, user_id, email, provider, ip_address, user_agent, login_time, last_active, revoked)

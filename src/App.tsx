@@ -508,7 +508,12 @@ export default function App() {
         });
 
         socket.on('connect_error', (err) => {
-          console.warn('[WebSocket] Connection failed, attempting reconnect...', err);
+          if (err.message && err.message.includes('Authentication error')) {
+            console.warn('[WebSocket] Token rejected or session expired. Pausing websocket reconnect.');
+            socket?.disconnect();
+          } else {
+            console.warn('[WebSocket] Connection failed, attempting reconnect...', err);
+          }
         });
 
       } catch (err) {

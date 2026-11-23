@@ -82,7 +82,7 @@ class DeploymentService {
           };
           console.log(`[DeploymentService] Authenticated Azure Subscription ID: ${sub.subscription_id} Tenant: ${sub.tenant_id} Owner: ${sub.user_id}`);
         }
-      } catch (_) {}
+      } catch (_) { }
     }
     if (!cloudAccount) {
       cloudAccount = await db.get(
@@ -109,7 +109,7 @@ class DeploymentService {
       let AwsCredentialManager;
       try {
         AwsCredentialManager = require('../providers/aws/AwsCredentialManager');
-      } catch (e) {}
+      } catch (e) { }
 
       if (cloudAccount && AwsCredentialManager) {
         const val = await AwsCredentialManager.validateConnection(cloudAccount);
@@ -307,7 +307,7 @@ class DeploymentService {
             };
             console.log(`[DeploymentService] Authenticated Azure Subscription ID: ${sub.subscription_id} Tenant: ${sub.tenant_id} Owner: ${sub.user_id}`);
           }
-        } catch (_) {}
+        } catch (_) { }
       }
 
       if (!cloudAccount) {
@@ -325,7 +325,7 @@ class DeploymentService {
       }
 
       const envCreds = process.env[`${cloudName.toUpperCase()}_SUBSCRIPTION_ID`] || process.env[`${cloudName.toUpperCase()}_ACCESS_KEY_ID`] || process.env[`${cloudName.toUpperCase()}_PROJECT_ID`];
-      
+
       if (!cloudAccount && !envCreds) {
         await logStep('WARN', '2_CHECK_CREDENTIALS', `No live ${cloudName.toUpperCase()} credentials detected in database or environment. Deployment requires configuration.`);
       } else {
@@ -428,7 +428,7 @@ class DeploymentService {
 
       // DEPLOY WORKLOAD VIA CLOUD PROVIDER SDK
       await logStep('INFO', '11_DEPLOY_TO_CLOUD', `Deploying ${deploymentType} workload to ${cloudName.toUpperCase()}`);
-      
+
       // Build a full accountConfig that passes cloud account credentials to the deployment provider.
       // Previously only region/account_id were passed, so AzureDeploymentProvider fell back to env-only
       // credentials and missed the subscription_id, client_id, client_secret from the DB-stored account.
@@ -481,7 +481,7 @@ class DeploymentService {
             deployAccountConfig.active_resource_group = deployAccountConfig.active_resource_group || azureSub.active_resource_group;
             console.log(`[DeploymentService] Enriched Azure config from subscription: ${azureSub.subscription_id} (user: ${azureSub.user_id})`);
           }
-        } catch (_) {}
+        } catch (_) { }
       }
 
       const provider = ProviderFactory.getDeploymentProvider(targetCloud, deployAccountConfig);
@@ -495,7 +495,7 @@ class DeploymentService {
             try {
               await db.run('UPDATE deployments SET pipeline_stage = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [stage, deploymentId]);
               eventBus.emit(`deployment_status_${deploymentId}`, { status: 'Running', pipeline_stage: stage, step, message });
-            } catch (_) {}
+            } catch (_) { }
           }
         }
       });
@@ -586,14 +586,14 @@ class DeploymentService {
             updated_at = CURRENT_TIMESTAMP
         WHERE id = ?
       `, [
-        finalEndpoint, 
-        providerResult.resourceId || workResId || '', 
+        finalEndpoint,
+        providerResult.resourceId || workResId || '',
         providerResult.s3Bucket || null,
         providerResult.distributionId || null,
         providerResult.distributionDomain || null,
         providerResult.region || targetLocation,
         providerResult.operationId || null,
-        durationMs, 
+        durationMs,
         deploymentId
       ]);
 
@@ -602,7 +602,7 @@ class DeploymentService {
         const monthlyCost = isStatic ? 12.00 : 28.50;
         const resourceType = isStatic ? (isAws ? 'S3 Static Website / CloudFront' : 'Static Web App')
           : isVm ? 'Virtual Machine'
-          : (isAws ? 'ECS Fargate Service' : 'Container App');
+            : (isAws ? 'ECS Fargate Service' : 'Container App');
 
         await db.run(`
           INSERT OR REPLACE INTO resources (id, subscription_id, tenant_id, user_id, name, type, provider, location, resource_group, tags, cost_impact, cost_monthly, status, updated_at)
@@ -700,7 +700,7 @@ class DeploymentService {
           SET health_status = 'Failed', updated_at = CURRENT_TIMESTAMP 
           WHERE id = ?
         `, [applicationId]);
-      } catch (_) {}
+      } catch (_) { }
 
       throw err;
     }

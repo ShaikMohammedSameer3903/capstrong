@@ -278,8 +278,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const interval = setInterval(async () => {
       if (checkSessionExpiry()) return;
 
+      const currentToken = localStorage.getItem('cloudops-local-token');
       const currentRefreshToken = localStorage.getItem('cloudops-local-refresh-token');
       if (!currentRefreshToken) return;
+
+      // Only refresh when JWT access token is nearing expiration (< 20 minutes remaining)
+      let needsRefresh = false;
+      if (currentToken) {
+        try {
+          const parts = currentToken.split('.');
+          if (parts.length === 3) {
+            const payload = JSON.parse(atob(parts[1]));
+            const expMs = (payload.exp || 0) * 1000;
+            if (expMs > 0 && expMs - Date.now() < 20 * 60 * 1000) {
+              needsRefresh = true;
+            }
+          }
+        } catch (_) {
+          needsRefresh = false;
+        }
+      }
+
+      if (!needsRefresh) return;
+
       try {
         const response = await fetch(`${API_BASE_URL}/api/auth/refresh`, {
           method: 'POST',
@@ -293,11 +314,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           localStorage.setItem('cloudops-local-user', JSON.stringify(data.user));
           setToken(data.token);
           setUser(data.user);
+        } else if (response.status === 401 || response.status === 403) {
+          console.warn('[AuthProvider] Refresh rejected by server. Logging out expired session.');
+          if (logoutRef.current) logoutRef.current();
         }
       } catch (err) {
         console.error('[AuthProvider] Auto-refresh session failed:', err);
       }
-    }, 60 * 1000); // Check session age every 1 minute
+    }, 60 * 1000); // Check token age every 1 minute
 
     return () => clearInterval(interval);
   }, [isAuthenticated]);

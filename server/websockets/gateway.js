@@ -10,8 +10,8 @@ const client = jwksClient({
 
 function getKey(header, callback) {
   if (!header.kid) {
-    // If there's no kid, it's likely our local JWT
-    return callback(null, process.env.JWT_SECRET || 'dev-secret-key');
+    // If there's no kid, it's our local signed JWT token
+    return callback(null, process.env.JWT_SECRET || 'local-secret-key-12345');
   }
   client.getSigningKey(header.kid, (err, key) => {
     if (err) return callback(err);
@@ -20,21 +20,35 @@ function getKey(header, callback) {
   });
 }
 
+function isAllowedOrigin(origin) {
+  if (!origin) return true;
+  if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return true;
+  if (origin.endsWith('.vercel.app') || origin.endsWith('.onrender.com')) return true;
+  if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return true;
+  if (process.env.ALLOWED_ORIGINS) {
+    const list = process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim());
+    if (list.includes(origin)) return true;
+  }
+  const defaults = [
+    'http://localhost:8080',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:5173',
+    'https://capstrong.vercel.app',
+    'https://azure-cloud-ops.vercel.app'
+  ];
+  return defaults.includes(origin);
+}
+
 function initGateway(server) {
   io = new Server(server, {
     cors: {
       origin: function (origin, callback) {
-        if (!origin) return callback(null, true);
-        const allowedOrigins = [
-          'http://localhost:5173',
-          'https://azure-cloud-ops.vercel.app'
-        ];
-        if (allowedOrigins.includes(origin)) {
+        if (isAllowedOrigin(origin)) {
           return callback(null, true);
         }
-        if (origin.startsWith('https://') && origin.endsWith('.vercel.app')) {
-          return callback(null, true);
-        }
+        console.warn(`[WebSocket CORS] Disallowed origin: ${origin}`);
         callback(new Error('CORS: origin not allowed'));
       },
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -54,20 +68,20 @@ function initGateway(server) {
   });
 
   io.use((socket, next) => {
-    const token = socket.handshake.auth.token || socket.handshake.headers['x-auth-token'];
+    const token = socket.handshake.auth?.token || socket.handshake.headers['x-auth-token'] || socket.handshake.query?.token;
     
     if (!token) {
-      return next(new Error("Authentication error"));
+      return next(new Error("Authentication error: No token provided"));
     }
 
-    jwt.verify(token, getKey, { algorithms: ['RS256', 'HS256'] }, (err, decoded) => {
+    jwt.verify(token, getKey, { algorithms: ['RS256', 'HS256', 'HS512', 'HS384'] }, (err, decoded) => {
       if (err) {
-        return next(new Error("Authentication error"));
+        return next(new Error(`Authentication error: ${err.message}`));
       }
       
       socket.tenantId = decoded.tid || decoded.tenantId;
       socket.userId = decoded.oid || decoded.id;
-      socket.userEmail = decoded.preferred_username || decoded.email || 'user';
+      socket.userEmail = decoded.preferred_username || decoded.upn || decoded.email || 'user';
       next();
     });
   });

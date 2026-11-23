@@ -87,10 +87,16 @@ class ApiService {
 
     if (!response.ok) {
       const errorBody = await response.json().catch(() => ({ error: 'Unknown error' }));
-      const isSessionExpired = response.status === 401 && (
+      const isSessionExpired = (response.status === 401 || response.status === 403) && (
         errorBody.code === 'TOKEN_EXPIRED' ||
         errorBody.code === 'SESSION_REVOKED' ||
         errorBody.code === 'SESSION_TIMEOUT' ||
+        errorBody.code === 'INVALID_TOKEN' ||
+        (typeof errorBody.error === 'string' && (
+          errorBody.error.includes('Session revoked') ||
+          errorBody.error.includes('Session expired') ||
+          errorBody.error.includes('Invalid or expired')
+        )) ||
         path.startsWith('/api/auth/status') ||
         path.startsWith('/api/auth/verify')
       );

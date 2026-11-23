@@ -79,6 +79,12 @@ export function useSyncStatus() {
         });
       });
 
+      socket.on('connect_error', (err) => {
+        if (err.message && err.message.includes('Authentication error')) {
+          console.warn('[useSyncStatus] WebSocket auth error. Disconnecting socket.');
+          socket?.disconnect();
+        }
+      });
     } catch (err) {
       console.error('[useSyncStatus] Socket connection failed:', err);
     }

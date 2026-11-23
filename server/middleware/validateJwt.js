@@ -165,21 +165,32 @@ async function validateJwt(req, res, next) {
           }
 
           if (session && session.revoked === 1) {
-            res.status(403).json({ error: 'Access Denied: Session revoked.', code: 'SESSION_REVOKED' });
-            return resolve();
+            // Allow 90s grace window for recently rotated sessions so in-flight requests during token refresh succeed
+            const lastActiveTime = session.last_active
+              ? new Date(session.last_active.includes('T') ? session.last_active : session.last_active.replace(' ', 'T') + 'Z').getTime()
+              : 0;
+            const isRecentRotation = lastActiveTime > 0 && (Date.now() - lastActiveTime < 90 * 1000);
+            if (!isRecentRotation) {
+              res.status(403).json({ error: 'Access Denied: Session revoked.', code: 'SESSION_REVOKED' });
+              return resolve();
+            }
           }
 
-          if (session) {
+          if (session && session.revoked !== 1) {
             const lastActiveTime = session.last_active
               ? new Date(session.last_active.includes('T') ? session.last_active : session.last_active.replace(' ', 'T') + 'Z').getTime()
               : Date.now();
             const threeHoursAgo = Date.now() - 3 * 60 * 60 * 1000;
             if (!isNaN(lastActiveTime) && lastActiveTime < threeHoursAgo) {
               await db.run('UPDATE sessions SET revoked = 1 WHERE session_id = ?', [decoded.sessionId]);
-              res.status(403).json({ error: 'Access Denied: Session expired due to inactivity.', code: 'SESSION_TIMEOUT' });
+              res.status(401).json({ error: 'Access Denied: Session expired due to inactivity.', code: 'SESSION_TIMEOUT' });
               return resolve();
             }
-          } else {
+            // Debounced heartbeat update (every 30s)
+            if (Date.now() - lastActiveTime > 30 * 1000) {
+              await db.run("UPDATE sessions SET last_active = datetime('now') WHERE session_id = ?", [decoded.sessionId]).catch(() => {});
+            }
+          } else if (!session) {
             // Auto-heal session for valid signed JWT tokens (survives ephemeral DB restart)
             const newSessionId = decoded.sessionId || ('sess-' + Math.random().toString(36).substring(2) + Date.now().toString(36));
             const userIdentifier = decoded.oid || decoded.id || 'system-user';
