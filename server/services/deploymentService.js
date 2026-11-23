@@ -522,34 +522,6 @@ class DeploymentService {
       await logStep('SUCCESS', '12_STREAM_LOGS', `Live telemetry stream connected.`);
 
       // 13. STEP 13: Save Deployment, Metrics, and Sync Created Resources to Database
-      const durationMs = Date.now() - startTime;
-      const finalEndpoint = providerResult.endpoint || providerResult.fqdn || '';
-      await db.run(`
-        UPDATE deployments 
-        SET status = 'Completed', 
-            pipeline_stage = 'DEPLOYED',
-            endpoint_url = ?, 
-            resource_id = ?, 
-            s3_bucket = ?,
-            cloudfront_distribution_id = ?,
-            cloudfront_domain = ?,
-            aws_region = ?,
-            operation_id = ?,
-            duration_ms = ?, 
-            updated_at = CURRENT_TIMESTAMP
-        WHERE id = ?
-      `, [
-        finalEndpoint, 
-        providerResult.resourceId || workResId || '', 
-        providerResult.s3Bucket || null,
-        providerResult.distributionId || null,
-        providerResult.distributionDomain || null,
-        providerResult.region || targetLocation,
-        providerResult.operationId || null,
-        durationMs, 
-        deploymentId
-      ]);
-
       const isAws = cloudName === 'aws';
       const isGcp = cloudName === 'gcp';
       const isAzure = cloudName === 'azure';
@@ -596,6 +568,34 @@ class DeploymentService {
         rgName = `GCP CloudOps (${targetLocation})`;
         workResId = providerResult.resourceId || `projects/${activeSubId}/services/${cleanName}`;
       }
+
+      const durationMs = Date.now() - startTime;
+      const finalEndpoint = providerResult.endpoint || providerResult.fqdn || '';
+      await db.run(`
+        UPDATE deployments 
+        SET status = 'Completed', 
+            pipeline_stage = 'DEPLOYED',
+            endpoint_url = ?, 
+            resource_id = ?, 
+            s3_bucket = ?,
+            cloudfront_distribution_id = ?,
+            cloudfront_domain = ?,
+            aws_region = ?,
+            operation_id = ?,
+            duration_ms = ?, 
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `, [
+        finalEndpoint, 
+        providerResult.resourceId || workResId || '', 
+        providerResult.s3Bucket || null,
+        providerResult.distributionId || null,
+        providerResult.distributionDomain || null,
+        providerResult.region || targetLocation,
+        providerResult.operationId || null,
+        durationMs, 
+        deploymentId
+      ]);
 
       // Sync Workload Resource to DB ONLY if real deployment occurred (never for sandbox/local preview)
       if (!providerResult.isSandbox) {

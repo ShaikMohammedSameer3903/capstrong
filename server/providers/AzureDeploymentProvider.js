@@ -1181,11 +1181,14 @@ class AzureDeploymentProvider extends IDeploymentProvider {
     // ZERO-MOCK REAL GIT DEPLOYMENT: Always clone and deploy the actual repository code.
     if (repoUrl && (repoUrl.startsWith('http://') || repoUrl.startsWith('https://') || repoUrl.startsWith('git@'))) {
       const crypto = require('crypto');
+      const workspaceManager = require('../services/workspaceManager');
       // Use URL hash + slug so each unique repo URL gets its own isolated cache dir
       const urlHash = crypto.createHash('sha1').update(repoUrl).digest('hex').slice(0, 10);
       const slug = appName.toLowerCase().replace(/[^a-z0-9_-]/g, '_');
-      const cacheBase = path.join(__dirname, '..', 'data', 'cached_repos');
-      if (!fs.existsSync(cacheBase)) fs.mkdirSync(cacheBase, { recursive: true });
+      const cacheBase = path.join(workspaceManager.getBaseDir(), 'cached_repos');
+      if (!fs.existsSync(cacheBase)) {
+        try { fs.mkdirSync(cacheBase, { recursive: true, mode: 0o777 }); } catch (_) {}
+      }
       const repoDir = path.join(cacheBase, `${slug}_${urlHash}`);
 
       try {
