@@ -78,7 +78,7 @@ router.get('/', async (req, res) => {
           acc.expired = true;
           acc.expiresInMinutes = 0;
           acc.expiresMessage = 'Account session expired. Please reconnect.';
-          try { await db.run("UPDATE cloud_accounts SET status = 'Expired' WHERE id = ?", [acc.id]); } catch (_) {}
+          try { await db.run("UPDATE cloud_accounts SET status = 'Expired' WHERE id = ?", [acc.id]); } catch (_) { }
         } else {
           acc.expired = false;
           acc.expiresInMinutes = Math.round((expMs - nowMs) / 60000);
@@ -313,7 +313,7 @@ router.post('/connect/aws-iam', handleAwsAccountAdd);
 // ─────────────────────────────────────────────────────────
 const handleGcpAccountAdd = async (req, res) => {
   const { projectId, accountName, serviceAccountJson } = req.body;
-  
+
   if (!projectId || !accountName || !serviceAccountJson) {
     return res.status(400).json({ error: 'Missing required fields: projectId, accountName, serviceAccountJson' });
   }
@@ -473,8 +473,8 @@ const validateCloudAccountConnection = async (req, res) => {
         });
       } catch (err) {
         const isAuthError = err.message && (
-          err.message.includes('invalid_grant') || 
-          err.message.includes('Invalid JWT') || 
+          err.message.includes('invalid_grant') ||
+          err.message.includes('Invalid JWT') ||
           err.message.includes('Could not load the default credentials') ||
           err.message.includes('No key found')
         );
@@ -699,8 +699,8 @@ router.put('/:id', async (req, res) => {
           await storage.getBuckets();
         } catch (err) {
           const isAuthError = err.message && (
-            err.message.includes('invalid_grant') || 
-            err.message.includes('Invalid JWT') || 
+            err.message.includes('invalid_grant') ||
+            err.message.includes('Invalid JWT') ||
             err.message.includes('Could not load the default credentials') ||
             err.message.includes('No key found')
           );
@@ -751,10 +751,10 @@ router.post('/sync', async (req, res) => {
     }
     const accounts = await db.all(query, params);
     const { discoverCloudAccount } = require('../services/discoveryEngine');
-    
+
     // Trigger immediate discovery for matching accounts
     for (const acc of accounts) {
-      discoverCloudAccount(acc.tenant_id, acc.id).catch(e => 
+      discoverCloudAccount(acc.tenant_id, acc.id).catch(e =>
         console.error(`[DISCOVERY] Sync failed for ${acc.id}:`, e.message)
       );
     }
