@@ -9,6 +9,7 @@ echo [2/5] Copying frontend build...
 docker cp "%ROOT%\dist\." cloudops-frontend:/usr/share/nginx/html/
 
 echo [3/5] Copying server code...
+docker cp "%ROOT%\server\index.js" cloudops-backend:/app/server/index.js
 docker cp "%ROOT%\server\db\." cloudops-backend:/app/server/db/
 docker cp "%ROOT%\server\providers\." cloudops-backend:/app/server/providers/
 docker cp "%ROOT%\server\routes\." cloudops-backend:/app/server/routes/
