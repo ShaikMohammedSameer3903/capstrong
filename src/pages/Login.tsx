@@ -531,20 +531,20 @@ export default function Login() {
                   </div>
                 )}
 
-                {/* Backend Unavailable Alert */}
+                {/* Backend Unavailable / Cold-start Alert */}
                 {backendUnavailable && (
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-800 mb-4 leading-relaxed">
+                  <div className="bg-sky-50 border border-sky-200 rounded-xl p-3.5 text-xs text-sky-800 mb-4 leading-relaxed animate-pulse">
                     <div className="flex items-start space-x-2">
-                      <AlertCircle size={15} className="text-amber-600 shrink-0 mt-0.5" />
+                      <RefreshCw size={15} className="text-sky-600 shrink-0 mt-0.5 animate-spin" />
                       <div>
-                        <strong className="block text-sm font-bold text-amber-900 mb-0.5">Backend service offline</strong>
-                        <p className="text-[11px]">Backend API server unreachable. Checking connection...</p>
+                        <strong className="block text-sm font-bold text-sky-900 mb-0.5">Connecting to Cloud Control Plane…</strong>
+                        <p className="text-[11px]">Free tier cloud instance is waking up from idle mode (~30s). Auto-reconnecting automatically…</p>
                         <button
                           onClick={() => retryProvidersFetch()}
-                          className="mt-2 inline-flex items-center space-x-1.5 px-2.5 py-1 bg-white text-[#1E293B] rounded-md border border-[#E2E8F0] font-semibold text-[11px] shadow-2xs"
+                          className="mt-2 inline-flex items-center space-x-1.5 px-2.5 py-1 bg-white text-[#1E293B] rounded-md border border-[#E2E8F0] font-semibold text-[11px] shadow-2xs hover:bg-slate-50 transition-colors"
                         >
-                          <RefreshCw size={11} />
-                          <span>Retry</span>
+                          <RefreshCw size={11} className="animate-spin" />
+                          <span>Recheck Link</span>
                         </button>
                       </div>
                     </div>

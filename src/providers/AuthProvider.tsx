@@ -86,8 +86,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const fetchProviders = useCallback(async () => {
     setProvidersLoading(true);
     try {
+      // 45s timeout to gracefully accommodate Render / cloud free-tier cold starts
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 10000); // 10s timeout
+      const timeout = setTimeout(() => controller.abort(), 45000);
 
       const response = await fetch(`${API_BASE_URL}/api/auth/providers`, {
         signal: controller.signal
@@ -119,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
     } catch (err: any) {
-      console.error('[AuthProvider] Failed to fetch auth providers configuration:', err);
+      console.warn('[AuthProvider] Backend warming up or unreachable:', err.message || err);
       setBackendUnavailable(true);
       if (err.name === 'AbortError') {
         setBackendErrorType('network_error');
@@ -127,11 +128,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setBackendErrorType('unreachable');
       }
 
-      // Auto-retry with exponential backoff (max 3 retries)
-      if (retryCountRef.current < 3) {
+      // Continuous auto-retry for cloud instances waking up (up to 12 retries, every 4s)
+      if (retryCountRef.current < 12) {
         retryCountRef.current++;
-        const delay = Math.min(2000 * Math.pow(2, retryCountRef.current - 1), 8000);
-        setTimeout(() => fetchProviders(), delay);
+        setTimeout(() => fetchProviders(), 4000);
       }
     } finally {
       setProvidersLoading(false);
